@@ -94,25 +94,31 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 
 .section--service .section-inner,
 .section--contact .section-inner--contact {
-  display: grid !important;
-  width: 100%;
-  grid-template-columns: minmax(0, var(--wk-card-max)) minmax(200px, 1fr) !important;
-  gap: clamp(28px, 4.5vw, 56px) !important;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
-  justify-content: start !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: var(--layout-max, 1160px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  min-height: calc(100svh - var(--header-h) - var(--scroll-dock-reserve, 160px) - 20px) !important;
 }
 
 .section--service-intro .intro-copy,
 .section--service .section-content--service,
 .section--contact .contact-stack--flow {
-  grid-column: 1 !important;
   width: 100% !important;
-  max-width: var(--wk-card-max) !important;
-  margin: 0 !important;
+  max-width: min(760px, 94vw) !important;
+  margin: 0 auto !important;
 }
 
 .section--service-intro .section-visual--intro {
-  grid-column: 2 !important;
+  display: none !important;
+}
+
+.section--service-intro .section-split--intro {
+  grid-template-columns: 1fr !important;
 }
 
 .section--contact .section-inner--contact {
@@ -121,126 +127,32 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
   overflow: visible !important;
 }
 
-.section--service .giant-number {
-  right: clamp(6%, 10vw, 14%) !important;
-  left: auto !important;
-  bottom: clamp(18%, 20vh, 28%) !important;
-  font-family: var(--wk-mono) !important;
-  font-size: clamp(5.5rem, 14vw, 9.5rem) !important;
-  font-weight: 300 !important;
-  letter-spacing: -0.04em !important;
-  opacity: 0.07 !important;
-  color: var(--wk-accent) !important;
-  text-shadow: 0 0 40px rgba(34, 245, 208, 0.12) !important;
-  pointer-events: none;
+.giant-number {
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* ==========================================================================
    3. HUD rails — meaningful right-side void (CSS only)
    ========================================================================== */
 
+/* HUD void column removed — no vertical rail / grid box */
 .section--service .section-inner::after,
-.section--contact .section-inner--contact::after {
-  content: "";
-  display: block;
-  grid-column: 2;
-  align-self: stretch;
-  min-height: min(52vh, 420px);
-  position: relative;
-  pointer-events: none;
-  border-left: 1px solid rgba(34, 245, 208, 0.06);
-  background:
-    radial-gradient(ellipse 55% 45% at 42% 38%, rgba(34, 245, 208, 0.06), transparent 68%),
-    radial-gradient(ellipse 40% 35% at 68% 72%, rgba(74, 143, 212, 0.05), transparent 70%),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 23px,
-      rgba(34, 245, 208, 0.025) 23px,
-      rgba(34, 245, 208, 0.04) 24px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 23px,
-      rgba(34, 245, 208, 0.02) 23px,
-      rgba(34, 245, 208, 0.035) 24px
-    );
-  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-}
-
-.section--service .section-inner::after {
-  border-radius: 0 4px 4px 0;
-}
-
-.section--service-01 .section-inner::after {
-  box-shadow: inset 48px 0 80px -40px rgba(34, 245, 208, 0.04);
-}
-
-.section--service-02 .section-inner::after {
-  background:
-    radial-gradient(ellipse 50% 40% at 50% 45%, rgba(200, 232, 120, 0.04), transparent 65%),
-    repeating-linear-gradient(
-      118deg,
-      transparent,
-      transparent 40px,
-      rgba(34, 245, 208, 0.02) 40px,
-      rgba(34, 245, 208, 0.035) 41px
-    ),
-    repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(34, 245, 208, 0.025) 23px, rgba(34, 245, 208, 0.04) 24px);
-}
-
+.section--contact .section-inner--contact::after,
+.section--service-01 .section-inner::after,
+.section--service-02 .section-inner::after,
 .section--service-03 .section-inner::after {
-  background:
-    radial-gradient(ellipse 45% 38% at 55% 60%, rgba(245, 230, 168, 0.05), transparent 68%),
-    repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(34, 245, 208, 0.02) 28px, rgba(34, 245, 208, 0.035) 29px);
+  display: none !important;
+  content: none !important;
 }
 
-/* Coordinate labels — pseudo on deco layer (no HTML change) */
+/* Deco labels removed */
 .section--service-01 .section-deco--beam::after,
 .section--service-02 .section-deco--beam::after,
 .section--service-03 .section-deco--beam::after,
 .section--contact .section-deco--beam::after {
-  display: block !important;
-  content: "WK·SYS";
-  position: absolute;
-  right: clamp(5%, 9vw, 12%);
-  top: clamp(22%, 26vh, 32%);
-  font-family: var(--wk-mono);
-  font-size: 0.48rem;
-  font-weight: 400;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: rgba(34, 245, 208, 0.28);
-  text-shadow: 0 0 14px rgba(34, 245, 208, 0.12);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.section--service-01 .section-deco--beam::after {
-  content: "WK·01\A 042.19°";
-  white-space: pre;
-  line-height: 2.1;
-}
-
-.section--service-02 .section-deco--beam::after {
-  content: "WK·02\A 118.04°";
-  white-space: pre;
-  line-height: 2.1;
-}
-
-.section--service-03 .section-deco--beam::after {
-  content: "WK·03\A 256.88°";
-  white-space: pre;
-  line-height: 2.1;
-}
-
-.section--contact .section-deco--beam::after {
-  content: "WK·06\A CONTACT";
-  white-space: pre;
-  line-height: 2.1;
-  top: clamp(18%, 22vh, 28%);
+  display: none !important;
+  content: none !important;
 }
 
 .section--service-intro .section-visual--intro,
@@ -250,12 +162,8 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 }
 
 .section--service-intro .section-visual--intro::before {
-  inset: 10% 8% 14% 20% !important;
-  border-width: 1px !important;
-  border-color: rgba(34, 245, 208, 0.12) !important;
-  box-shadow:
-    0 0 0 1px rgba(34, 245, 208, 0.04),
-    inset 0 0 60px rgba(34, 245, 208, 0.04) !important;
+  display: none !important;
+  content: none !important;
 }
 
 .section--service-intro .section-visual--intro::after {
@@ -275,14 +183,8 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 }
 
 .section--hero .hero-visual::before {
-  content: "";
-  position: absolute;
-  inset: 12% 10% 16% 18%;
-  border: 1px solid rgba(34, 245, 208, 0.1);
-  border-radius: 50%;
-  box-shadow: inset 0 0 48px rgba(34, 245, 208, 0.04);
-  pointer-events: none;
-  z-index: 2;
+  display: none !important;
+  content: none !important;
 }
 
 .section--hero .hero-visual::after {
@@ -300,13 +202,13 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
   z-index: 3;
 }
 
+.section-deco--hero::before,
+.section-deco--hero::after,
+.section-deco--intro::before,
+.section-deco--intro::after,
 .section-deco--beam::before {
-  opacity: 0.42 !important;
-}
-
-.section-deco--intro::before {
-  opacity: 0.35 !important;
-  width: 1px !important;
+  display: none !important;
+  content: none !important;
 }
 
 /* ==========================================================================
@@ -361,7 +263,7 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 
 .section--hero .hero-lead {
   gap: 1.35em !important;
-  margin-top: 2px !important;
+  margin-top: clamp(14px, 2.8vh, 28px) !important;
 }
 
 .section--hero .hero-lead p {
@@ -392,31 +294,15 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 }
 
 .section--service .section-content--service::before,
-.section--service-intro .intro-copy::before,
-.section--contact .contact-panel::before {
-  opacity: 0.35 !important;
-  mix-blend-mode: overlay !important;
-}
-
 .section--service .section-content--service::after,
+.section--service-intro .intro-copy::before,
 .section--service-intro .intro-copy::after,
-.section--contact .contact-panel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(34, 245, 208, 0.35) 35%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(34, 245, 208, 0.2) 65%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 2;
+.section--contact .contact-panel::before,
+.section--contact .contact-panel::after,
+.cyber-panel::before,
+.cyber-panel::after {
+  display: none !important;
+  content: none !important;
 }
 
 .section:not(.is-active) .section-inner {

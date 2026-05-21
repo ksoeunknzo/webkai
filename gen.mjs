@@ -6,11 +6,11 @@ const TAG = ["d", "i", "v"].join("");
 const o = (cls, attrs = "") =>
   cls ? `<${TAG} class="${cls}"${attrs}>` : attrs ? `<${TAG}${attrs}>` : `<${TAG}>`;
 const c = `</${TAG}>`;
-const glow = () => `${o("section-glow", ' aria-hidden="true"')}${c}`;
-const deco = (name) => `${o(`section-deco section-deco--${name}`, ' aria-hidden="true"')}${c}`;
+const glow = () => "";
+const deco = () => "";
 const visual = (name) => `${o(`section-visual section-visual--${name}`, ' aria-hidden="true"')}${c}`;
-const ambient = (name) => `${o(`section-ambient section-ambient--${name}`, ' aria-hidden="true"')}${c}`;
-const flash = () => `${o("section-flash", ' aria-hidden="true"')}${c}`;
+const ambient = () => "";
+const flash = () => "";
 
 const heroVisual = () => `${o("hero-visual", ' aria-hidden="true"')}
       <span class="hero-visual__beam"></span>
@@ -145,6 +145,45 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="webkai-nav.css" id="wk-css-nav">
   <link rel="stylesheet" href="webkai-loading.css" id="wk-css-loading">
   <link rel="stylesheet" href="webkai-refine.css" id="wk-css-refine">
+  <link rel="stylesheet" href="webkai-loading-plus.css" id="wk-css-loading-plus">
+  <link rel="stylesheet" href="webkai-loading-pro.css" id="wk-css-loading-pro">
+  <link rel="stylesheet" href="webkai-bg-soft.css" id="wk-css-bg-soft">
+  <link rel="stylesheet" href="webkai-bg-reset.css" id="wk-css-bg-reset">
+  <style id="wk-bg-kill-critical">
+    html,body{background:#050f0d!important}
+    body::before,body::after{display:none!important;content:none!important;background:none!important}
+    .bg-world{background:#050f0d!important}
+    .bg-world>*{display:none!important}
+    .section-glow,.section-flash,.section-ambient,.section-deco{display:none!important}
+    .section::before,.section::after{display:none!important;content:none!important}
+    .hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow{display:none!important}
+    .giant-number{display:none!important}
+    .section--service .section-inner,.section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
+    .section--service .section-content--service,.section--contact .contact-stack--flow{max-width:min(760px,94vw)!important;width:100%!important}
+    .cyber-panel::before,.cyber-panel::after,.section-content--service::before,.section-content--service::after{display:none!important;content:none!important}
+  </style>
+  <script>
+    (function () {
+      function wkPurgeBgArtifacts() {
+        document.querySelectorAll(
+          ".section-glow,.section-flash,.section-ambient,.section-deco,.bg-world > *,.hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow,.giant-number"
+        ).forEach(function (node) {
+          node.remove();
+        });
+        var bg = document.querySelector(".bg-world");
+        if (bg) {
+          bg.style.background = "#050f0d";
+        }
+        document.documentElement.style.background = "#050f0d";
+        document.body.style.background = "#050f0d";
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", wkPurgeBgArtifacts);
+      } else {
+        wkPurgeBgArtifacts();
+      }
+    })();
+  </script>
   <script>
     (function () {
       var isFile = location.protocol === "file:";
@@ -175,10 +214,14 @@ const html = `<!doctype html>
         document.getElementById("wk-css-nav").href = "webkai-nav.css?v=" + v;
         document.getElementById("wk-css-loading").href = "webkai-loading.css?v=" + v;
         document.getElementById("wk-css-refine").href = "webkai-refine.css?v=" + v;
+        document.getElementById("wk-css-loading-plus").href = "webkai-loading-plus.css?v=" + v;
+        document.getElementById("wk-css-loading-pro").href = "webkai-loading-pro.css?v=" + v;
+        document.getElementById("wk-css-bg-soft").href = "webkai-bg-soft.css?v=" + v;
+        document.getElementById("wk-css-bg-reset").href = "webkai-bg-reset.css?v=" + v;
       }
       var s = document.createElement("script");
       s.defer = true;
-      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531c";
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531f";
       document.head.appendChild(s);
       var d = document.createElement("script");
       d.defer = true;
@@ -186,8 +229,12 @@ const html = `<!doctype html>
       document.head.appendChild(d);
       var c = document.createElement("script");
       c.defer = true;
-      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260530b";
+      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260531g";
       document.head.appendChild(c);
+      var lp = document.createElement("script");
+      lp.defer = true;
+      lp.src = isFile ? "webkai-loading-plus.js?v=" + v : "webkai-loading-plus.js?v=20260531e";
+      document.head.appendChild(lp);
     })();
   </script>
 </head>
@@ -202,18 +249,7 @@ const html = `<!doctype html>
     ${c}
   </div>
 
-  <div class="iridescent-bg bg-world" aria-hidden="true">
-    ${o("bg-layer bg-layer--a")}${c}
-    ${o("bg-layer bg-layer--b")}${c}
-    ${o("bg-layer bg-layer--c")}${c}
-    ${o("bg-city")}${c}
-    ${o("bg-lights")}${c}
-    ${o("bg-fog")}${c}
-    ${o("bg-fog bg-fog--alt")}${c}
-    ${o("bg-film")}${c}
-    ${o("bg-beam")}${c}
-    ${o("bg-noise")}${c}
-  </div>
+  <div class="bg-world" aria-hidden="true"></div>
 
   <a class="skip-link" href="#main">本文へスキップ</a>
 

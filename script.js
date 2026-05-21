@@ -16,11 +16,10 @@ const SNAP_MEDIA = window.matchMedia("(min-width: 901px) and (min-height: 721px)
 const previewParams = new URLSearchParams(window.location.search);
 const skipIntro = previewParams.has("skip-intro");
 
-const INTRO_HOLD_MS = 1500;
-const INTRO_EXIT_MS = 720;
+const INTRO_HOLD_MS = 3000;
+const INTRO_HOLD_REDUCED_MS = 1000;
+const INTRO_EXIT_MS = 800;
 const SCROLL_TOLERANCE = 12;
-const INTRO_SEEN_KEY = "wk-intro-seen";
-const hasSeenIntro = sessionStorage.getItem(INTRO_SEEN_KEY) === "1";
 const CHAPTER_MS = 1100;
 const LEAVE_MS = 280;
 const SCROLL_SETTLE_MS = 140;
@@ -675,11 +674,14 @@ const hideLoading = () => {
   loadingScreen?.setAttribute("aria-hidden", "true");
 };
 
+let introFinishTimer = 0;
+
 const finishIntro = () => {
   if (introDone) {
     return;
   }
 
+  window.clearTimeout(introFinishTimer);
   introDone = true;
   document.body.classList.remove("is-intro-active");
 
@@ -704,7 +706,46 @@ const finishIntro = () => {
   done();
 };
 
-const initLoading = () => {
+const waitForIntroAssets = () =>
+  new Promise((resolve) => {
+    const logo = loadingScreen?.querySelector(".loading-screen__logo");
+    if (!logo) {
+      resolve();
+      return;
+    }
+    if (logo.complete && logo.naturalWidth > 0) {
+      resolve();
+      return;
+    }
+    const fallback = window.setTimeout(resolve, 600);
+    const done = () => {
+      window.clearTimeout(fallback);
+      resolve();
+    };
+    logo.addEventListener("load", done, { once: true });
+    logo.addEventListener("error", done, { once: true });
+  });
+
+const startIntro = () => {
+  introDone = false;
+  document.body.classList.remove("is-loaded");
+  document.body.classList.add("is-intro-active");
+  loadingScreen.classList.remove("is-hidden", "is-exiting");
+  loadingScreen.classList.add("is-sequence");
+  loadingScreen.setAttribute("aria-hidden", "false");
+
+  window.dispatchEvent(new CustomEvent("wk-intro-start"));
+
+  window.requestAnimationFrame(() => {
+    loadingScreen.classList.add("is-word-visible");
+  });
+
+  const holdMs = prefersReducedMotion ? INTRO_HOLD_REDUCED_MS : INTRO_HOLD_MS;
+  window.clearTimeout(introFinishTimer);
+  introFinishTimer = window.setTimeout(finishIntro, holdMs);
+};
+
+const initLoading = async () => {
   if (!loadingScreen) {
     document.body.classList.remove("is-intro-active");
     document.body.classList.add("is-loaded");
@@ -715,7 +756,7 @@ const initLoading = () => {
     return;
   }
 
-  if (prefersReducedMotion || skipIntro || hasSeenIntro) {
+  if (skipIntro) {
     document.body.classList.remove("is-intro-active");
     document.body.classList.add("is-loaded");
     hideLoading();
@@ -723,23 +764,17 @@ const initLoading = () => {
     initSectionObserver();
     setActiveSection(0, { animate: false });
     alignScrollToSection(0, "auto");
-    if (!hasSeenIntro) {
-      sessionStorage.setItem(INTRO_SEEN_KEY, "1");
-    }
     return;
   }
 
-  document.body.classList.add("is-intro-active");
-  loadingScreen.classList.remove("is-hidden");
-  loadingScreen.classList.add("is-sequence");
-  loadingScreen.setAttribute("aria-hidden", "false");
-  window.requestAnimationFrame(() => {
-    loadingScreen.classList.add("is-word-visible");
-  });
-  window.setTimeout(() => {
-    sessionStorage.setItem(INTRO_SEEN_KEY, "1");
-    finishIntro();
-  }, INTRO_HOLD_MS);
+  try {
+    sessionStorage.removeItem("wk-intro-seen");
+  } catch {
+    /* ignore */
+  }
+
+  await waitForIntroAssets();
+  startIntro();
 };
 
 /* --- Boot ----------------------------------------------------------------- */

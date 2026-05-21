@@ -36,6 +36,45 @@
   <link rel="stylesheet" href="webkai-nav.css" id="wk-css-nav">
   <link rel="stylesheet" href="webkai-loading.css" id="wk-css-loading">
   <link rel="stylesheet" href="webkai-refine.css" id="wk-css-refine">
+  <link rel="stylesheet" href="webkai-loading-plus.css" id="wk-css-loading-plus">
+  <link rel="stylesheet" href="webkai-loading-pro.css" id="wk-css-loading-pro">
+  <link rel="stylesheet" href="webkai-bg-soft.css" id="wk-css-bg-soft">
+  <link rel="stylesheet" href="webkai-bg-reset.css" id="wk-css-bg-reset">
+  <style id="wk-bg-kill-critical">
+    html,body{background:#050f0d!important}
+    body::before,body::after{display:none!important;content:none!important;background:none!important}
+    .bg-world{background:#050f0d!important}
+    .bg-world>*{display:none!important}
+    .section-glow,.section-flash,.section-ambient,.section-deco{display:none!important}
+    .section::before,.section::after{display:none!important;content:none!important}
+    .hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow{display:none!important}
+    .giant-number{display:none!important}
+    .section--service .section-inner,.section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
+    .section--service .section-content--service,.section--contact .contact-stack--flow{max-width:min(760px,94vw)!important;width:100%!important}
+    .cyber-panel::before,.cyber-panel::after,.section-content--service::before,.section-content--service::after{display:none!important;content:none!important}
+  </style>
+  <script>
+    (function () {
+      function wkPurgeBgArtifacts() {
+        document.querySelectorAll(
+          ".section-glow,.section-flash,.section-ambient,.section-deco,.bg-world > *,.hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow,.giant-number"
+        ).forEach(function (node) {
+          node.remove();
+        });
+        var bg = document.querySelector(".bg-world");
+        if (bg) {
+          bg.style.background = "#050f0d";
+        }
+        document.documentElement.style.background = "#050f0d";
+        document.body.style.background = "#050f0d";
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", wkPurgeBgArtifacts);
+      } else {
+        wkPurgeBgArtifacts();
+      }
+    })();
+  </script>
   <script>
     (function () {
       var isFile = location.protocol === "file:";
@@ -66,10 +105,14 @@
         document.getElementById("wk-css-nav").href = "webkai-nav.css?v=" + v;
         document.getElementById("wk-css-loading").href = "webkai-loading.css?v=" + v;
         document.getElementById("wk-css-refine").href = "webkai-refine.css?v=" + v;
+        document.getElementById("wk-css-loading-plus").href = "webkai-loading-plus.css?v=" + v;
+        document.getElementById("wk-css-loading-pro").href = "webkai-loading-pro.css?v=" + v;
+        document.getElementById("wk-css-bg-soft").href = "webkai-bg-soft.css?v=" + v;
+        document.getElementById("wk-css-bg-reset").href = "webkai-bg-reset.css?v=" + v;
       }
       var s = document.createElement("script");
       s.defer = true;
-      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531c";
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531f";
       document.head.appendChild(s);
       var d = document.createElement("script");
       d.defer = true;
@@ -77,8 +120,12 @@
       document.head.appendChild(d);
       var c = document.createElement("script");
       c.defer = true;
-      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260530b";
+      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260531g";
       document.head.appendChild(c);
+      var lp = document.createElement("script");
+      lp.defer = true;
+      lp.src = isFile ? "webkai-loading-plus.js?v=" + v : "webkai-loading-plus.js?v=20260531e";
+      document.head.appendChild(lp);
     })();
   </script>
 </head>
@@ -93,18 +140,7 @@
     </div>
   </div>
 
-  <div class="iridescent-bg bg-world" aria-hidden="true">
-    <div class="bg-layer bg-layer--a"></div>
-    <div class="bg-layer bg-layer--b"></div>
-    <div class="bg-layer bg-layer--c"></div>
-    <div class="bg-city"></div>
-    <div class="bg-lights"></div>
-    <div class="bg-fog"></div>
-    <div class="bg-fog bg-fog--alt"></div>
-    <div class="bg-film"></div>
-    <div class="bg-beam"></div>
-    <div class="bg-noise"></div>
-  </div>
+  <div class="bg-world" aria-hidden="true"></div>
 
   <a class="skip-link" href="#main">本文へスキップ</a>
 
@@ -139,10 +175,10 @@
 
   <main class="site-scroll" id="main">
     <section id="top" class="section section--hero" data-section-index="0" aria-label="ファーストビュー">
-      <div class="section-ambient section-ambient--hero" aria-hidden="true"></div>
-      <div class="section-flash" aria-hidden="true"></div>
-      <div class="section-glow" aria-hidden="true"></div>
-      <div class="section-deco section-deco--hero" aria-hidden="true"></div>
+      
+      
+      
+      
       <div class="section-inner section-inner--hero">
         <div class="section-split section-split--hero">
           <div class="section-content section-content--brand hero-side reveal-item" data-delay="180">
@@ -178,10 +214,10 @@
     </section>
 
     <section id="service" class="section section--service-intro" data-section-index="1" aria-label="サービス">
-      <div class="section-ambient section-ambient--intro" aria-hidden="true"></div>
-      <div class="section-flash" aria-hidden="true"></div>
-      <div class="section-glow" aria-hidden="true"></div>
-      <div class="section-deco section-deco--intro" aria-hidden="true"></div>
+      
+      
+      
+      
       <div class="section-inner">
         <div class="section-split section-split--intro">
           <div class="section-content intro-copy">
@@ -219,10 +255,10 @@
       </div>
     </section>
 <section class="section section--service section--service-01" id="service-01" data-section-index="2" aria-label="Webサイト制作">
-<div class="section-ambient section-ambient--svc01" aria-hidden="true"></div>
-<div class="section-flash" aria-hidden="true"></div>
-<div class="section-glow" aria-hidden="true"></div>
-<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+
+
+
+
 <span class="giant-number" aria-hidden="true">01</span>
 <div class="section-inner">
 <div class="section-content section-content--service cyber-panel">
@@ -240,10 +276,10 @@
 </div>
 </section>
 <section class="section section--service section--service-02" id="service-02" data-section-index="3" aria-label="業務システム・ツール開発">
-<div class="section-ambient section-ambient--svc02" aria-hidden="true"></div>
-<div class="section-flash" aria-hidden="true"></div>
-<div class="section-glow" aria-hidden="true"></div>
-<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+
+
+
+
 <span class="giant-number" aria-hidden="true">02</span>
 <div class="section-inner">
 <div class="section-content section-content--service cyber-panel">
@@ -261,10 +297,10 @@
 </div>
 </section>
 <section class="section section--service section--service-03" id="service-03" data-section-index="4" aria-label="業務整理・IT活用">
-<div class="section-ambient section-ambient--svc03" aria-hidden="true"></div>
-<div class="section-flash" aria-hidden="true"></div>
-<div class="section-glow" aria-hidden="true"></div>
-<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+
+
+
+
 <span class="giant-number" aria-hidden="true">03</span>
 <div class="section-inner">
 <div class="section-content section-content--service cyber-panel">
@@ -282,10 +318,10 @@
 </div>
 </section>
     <section id="contact" class="section section--contact" data-section-index="5" aria-label="お問い合わせ">
-      <div class="section-ambient section-ambient--contact" aria-hidden="true"></div>
-      <div class="section-flash" aria-hidden="true"></div>
-      <div class="section-glow" aria-hidden="true"></div>
-      <div class="section-deco section-deco--beam" aria-hidden="true"></div>
+      
+      
+      
+      
       <div class="section-inner section-inner--contact">
         <div class="section-content contact-stack contact-stack--flow">
           <div class="contact-panel reveal-item" data-delay="120">

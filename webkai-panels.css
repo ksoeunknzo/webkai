@@ -88,15 +88,8 @@ body {
 /* --- Iridescent background (reflection film, not flat pastel) ------------ */
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 88% 62% at 50% 108%, rgba(18, 22, 28, 0.22), transparent 72%),
-    linear-gradient(180deg, #fcfdfe 0%, #f4f6f9 42%, #eceff4 100%);
-  opacity: 1;
+  display: none !important;
+  content: none !important;
 }
 
 .bg-world {
@@ -526,17 +519,16 @@ body.is-loaded .site-header {
 
 .section-glow,
 .panel__glow {
-  position: absolute;
-  inset: 0;
+  display: none !important;
+  visibility: hidden !important;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0 !important;
 }
 
 .panel--hero .panel__glow,
 .section--hero .section-glow {
-  background:
-    radial-gradient(ellipse 80% 60% at 65% 35%, var(--ir-cyan), transparent 55%),
-    radial-gradient(ellipse 50% 45% at 15% 70%, var(--ir-purple), transparent 50%);
+  display: none !important;
+  background: none !important;
 }
 
 .panel--service-intro .panel__glow,

@@ -100,30 +100,8 @@
 /* --- 4. Background cyber layers ------------------------------------------ */
 
 .bg-world::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.55;
-  background:
-    radial-gradient(ellipse 42% 28% at 72% 18%, rgba(93, 255, 200, 0.05), transparent 70%),
-    radial-gradient(circle at 18% 82%, transparent 58%, rgba(93, 255, 200, 0.04) 59%, transparent 61%),
-    radial-gradient(circle at 82% 75%, transparent 62%, rgba(93, 255, 200, 0.035) 63%, transparent 65%),
-    repeating-linear-gradient(
-      118deg,
-      transparent 0,
-      transparent 72px,
-      rgba(93, 255, 200, 0.018) 72px,
-      rgba(93, 255, 200, 0.04) 73px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(93, 255, 200, 0.012) 2px,
-      rgba(93, 255, 200, 0.025) 3px
-    );
+  display: none !important;
+  content: none !important;
 }
 
 .bg-beam::before {

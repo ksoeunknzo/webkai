@@ -195,24 +195,24 @@ body::before {
 
 /* Service detail — left-aligned card + right atmosphere */
 .section--service .section-inner {
-  display: grid !important;
-  grid-template-columns: minmax(0, var(--layout-card-max)) var(--layout-rail-w) !important;
-  gap: clamp(24px, 4vw, 48px) !important;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
-  justify-content: start !important;
+  justify-content: center !important;
   width: 100% !important;
   max-width: var(--layout-max) !important;
-  min-height: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  min-height: calc(100svh - var(--header-h) - var(--scroll-dock-reserve) - 20px) !important;
   max-height: none;
   padding-top: 4px !important;
   padding-bottom: 12px !important;
 }
 
 .section--service .section-content--service.cyber-panel {
-  grid-column: 1;
   width: 100% !important;
-  max-width: var(--layout-card-max) !important;
-  margin: 0 !important;
+  max-width: min(760px, 94vw) !important;
+  margin: 0 auto !important;
   background: var(--panel-bg) !important;
   border-color: var(--cy-glass-border) !important;
 }
@@ -289,48 +289,11 @@ body::before {
   inset: 0;
 }
 
-.section-deco--hero::after {
-  right: 2% !important;
-  top: 18% !important;
-  width: min(42vw, 420px) !important;
-  height: min(48vh, 440px) !important;
-  background:
-    radial-gradient(ellipse 65% 55% at 55% 45%, rgba(34, 245, 208, 0.1), transparent 68%),
-    repeating-linear-gradient(
-      118deg,
-      transparent 0,
-      transparent 64px,
-      rgba(34, 245, 208, 0.025) 64px,
-      rgba(34, 245, 208, 0.05) 65px
-    ) !important;
-}
-
-.section-deco--intro::before {
-  right: 10% !important;
-  top: 20% !important;
-  height: 48% !important;
-  background: linear-gradient(180deg, transparent, rgba(34, 245, 208, 0.28), transparent) !important;
-  box-shadow: 0 0 20px rgba(34, 245, 208, 0.06);
-}
-
-.section-deco--intro::after {
-  display: none !important;
-  content: none !important;
-}
-
-.section-deco--beam::before {
-  inset: 12% 6% 18% auto !important;
-  width: 42% !important;
-  height: 58% !important;
-  background:
-    linear-gradient(rgba(34, 245, 208, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 245, 208, 0.05) 1px, transparent 1px),
-    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(34, 245, 208, 0.04), transparent 72%) !important;
-  background-size: 24px 24px, 24px 24px, 100% 100% !important;
-  opacity: 0.55 !important;
-  mask-image: radial-gradient(ellipse 85% 75% at 55% 48%, #000 15%, transparent 72%) !important;
-}
-
+.section-deco--hero::before,
+.section-deco--hero::after,
+.section-deco--intro::before,
+.section-deco--intro::after,
+.section-deco--beam::before,
 .section-deco--beam::after,
 .section--service-01 .section-deco--beam::after,
 .section--service-02 .section-deco--beam::after,
@@ -341,16 +304,8 @@ body::before {
 
 .section-visual--intro::before,
 .section-visual--contact::before {
-  display: block !important;
-  content: "";
-  position: absolute;
-  inset: 8% 5% 12% 15%;
-  border: 1px solid rgba(34, 245, 208, 0.1);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 1px rgba(34, 245, 208, 0.04),
-    inset 0 0 48px rgba(34, 245, 208, 0.03);
-  pointer-events: none;
+  display: none !important;
+  content: none !important;
 }
 
 .section-visual--intro::after,
@@ -362,24 +317,8 @@ body::before {
 /* Contact HUD — see webkai-contact-fix.css (off card) */
 
 .bg-world::after {
-  opacity: 0.7 !important;
-  background:
-    radial-gradient(ellipse 38% 30% at 78% 22%, rgba(34, 245, 208, 0.06), transparent 70%),
-    radial-gradient(circle at 85% 78%, transparent 58%, rgba(34, 245, 208, 0.035) 59%, transparent 62%),
-    repeating-linear-gradient(
-      118deg,
-      transparent 0,
-      transparent 80px,
-      rgba(34, 245, 208, 0.015) 80px,
-      rgba(34, 245, 208, 0.035) 81px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(34, 245, 208, 0.01) 3px,
-      rgba(34, 245, 208, 0.022) 4px
-    ) !important;
+  display: none !important;
+  content: none !important;
 }
 
 .bg-beam::before {

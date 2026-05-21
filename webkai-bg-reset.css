@@ -1,0 +1,109 @@
+/* Web Kai — FINAL background reset (loads absolutely last) */
+
+html,
+body {
+  background: #050f0d !important;
+}
+
+body::before,
+body::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+.bg-world {
+  background: #050f0d !important;
+}
+
+.bg-world > *,
+.bg-world::before,
+.bg-world::after {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.section-glow,
+.section-flash,
+.section-ambient,
+.section-deco,
+.section-deco::before,
+.section-deco::after,
+.section::before,
+.section::after,
+.section-inner::after,
+.section-visual::before,
+.section-visual::after,
+.section--hero .hero-visual::before,
+.section--hero .hero-visual::after,
+.section.is-active:not(.section--contact)::after,
+.section--contact.is-active::after,
+body.wk-cine-pulse::before,
+.wk-cine-ambient,
+html.wk-premium::before,
+html.wk-premium::after,
+.hero-visual__panel,
+.hero-visual__grid,
+.hero-visual__beam,
+.hero-visual__ring,
+.hero-visual__city,
+.hero-visual__nodes,
+.loading-screen__glow {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.section-visual--intro,
+.section-visual--contact {
+  background: none !important;
+  background-image: none !important;
+}
+
+/* No ghost rail; service card fills viewport comfortably */
+.giant-number {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.section--service .section-inner,
+.section--contact .section-inner--contact {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: var(--layout-max, 1160px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-template-columns: none !important;
+}
+
+.section--service .section-content--service,
+.section--contact .contact-stack--flow {
+  width: 100% !important;
+  max-width: min(760px, 94vw) !important;
+}
+
+.section--service .section-content--service::before,
+.section--service .section-content--service::after,
+.cyber-panel::before,
+.cyber-panel::after,
+.intro-copy::before,
+.intro-copy::after,
+.contact-panel::before,
+.contact-panel::after {
+  display: none !important;
+  content: none !important;
+}

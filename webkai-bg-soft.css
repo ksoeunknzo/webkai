@@ -1,0 +1,181 @@
+/* Web Kai — soften square/grid backgrounds site-wide (additive override, loads last) */
+
+/* --- Full-viewport scanlines (delight-premium) --------------------------- */
+
+html.wk-premium::before {
+  display: none !important;
+  content: none !important;
+}
+
+html.wk-premium::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* --- Star / pixel dots — off completely ---------------------------------- */
+
+.wk-cine-ambient,
+.bg-lights,
+.bg-noise,
+.hero-visual__nodes,
+.hero-visual__nodes i {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* --- Global backdrop layers ---------------------------------------------- */
+
+.bg-world .bg-layer--a,
+body[data-section-theme="svc02"] .bg-layer--a {
+  background: conic-gradient(
+    from 200deg at 38% 42%,
+    rgba(10, 18, 22, 0.92) 0deg,
+    rgba(34, 245, 208, 0.22) 52deg,
+    rgba(74, 143, 212, 0.14) 110deg,
+    rgba(200, 232, 120, 0.08) 200deg,
+    rgba(20, 60, 50, 0.32) 280deg,
+    rgba(8, 14, 18, 0.88) 360deg
+  ) !important;
+}
+
+.bg-world,
+.bg-world::after {
+  background: #050f0d !important;
+}
+
+.bg-world::after {
+  display: none !important;
+  content: none !important;
+}
+
+.bg-world .bg-beam,
+body[data-section-theme="hero"] .bg-beam,
+body[data-section-theme="contact"] .bg-beam,
+body.is-scroll-emphasized .bg-beam {
+  background:
+    linear-gradient(105deg, transparent 40%, rgba(34, 245, 208, 0.07) 49.5%, transparent 51%),
+    linear-gradient(75deg, transparent 58%, rgba(34, 245, 208, 0.05) 59.2%, transparent 60%) !important;
+}
+
+.bg-beam::before {
+  display: none !important;
+  content: none !important;
+}
+
+.bg-world .bg-beam,
+body[data-section-theme="hero"] .bg-beam {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.bg-world .bg-city {
+  background:
+    linear-gradient(to top, rgba(2, 5, 8, 1) 0%, rgba(4, 14, 12, 0.5) 28%, transparent 72%),
+    radial-gradient(ellipse 120% 80% at 50% 100%, rgba(6, 22, 18, 0.4), transparent 65%) !important;
+  opacity: 0.68 !important;
+}
+
+/* Section void boxes — off completely */
+.section.is-active:not(.section--contact)::after,
+.section--contact.is-active::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.section-ambient--svc02 {
+  background:
+    radial-gradient(ellipse 55% 45% at 22% 38%, rgba(212, 255, 92, 0.1), transparent 55%),
+    radial-gradient(ellipse 48% 40% at 78% 62%, rgba(34, 245, 208, 0.06), transparent 68%) !important;
+}
+
+/* Deco / HUD rectangular overlays — definitive off */
+.section-deco--hero::before,
+.section-deco--hero::after,
+.section-deco--intro::before,
+.section-deco--intro::after,
+.section-deco--beam::before,
+.section--service .section-inner::after,
+.section--contact .section-inner--contact::after,
+.section--service-01 .section-inner::after,
+.section--service-02 .section-inner::after,
+.section--service-03 .section-inner::after,
+.section--hero .hero-visual::before,
+.section--service-intro .section-visual--intro::before,
+.section-visual--intro::before,
+.section-visual--contact::before {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+/* Hero visual column */
+.hero-visual__panel {
+  background: linear-gradient(
+    155deg,
+    rgba(8, 18, 22, 0.72),
+    rgba(4, 10, 12, 0.35)
+  ) !important;
+}
+
+.hero-visual__grid {
+  opacity: 0.38 !important;
+  background: radial-gradient(
+    ellipse 75% 65% at 52% 48%,
+    rgba(34, 245, 208, 0.1),
+    transparent 72%
+  ) !important;
+  background-size: 100% 100% !important;
+}
+
+.hero-visual__city {
+  background: linear-gradient(to top, rgba(2, 6, 8, 0.9), transparent) !important;
+}
+
+/* Cinematic chapter transitions — no scan rows */
+.section.wk-cine-enter::before,
+.section.is-leaving::before {
+  background: linear-gradient(
+    102deg,
+    transparent 38%,
+    rgba(34, 245, 208, 0.06) 50%,
+    transparent 62%
+  ) !important;
+}
+
+/* Loading — no tile grid / harsh scan rows */
+body.is-intro-active .loading-screen::before {
+  opacity: 0.22 !important;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(34, 245, 208, 0.02) 48%,
+    transparent 100%
+  ) !important;
+  animation: none !important;
+}
+
+.wk-load-fx__grid {
+  background: none !important;
+  opacity: 0.5 !important;
+  background-image: radial-gradient(
+    ellipse 65% 58% at 50% 46%,
+    rgba(34, 245, 208, 0.08),
+    transparent 72%
+  ) !important;
+  animation: wkPlusGridDrift 18s ease-in-out infinite alternate !important;
+}
+
+/* Contact panel inner grids stay layout-only (not decorative) */
+.contact-panel__grid {
+  /* layout grid — unchanged */
+}

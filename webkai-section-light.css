@@ -169,65 +169,26 @@ body[data-section-theme="contact"] .bg-beam {
     radial-gradient(ellipse 38% 32% at 50% 88%, rgba(10, 36, 42, 0.35), transparent 58%) !important;
 }
 
-/* --- Section glow overlay ------------------------------------------------ */
-
-.section--hero.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 78% 62% at 68% 32%, var(--glow-cyan), transparent 56%),
-    radial-gradient(ellipse 48% 42% at 14% 72%, rgba(34, 245, 208, 0.08), transparent 52%) !important;
-  opacity: 0.78 !important;
-}
-
-.section--service-intro.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 72% 58% at 52% 28%, var(--glow-blue), transparent 58%),
-    radial-gradient(ellipse 58% 48% at 88% 62%, var(--glow-cyan), transparent 55%) !important;
-  opacity: 0.72 !important;
-}
-
-.section--service-01.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 68% 54% at 78% 38%, var(--glow-cyan), transparent 56%),
-    radial-gradient(ellipse 44% 40% at 16% 68%, var(--glow-lime), transparent 54%) !important;
-}
-
-.section--service-02.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 62% 52% at 24% 36%, var(--glow-blue), transparent 55%),
-    radial-gradient(ellipse 58% 48% at 82% 58%, var(--glow-cyan), transparent 56%) !important;
-}
-
-.section--service-03.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 64% 50% at 70% 58%, var(--glow-amber), transparent 56%),
-    radial-gradient(ellipse 50% 44% at 28% 30%, var(--glow-cyan), transparent 54%) !important;
-}
-
+/* Section glow removed — caused centered ghost rectangle */
+.section-glow,
+.section--hero.is-active .section-glow,
+.section--service-intro.is-active .section-glow,
+.section--service-01.is-active .section-glow,
+.section--service-02.is-active .section-glow,
+.section--service-03.is-active .section-glow,
 .section--contact.is-active .section-glow {
-  background:
-    radial-gradient(ellipse 66% 54% at 78% 48%, rgba(34, 245, 208, 0.22), transparent 58%),
-    radial-gradient(ellipse 52% 46% at 22% 36%, rgba(34, 245, 208, 0.08), transparent 54%) !important;
-  opacity: 0.8 !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
 }
 
 /* --- Section deco / HUD (accent tint per chapter) -------------------------- */
 
-.section-deco--hero::after {
-  background:
-    radial-gradient(ellipse 68% 58% at 58% 42%, rgba(34, 245, 208, 0.14), transparent 68%),
-    radial-gradient(ellipse 42% 38% at 82% 68%, var(--glow-lime), transparent 62%),
-    repeating-linear-gradient(
-      118deg,
-      transparent 0,
-      transparent 64px,
-      rgba(34, 245, 208, 0.028) 64px,
-      rgba(34, 245, 208, 0.055) 65px
-    ) !important;
-}
-
-.section-deco--intro::before {
-  background: linear-gradient(180deg, transparent, rgba(74, 143, 212, 0.32), rgba(34, 245, 208, 0.2), transparent) !important;
-  box-shadow: 0 0 24px var(--glow-blue) !important;
+.section-deco--hero::after,
+.section-deco--intro::before,
+.section-deco--beam::before {
+  display: none !important;
+  content: none !important;
 }
 
 .section-deco--intro::after {
@@ -317,24 +278,8 @@ body[data-section-theme="contact"] .bg-beam {
 
 /* Global HUD overlay — multi-tone (still very subtle) */
 .bg-world::after {
-  background:
-    radial-gradient(ellipse 36% 28% at 78% 20%, var(--glow-cyan), transparent 70%),
-    radial-gradient(ellipse 28% 24% at 12% 82%, var(--glow-blue), transparent 68%),
-    radial-gradient(ellipse 22% 20% at 92% 72%, var(--glow-lime), transparent 65%),
-    repeating-linear-gradient(
-      118deg,
-      transparent 0,
-      transparent 80px,
-      rgba(34, 245, 208, 0.012) 80px,
-      rgba(74, 143, 212, 0.028) 81px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(34, 245, 208, 0.008) 3px,
-      rgba(34, 245, 208, 0.02) 4px
-    ) !important;
+  display: none !important;
+  content: none !important;
 }
 
 .bg-beam::before {

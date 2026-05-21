@@ -14,11 +14,8 @@
 }
 
 .section--hero .section-deco--hero::after {
-  right: 28% !important;
-  top: 18% !important;
-  width: min(42vw, 400px) !important;
-  height: min(50vh, 460px) !important;
-  opacity: 0.65 !important;
+  display: none !important;
+  content: none !important;
 }
 
 .section--hero .section-inner--hero {
@@ -211,19 +208,9 @@
   opacity: 0.75;
 }
 
-.hero-visual__nodes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
+.hero-visual__nodes,
 .hero-visual__nodes i {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--cy-neon-cyan);
-  box-shadow: 0 0 10px rgba(93, 255, 200, 0.6);
+  display: none !important;
 }
 
 .hero-visual__nodes i:nth-child(1) {

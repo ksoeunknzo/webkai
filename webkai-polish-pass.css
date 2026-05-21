@@ -1,0 +1,225 @@
+/* Web Kai — polish pass: labels, cards, bg, motion (loads last) */
+
+:root {
+  --ease-polish: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- 3. Card glass quality ----------------------------------------------- */
+
+.section--service-intro .intro-copy,
+.section--service .section-content--service.cyber-panel,
+.section--contact .contact-panel {
+  position: relative;
+  border: 1px solid var(--cy-glass-border) !important;
+  background: rgba(5, 12, 14, 0.48) !important;
+  backdrop-filter: blur(16px) saturate(1.14);
+  -webkit-backdrop-filter: blur(16px) saturate(1.14);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 var(--cy-glass-highlight),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12) !important;
+  transition:
+    transform 0.55s var(--ease-polish),
+    box-shadow 0.55s var(--ease-polish),
+    border-color 0.45s ease;
+  overflow: hidden;
+}
+
+.section--service-intro .intro-copy::before,
+.section--service .section-content--service.cyber-panel::before,
+.section--contact .contact-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 42%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.85;
+  mix-blend-mode: overlay;
+}
+
+.section--service-intro .intro-copy::after,
+.section--contact .contact-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(93, 255, 200, 0.1) 48%,
+    rgba(212, 255, 92, 0.06) 52%,
+    transparent 65%
+  );
+  pointer-events: none;
+  transition: transform 1.4s var(--ease-polish);
+}
+
+.section.is-active.section--service-intro .intro-copy::after,
+.section.is-active.section--contact .contact-panel::after {
+  transform: translate3d(280%, 0, 0);
+}
+
+@media (hover: hover) {
+  .section--service-intro .intro-copy:hover,
+  .section--service .section-content--service.cyber-panel:hover,
+  .section--contact .contact-panel:hover {
+    transform: translateY(-2px);
+    border-color: rgba(93, 255, 200, 0.28) !important;
+    box-shadow:
+      0 22px 52px rgba(0, 0, 0, 0.38),
+      0 0 28px rgba(93, 255, 200, 0.07),
+      inset 0 1px 0 rgba(140, 240, 225, 0.1) !important;
+  }
+
+  .section--service-intro .intro-copy:hover::after,
+  .section--contact .contact-panel:hover::after {
+    transform: translate3d(320%, 0, 0);
+  }
+}
+
+.service-menu__link {
+  border: 1px solid rgba(93, 255, 200, 0.1) !important;
+  transition:
+    transform 0.45s var(--ease-polish),
+    border-color 0.4s ease,
+    box-shadow 0.45s ease,
+    background 0.4s ease !important;
+}
+
+@media (hover: hover) {
+  .service-menu__link:hover {
+    transform: translateX(3px);
+    border-color: rgba(93, 255, 200, 0.32) !important;
+  }
+}
+
+/* --- 4. Background cyber layers ------------------------------------------ */
+
+.bg-world::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  background:
+    radial-gradient(ellipse 42% 28% at 72% 18%, rgba(93, 255, 200, 0.05), transparent 70%),
+    radial-gradient(circle at 18% 82%, transparent 58%, rgba(93, 255, 200, 0.04) 59%, transparent 61%),
+    radial-gradient(circle at 82% 75%, transparent 62%, rgba(93, 255, 200, 0.035) 63%, transparent 65%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 72px,
+      rgba(93, 255, 200, 0.018) 72px,
+      rgba(93, 255, 200, 0.04) 73px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(93, 255, 200, 0.012) 2px,
+      rgba(93, 255, 200, 0.025) 3px
+    );
+}
+
+.bg-beam::before {
+  content: "";
+  position: absolute;
+  right: 12%;
+  top: 22%;
+  width: min(28vw, 280px);
+  height: min(28vw, 280px);
+  border: 1px solid rgba(93, 255, 200, 0.06);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 1px rgba(93, 255, 200, 0.03),
+    inset 0 0 40px rgba(93, 255, 200, 0.02);
+  animation: hudRing 18s ease-in-out infinite alternate;
+}
+
+@keyframes hudRing {
+  from {
+    opacity: 0.35;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 0.65;
+    transform: scale(1.02);
+  }
+}
+
+/* --- 5. Hero logo block — slightly subdued ------------------------------- */
+
+.section--hero .hero-side {
+  opacity: 0.84;
+}
+
+.section--hero .trade-name {
+  text-shadow:
+    0 0 12px rgba(122, 232, 220, 0.28),
+    0 0 24px rgba(93, 255, 200, 0.1) !important;
+}
+
+.section--hero .brand-logo--hero {
+  opacity: 0.94;
+}
+
+/* --- 6. Unified motion --------------------------------------------------- */
+
+.reveal-item {
+  transition:
+    opacity 0.9s var(--ease-polish),
+    transform 0.9s var(--ease-polish);
+}
+
+.reveal-item.is-shown {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.section:not(.is-active) .reveal-item:not(.is-shown) {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+.mask-title > span {
+  transition: transform 1s var(--ease-polish);
+}
+
+/* --- 7. Layout breathing room ---------------------------------------------- */
+
+.section--hero .section-split--hero {
+  gap: clamp(28px, 4vw, 52px) !important;
+}
+
+.section--hero .hero-main {
+  opacity: 1;
+}
+
+.section--service-intro .section-split--intro {
+  gap: clamp(28px, 4vw, 48px) !important;
+}
+
+.section--service .section-inner {
+  padding-top: 12px;
+  padding-bottom: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-beam::before,
+  .bg-world::after {
+    animation: none !important;
+  }
+
+  .section--service-intro .intro-copy:hover,
+  .section--service .section-content--service.cyber-panel:hover,
+  .section--contact .contact-panel:hover,
+  .service-menu__link:hover {
+    transform: none;
+  }
+}

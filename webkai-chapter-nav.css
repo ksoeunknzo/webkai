@@ -1,0 +1,7 @@
+/* Deprecated — merged into webkai-scroll-cue.css (center dock) */
+
+.chapter-nav,
+#chapter-nav,
+.section-indicator:not(.scroll-dock__count) {
+  display: none !important;
+}

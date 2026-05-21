@@ -1,0 +1,343 @@
+/* Web Kai — sitewide scale (+10%, layout ratios unchanged) */
+
+:root {
+  --wk-scale: 1.1;
+
+  --header-h: calc(68px * var(--wk-scale));
+  --hero-logo-size: calc(88px * var(--wk-scale));
+  --hero-mark-gap: calc(12px * var(--wk-scale));
+
+  --layout-max: calc(1160px * var(--wk-scale));
+  --layout-card-max: calc(580px * var(--wk-scale));
+  --layout-contact-max: calc(840px * var(--wk-scale));
+  --layout-header-gap: calc(28px * var(--wk-scale));
+  --layout-pad-x: clamp(
+    calc(28px * var(--wk-scale)),
+    5vw,
+    calc(80px * var(--wk-scale))
+  );
+  --layout-rail-w: minmax(calc(220px * var(--wk-scale)), 1fr);
+
+  --scroll-dock-h: calc(138px * var(--wk-scale));
+  --scroll-dock-offset: max(
+    clamp(calc(48px * var(--wk-scale)), 7vh, calc(88px * var(--wk-scale))),
+    calc(env(safe-area-inset-bottom, 0px) + calc(28px * var(--wk-scale)))
+  );
+  --scroll-dock-reserve: calc(
+    var(--scroll-dock-offset) + var(--scroll-dock-h) + calc(24px * var(--wk-scale))
+  );
+  --scroll-cue-h: var(--scroll-dock-reserve);
+  --section-max: var(--layout-max);
+  --section-pad-x: var(--layout-pad-x);
+  --section-indicator-w: calc(88px * var(--wk-scale));
+  --content-max: calc(1240px * var(--wk-scale));
+  --prose-max: calc(50rem * var(--wk-scale));
+}
+
+html {
+  font-size: calc(16px * var(--wk-scale));
+}
+
+body {
+  font-size: calc(1.125rem * var(--wk-scale));
+}
+
+/* --- Header & logo ------------------------------------------------------- */
+
+.site-header .brand-logo,
+.brand-logo {
+  width: calc(40px * var(--wk-scale)) !important;
+  height: calc(40px * var(--wk-scale)) !important;
+}
+
+img.brand-logo--hero,
+.section--hero .brand-logo--hero {
+  width: var(--hero-logo-size) !important;
+  height: var(--hero-logo-size) !important;
+}
+
+.section--hero .brand-mark--hero {
+  gap: calc(8px * var(--wk-scale));
+}
+
+.section--hero .hero-side {
+  max-width: calc(200px * var(--wk-scale));
+}
+
+.section--hero .trade-name {
+  font-size: clamp(
+    calc(1.08rem * var(--wk-scale)),
+    2vw,
+    calc(1.22rem * var(--wk-scale))
+  ) !important;
+}
+
+.section--hero .owner-name {
+  font-size: calc(0.82rem * var(--wk-scale)) !important;
+  margin-top: calc(10px * var(--wk-scale)) !important;
+}
+
+.section--hero .owner-role {
+  font-size: calc(0.68rem * var(--wk-scale));
+}
+
+/* --- Layout grids & gaps ------------------------------------------------- */
+
+.section--hero .section-split--hero {
+  grid-template-columns: calc(188px * var(--wk-scale)) minmax(0, 1fr) var(--layout-rail-w) !important;
+  gap: clamp(
+    calc(28px * var(--wk-scale)),
+    4vw,
+    calc(56px * var(--wk-scale))
+  ) !important;
+}
+
+.section--service-intro .section-split--intro {
+  gap: clamp(
+    calc(32px * var(--wk-scale)),
+    5vw,
+    calc(64px * var(--wk-scale))
+  ) !important;
+}
+
+.section--service .section-inner {
+  gap: clamp(
+    calc(24px * var(--wk-scale)),
+    4vw,
+    calc(48px * var(--wk-scale))
+  ) !important;
+}
+
+.section--service-intro .intro-copy {
+  padding: clamp(calc(22px * var(--wk-scale)), 3vw, calc(30px * var(--wk-scale)))
+    clamp(calc(20px * var(--wk-scale)), 3vw, calc(32px * var(--wk-scale)))
+    clamp(calc(14px * var(--wk-scale)), 2.2vw, calc(20px * var(--wk-scale))) !important;
+  transform: translateY(calc(-5px * var(--wk-scale)));
+}
+
+.section--service-intro .service-menu__link {
+  padding: calc(10px * var(--wk-scale)) calc(16px * var(--wk-scale))
+    calc(8px * var(--wk-scale)) !important;
+  gap: calc(14px * var(--wk-scale)) calc(16px * var(--wk-scale));
+}
+
+.section--service .section-content--service.cyber-panel,
+.section--contact .contact-panel {
+  padding: clamp(calc(28px * var(--wk-scale)), 4vw, calc(40px * var(--wk-scale)))
+    clamp(calc(28px * var(--wk-scale)), 4.5vw, calc(44px * var(--wk-scale))) !important;
+}
+
+
+/* --- Typography ---------------------------------------------------------- */
+
+.hero-main .catchcopy,
+.section--hero .catchcopy {
+  font-size: clamp(
+    calc(1.72rem * var(--wk-scale)),
+    3.35vw,
+    calc(2.72rem * var(--wk-scale))
+  ) !important;
+  margin-bottom: clamp(
+    calc(24px * var(--wk-scale)),
+    3.5vh,
+    calc(36px * var(--wk-scale))
+  ) !important;
+}
+
+.section-title-text,
+.mask-title .section-title-text {
+  font-size: clamp(
+    calc(1.32rem * var(--wk-scale)),
+    2.6vw,
+    calc(1.68rem * var(--wk-scale))
+  ) !important;
+}
+
+.section-title {
+  padding-left: calc(18px * var(--wk-scale));
+  margin-bottom: clamp(
+    calc(12px * var(--wk-scale)),
+    2vh,
+    calc(18px * var(--wk-scale))
+  ) !important;
+}
+
+.ui-label,
+.section-label,
+.scroll-dock__hint {
+  font-size: clamp(
+    calc(0.52rem * var(--wk-scale)),
+    1.1vw,
+    calc(0.58rem * var(--wk-scale))
+  ) !important;
+}
+
+.site-nav {
+  gap: calc(32px * var(--wk-scale));
+}
+
+.site-nav a {
+  font-size: calc(0.88rem * var(--wk-scale)) !important;
+}
+
+.service-menu__num {
+  font-size: calc(0.68rem * var(--wk-scale)) !important;
+  min-width: calc(1.75em * var(--wk-scale));
+}
+
+.service-menu__title {
+  font-size: clamp(
+    calc(0.95rem * var(--wk-scale)),
+    2.2vw,
+    calc(1.05rem * var(--wk-scale))
+  ) !important;
+}
+
+.section-service-num {
+  font-size: calc(0.72rem * var(--wk-scale)) !important;
+}
+
+.section--service .section-body,
+.business-text,
+.section-body {
+  font-size: clamp(
+    calc(1rem * var(--wk-scale)),
+    2vw,
+    calc(1.06rem * var(--wk-scale))
+  );
+}
+
+.hero-lead p {
+  font-size: clamp(
+    calc(1.02rem * var(--wk-scale)),
+    2.1vw,
+    calc(1.18rem * var(--wk-scale))
+  ) !important;
+}
+
+.contact-meta dt,
+.contact-label {
+  font-size: calc(0.78rem * var(--wk-scale));
+}
+
+.contact-meta dd,
+.contact-link {
+  font-size: clamp(
+    calc(0.95rem * var(--wk-scale)),
+    2.5vw,
+    calc(1.05rem * var(--wk-scale))
+  ) !important;
+}
+
+/* --- Scroll dock --------------------------------------------------------- */
+
+.scroll-dock--global {
+  padding: calc(7px * var(--wk-scale)) calc(10px * var(--wk-scale))
+    calc(7px * var(--wk-scale) + env(safe-area-inset-bottom, 0px));
+}
+
+.scroll-dock__btn {
+  padding: calc(5px * var(--wk-scale)) calc(10px * var(--wk-scale));
+  min-width: calc(44px * var(--wk-scale));
+}
+
+.scroll-dock__arrow {
+  font-size: calc(0.78rem * var(--wk-scale));
+}
+
+.scroll-dock__hint {
+  font-size: calc(0.48rem * var(--wk-scale));
+  letter-spacing: 0.34em;
+}
+
+.scroll-dock__track {
+  height: calc(34px * var(--wk-scale));
+}
+
+.scroll-dock__rail {
+  padding: calc(4px * var(--wk-scale)) 0;
+}
+
+/* --- Giant numbers & HUD labels ------------------------------------------ */
+
+.section--service .giant-number {
+  font-size: clamp(
+    calc(5.5rem * var(--wk-scale)),
+    16vw,
+    calc(10rem * var(--wk-scale))
+  ) !important;
+}
+
+
+/* --- Service menu list --------------------------------------------------- */
+
+.service-menu {
+  gap: calc(10px * var(--wk-scale));
+  margin-top: clamp(
+    calc(12px * var(--wk-scale)),
+    1.8vh,
+    calc(18px * var(--wk-scale))
+  ) !important;
+}
+
+.section--service-intro .section-body {
+  margin-bottom: clamp(
+    calc(12px * var(--wk-scale)),
+    1.8vh,
+    calc(16px * var(--wk-scale))
+  ) !important;
+}
+
+.section--service .section-service-head {
+  margin-bottom: clamp(
+    calc(16px * var(--wk-scale)),
+    2.5vh,
+    calc(22px * var(--wk-scale))
+  ) !important;
+  gap: calc(12px * var(--wk-scale)) calc(18px * var(--wk-scale));
+}
+
+@media (max-width: 900px) {
+  :root {
+    --scroll-dock-h: calc(128px * var(--wk-scale));
+    --scroll-dock-offset: max(
+      clamp(calc(44px * var(--wk-scale)), 8vh, calc(72px * var(--wk-scale))),
+      calc(env(safe-area-inset-bottom, 0px) + calc(24px * var(--wk-scale)))
+    );
+    --layout-pad-x: clamp(
+      calc(20px * var(--wk-scale)),
+      5vw,
+      calc(32px * var(--wk-scale))
+    );
+  }
+
+  .scroll-dock__track {
+    height: calc(30px * var(--wk-scale));
+  }
+
+  .scroll-dock__hint {
+    font-size: calc(0.44rem * var(--wk-scale));
+  }
+
+  .section--service .giant-number {
+    font-size: clamp(
+      calc(4rem * var(--wk-scale)),
+      22vw,
+      calc(7rem * var(--wk-scale))
+    ) !important;
+  }
+}
+
+@media (max-height: 720px) {
+  :root {
+    --scroll-dock-h: calc(156px * var(--wk-scale));
+    --scroll-dock-offset: max(
+      clamp(calc(40px * var(--wk-scale)), 9vh, calc(64px * var(--wk-scale))),
+      calc(env(safe-area-inset-bottom, 0px) + calc(20px * var(--wk-scale)))
+    );
+  }
+
+  .scroll-dock__track {
+    height: calc(26px * var(--wk-scale));
+  }
+}

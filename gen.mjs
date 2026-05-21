@@ -1,0 +1,333 @@
+import { readFileSync, writeFileSync } from "fs";
+import { join } from "path";
+
+const hp = process.argv[2];
+const TAG = ["d", "i", "v"].join("");
+const o = (cls, attrs = "") =>
+  cls ? `<${TAG} class="${cls}"${attrs}>` : attrs ? `<${TAG}${attrs}>` : `<${TAG}>`;
+const c = `</${TAG}>`;
+const glow = () => `${o("section-glow", ' aria-hidden="true"')}${c}`;
+const deco = (name) => `${o(`section-deco section-deco--${name}`, ' aria-hidden="true"')}${c}`;
+const visual = (name) => `${o(`section-visual section-visual--${name}`, ' aria-hidden="true"')}${c}`;
+const ambient = (name) => `${o(`section-ambient section-ambient--${name}`, ' aria-hidden="true"')}${c}`;
+const flash = () => `${o("section-flash", ' aria-hidden="true"')}${c}`;
+
+const heroVisual = () => `${o("hero-visual", ' aria-hidden="true"')}
+      <span class="hero-visual__beam"></span>
+      ${o("hero-visual__panel")}
+        <span class="hero-visual__grid"></span>
+        <span class="hero-visual__ring"></span>
+        <span class="hero-visual__ring hero-visual__ring--b"></span>
+        <span class="hero-visual__city"></span>
+        <span class="hero-visual__nodes"><i></i><i></i><i></i></span>
+      ${c}
+    ${c}`;
+
+const sectionDock = () => `  <nav class="scroll-dock scroll-dock--global" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
+    <button type="button" class="scroll-dock__btn scroll-dock__btn--prev" id="chapter-prev" aria-label="前のセクションへ" disabled>
+      <span class="scroll-dock__arrow" aria-hidden="true">↑</span>
+      <span class="scroll-dock__hint ui-label">Prev</span>
+    </button>
+    <div class="scroll-dock__rail" aria-hidden="true">
+      <span class="scroll-dock__track"><span class="scroll-dock__line"></span></span>
+    </div>
+    <button type="button" class="scroll-dock__btn scroll-dock__btn--next" id="chapter-next" aria-label="次のセクションへ">
+      <span class="scroll-dock__arrow scroll-dock__arrow--main" aria-hidden="true">↓</span>
+      <span class="scroll-dock__hint ui-label" id="scroll-dock-label">Scroll</span>
+    </button>
+  </nav>`;
+
+const b = readFileSync(join(hp, "_backup/2026-05-15-0143/index.html"), "utf8");
+
+const rx = (p) => {
+  const m = b.match(p);
+  if (!m) throw new Error("rx fail");
+  return m[1];
+};
+
+const catchcopy = rx(/<span class="catchcopy-inner">([\s\S]*?)<\/span>/);
+const catchcopyHtml = catchcopy.replace(
+  "業務システム・ツール開発",
+  '<span class="phrase-keep catchcopy-keep">業務システム・ツール開発</span>'
+);
+const heroSummaryContent = rx(/<div class="hero-summary business-text">([\s\S]*?)<\/div>/);
+const svcLead = rx(/<p class="section-lead business-text">([\s\S]*?)<\/p>/);
+const contactLead = [...b.matchAll(/<p class="section-lead business-text">([\s\S]*?)<\/p>/g)][1][1];
+const svc1 = rx(/<article class="service-item reveal">[\s\S]*?01<\/span>([\s\S]*?)<\/article>/);
+const svc2 = rx(/<article class="service-item reveal">[\s\S]*?02<\/span>([\s\S]*?)<\/article>/);
+const svc3 = rx(/<article class="service-item reveal">[\s\S]*?03<\/span>([\s\S]*?)<\/article>/);
+const contactDl = rx(/<dl class="contact-list reveal">([\s\S]*?)<\/dl>/);
+const footerInner2 = rx(
+  /<footer class="site-footer">[\s\S]*?<div class="container footer-inner">([\s\S]*?)<\/div>[\s\S]*?<\/footer>/
+);
+
+function svcSection(num, idx, inner, aria) {
+  const title = inner.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1];
+  const copy2b = inner.match(/<div class="service-item-copy[^>]*>([\s\S]*?)<\/div>/)[1];
+  return [
+    `<section class="section section--service section--service-${num}" id="service-${num}" data-section-index="${idx}" aria-label="${aria}">`,
+    ambient(`svc${num}`),
+    flash(),
+    glow(),
+    deco("beam"),
+    `<span class="giant-number" aria-hidden="true">${num}</span>`,
+    o("section-inner"),
+    o("section-content section-content--service cyber-panel"),
+    o("section-service-head"),
+    `<span class="section-service-num ui-label reveal-item" data-delay="0">${num}</span>`,
+    `<h2 class="section-title">`,
+    `<span class="mask-title"><span>${title}</span></span>`,
+    `</h2>`,
+    c,
+    `${o("section-body business-text reveal-item", ' data-delay="320"')}${copy2b}${c}`,
+    c,
+    c,
+    `</section>`,
+  ].join("\n");
+}
+
+const svc1Title = svc1.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1];
+const svc2Title = svc2.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1];
+const svc3Title = svc3.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1];
+
+const serviceMenuItem = (num, title, sectionIndex, delay) =>
+  `          <li class="service-menu__item reveal-item" data-delay="${delay}">
+            <a class="service-menu__link" href="#service-${num}" data-goto-section="${sectionIndex}">
+              <span class="service-menu__num ui-label">${num}</span>
+              <span class="service-menu__title business-text">${title}</span>
+              <span class="service-menu__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>`;
+
+const serviceMenuHtml = [
+  '<ul class="service-menu reveal-item" data-delay="360">',
+  serviceMenuItem("01", svc1Title, "2", 400),
+  serviceMenuItem("02", svc2Title, "3", 480),
+  serviceMenuItem("03", svc3Title, "4", 560),
+  "</ul>",
+].join("\n");
+
+const html = `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="Web Kai（加井 航貴）の事業紹介サイト。Webサイト制作、業務システム開発、IT活用支援を行う個人事業です。">
+  <title>Web Kai | 加井 航貴</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=IBM+Plex+Mono:wght@300;400&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=Noto+Sans+JP:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" id="wk-css-base">
+  <link rel="stylesheet" href="webkai-panels.css" id="wk-css-panels">
+  <link rel="stylesheet" href="webkai-layout.css" id="wk-css-layout">
+  <link rel="stylesheet" href="webkai-cyber.css" id="wk-css-cyber">
+  <link rel="stylesheet" href="webkai-hero.css" id="wk-css-hero">
+  <link rel="stylesheet" href="webkai-polish.css" id="wk-css-polish">
+  <link rel="stylesheet" href="webkai-scroll.css" id="wk-css-scroll">
+  <link rel="stylesheet" href="webkai-scroll-cue.css" id="wk-css-scroll-cue">
+  <link rel="stylesheet" href="webkai-contact.css" id="wk-css-contact">
+  <link rel="stylesheet" href="webkai-logo.css" id="wk-css-logo">
+  <link rel="stylesheet" href="webkai-hero-card.css" id="wk-css-hero-card">
+  <link rel="stylesheet" href="webkai-chapter-nav.css" id="wk-css-chapter-nav">
+  <link rel="stylesheet" href="webkai-polish-pass.css" id="wk-css-polish-pass">
+  <link rel="stylesheet" href="webkai-type-color.css" id="wk-css-type-color">
+  <link rel="stylesheet" href="webkai-layout-system.css" id="wk-css-layout-system">
+  <link rel="stylesheet" href="webkai-section-light.css" id="wk-css-section-light">
+  <link rel="stylesheet" href="webkai-scale.css" id="wk-css-scale">
+  <link rel="stylesheet" href="webkai-contact-fix.css" id="wk-css-contact-fix">
+  <link rel="stylesheet" href="webkai-contact-compact.css" id="wk-css-contact-compact">
+  <link rel="stylesheet" href="webkai-delight.css" id="wk-css-delight">
+  <link rel="stylesheet" href="webkai-delight-premium.css" id="wk-css-delight-premium">
+  <link rel="stylesheet" href="webkai-cinematic.css" id="wk-css-cinematic">
+  <link rel="stylesheet" href="webkai-nav.css" id="wk-css-nav">
+  <link rel="stylesheet" href="webkai-loading.css" id="wk-css-loading">
+  <link rel="stylesheet" href="webkai-refine.css" id="wk-css-refine">
+  <script>
+    (function () {
+      var isFile = location.protocol === "file:";
+      var v = String(Date.now());
+      if (isFile) {
+        document.getElementById("wk-css-base").href = "styles.css?v=" + v;
+        document.getElementById("wk-css-panels").href = "webkai-panels.css?v=" + v;
+        document.getElementById("wk-css-layout").href = "webkai-layout.css?v=" + v;
+        document.getElementById("wk-css-cyber").href = "webkai-cyber.css?v=" + v;
+        document.getElementById("wk-css-hero").href = "webkai-hero.css?v=" + v;
+        document.getElementById("wk-css-polish").href = "webkai-polish.css?v=" + v;
+        document.getElementById("wk-css-scroll").href = "webkai-scroll.css?v=" + v;
+        document.getElementById("wk-css-scroll-cue").href = "webkai-scroll-cue.css?v=" + v;
+        document.getElementById("wk-css-contact").href = "webkai-contact.css?v=" + v;
+        document.getElementById("wk-css-logo").href = "webkai-logo.css?v=" + v;
+        document.getElementById("wk-css-hero-card").href = "webkai-hero-card.css?v=" + v;
+        document.getElementById("wk-css-chapter-nav").href = "webkai-chapter-nav.css?v=" + v;
+        document.getElementById("wk-css-polish-pass").href = "webkai-polish-pass.css?v=" + v;
+        document.getElementById("wk-css-type-color").href = "webkai-type-color.css?v=" + v;
+        document.getElementById("wk-css-layout-system").href = "webkai-layout-system.css?v=" + v;
+        document.getElementById("wk-css-section-light").href = "webkai-section-light.css?v=" + v;
+        document.getElementById("wk-css-scale").href = "webkai-scale.css?v=" + v;
+        document.getElementById("wk-css-contact-fix").href = "webkai-contact-fix.css?v=" + v;
+        document.getElementById("wk-css-contact-compact").href = "webkai-contact-compact.css?v=" + v;
+        document.getElementById("wk-css-delight").href = "webkai-delight.css?v=" + v;
+        document.getElementById("wk-css-delight-premium").href = "webkai-delight-premium.css?v=" + v;
+        document.getElementById("wk-css-cinematic").href = "webkai-cinematic.css?v=" + v;
+        document.getElementById("wk-css-nav").href = "webkai-nav.css?v=" + v;
+        document.getElementById("wk-css-loading").href = "webkai-loading.css?v=" + v;
+        document.getElementById("wk-css-refine").href = "webkai-refine.css?v=" + v;
+      }
+      var s = document.createElement("script");
+      s.defer = true;
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531c";
+      document.head.appendChild(s);
+      var d = document.createElement("script");
+      d.defer = true;
+      d.src = isFile ? "webkai-delight.js?v=" + v : "webkai-delight.js?v=20260530a";
+      document.head.appendChild(d);
+      var c = document.createElement("script");
+      c.defer = true;
+      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260530b";
+      document.head.appendChild(c);
+    })();
+  </script>
+</head>
+<body class="is-intro-active" data-section-theme="hero">
+  <div class="loading-screen" data-intro aria-hidden="false">
+    ${o("loading-screen__base")}${c}
+    ${o("loading-screen__glow iridescent-bg")}${c}
+    ${o("loading-screen__mark")}
+      <span class="loading-screen__sweep" aria-hidden="true"></span>
+      <img class="loading-screen__logo" src="logo.png" width="96" height="96" alt="" decoding="async">
+      <span class="loading-screen__word">Web Kai</span>
+    ${c}
+  </div>
+
+  <div class="iridescent-bg bg-world" aria-hidden="true">
+    ${o("bg-layer bg-layer--a")}${c}
+    ${o("bg-layer bg-layer--b")}${c}
+    ${o("bg-layer bg-layer--c")}${c}
+    ${o("bg-city")}${c}
+    ${o("bg-lights")}${c}
+    ${o("bg-fog")}${c}
+    ${o("bg-fog bg-fog--alt")}${c}
+    ${o("bg-film")}${c}
+    ${o("bg-beam")}${c}
+    ${o("bg-noise")}${c}
+  </div>
+
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <header class="site-header">
+    ${o("header-inner")}
+      <a class="brand brand-mark" href="#top" data-goto-section="0">
+        <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
+        <span>Web Kai</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">メニュー</button>
+      <nav id="site-nav" class="site-nav" aria-label="ページ内メニュー">
+        <a href="#top" data-goto-section="0" class="site-nav__link site-nav__link--top">ページトップ</a>
+        <a href="#service" data-goto-section="1" class="site-nav__link">サービス</a>
+        <a href="#contact" data-goto-section="5" class="site-nav__link">お問い合わせ</a>
+      </nav>
+    ${c}
+  </header>
+
+${sectionDock()}
+
+  <main class="site-scroll" id="main">
+    <section id="top" class="section section--hero" data-section-index="0" aria-label="ファーストビュー">
+      ${ambient("hero")}
+      ${flash()}
+      ${glow()}
+      ${deco("hero")}
+      ${o("section-inner section-inner--hero")}
+        ${o("section-split section-split--hero")}
+          ${o("section-content section-content--brand hero-side reveal-item", ' data-delay="180"')}
+            ${o("brand-mark brand-mark--hero")}
+              <img class="brand-logo brand-logo--hero" src="logo.png" width="88" height="88" alt="Web Kai ロゴ" decoding="async">
+              <p class="trade-name">Web Kai</p>
+            ${c}
+            <p class="owner-name business-text"><span class="owner-role">代表</span><span class="owner-name-text">加井 航貴</span></p>
+          ${c}
+          ${o("section-content section-content--hero hero-main")}
+            <h1 class="catchcopy business-text">
+              <span class="mask-title mask-title--hero"><span>${catchcopyHtml}</span></span>
+            </h1>
+            ${o("hero-lead business-text reveal-item", ' data-delay="520"')}
+              ${heroSummaryContent}
+            ${c}
+          ${c}
+          ${heroVisual()}
+        ${c}
+      ${c}
+    </section>
+
+    <section id="service" class="section section--service-intro" data-section-index="1" aria-label="サービス">
+      ${ambient("intro")}
+      ${flash()}
+      ${glow()}
+      ${deco("intro")}
+      ${o("section-inner")}
+        ${o("section-split section-split--intro")}
+          ${o("section-content intro-copy")}
+            <p class="section-label ui-label reveal-item" data-delay="0">Service</p>
+            <h2 class="section-title">
+              <span class="mask-title"><span>サービス</span></span>
+            </h2>
+            <p class="section-body reveal-item" data-delay="280">${svcLead}</p>
+${serviceMenuHtml}
+          ${c}
+          ${visual("intro")}
+        ${c}
+      ${c}
+    </section>
+${svcSection("01", "2", svc1, svc1Title)}
+${svcSection("02", "3", svc2, svc2Title)}
+${svcSection("03", "4", svc3, svc3Title)}
+    <section id="contact" class="section section--contact" data-section-index="5" aria-label="お問い合わせ">
+      ${ambient("contact")}
+      ${flash()}
+      ${glow()}
+      ${deco("beam")}
+      ${o("section-inner section-inner--contact")}
+        ${o("section-content contact-stack contact-stack--flow")}
+          ${o("contact-panel reveal-item", ' data-delay="120"')}
+            ${o("contact-panel__grid")}
+              ${o("contact-panel__lead")}
+                ${o("contact-copy")}
+                  <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
+                  <h2 class="section-title">
+                    <span class="mask-title"><span>お問い合わせ</span></span>
+                  </h2>
+                  <p class="section-body reveal-item" data-delay="200">${contactLead}</p>
+                ${c}
+              ${c}
+              ${o("contact-panel__aside")}
+                ${o("contact-lines reveal-item", ' data-delay="320"')}
+                  <dl class="contact-list">
+                    ${contactDl}
+                  </dl>
+                ${c}
+              ${c}
+            ${c}
+            ${o("contact-panel__foot")}
+              <footer class="site-footer section-footer reveal-item" data-delay="420">
+                ${o("footer-inner-wrap")}
+                  ${footerInner2}
+                ${c}
+              </footer>
+            ${c}
+          ${c}
+        ${c}
+      ${c}
+    </section>
+  </main>
+</body>
+</html>`;
+
+const fixed = html.replace(/<\/?motion\b[^>]*>/g, (tag) =>
+  tag.startsWith("</") ? c : tag.replace(/motion/, TAG)
+);
+
+writeFileSync(join(hp, "index.html"), fixed, "utf8");
+console.log("OK", fixed.includes("お問い合わせ"), fixed.includes("加井"), !fixed.includes("縺"), fixed.includes("scroll-cue"));

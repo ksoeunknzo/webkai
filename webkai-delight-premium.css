@@ -1,0 +1,371 @@
+/* Web Kai — premium delight (no content/logo changes) */
+
+:root {
+  --wk-border-angle: 0deg;
+  --wk-scroll-y: 0px;
+  --wk-cursor-x: 50%;
+  --wk-cursor-y: 50%;
+}
+
+/* Film grain + scanlines */
+html.wk-premium::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.045;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.55) 2px,
+    rgba(0, 0, 0, 0.55) 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+html.wk-premium::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9989;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+/* Custom cursor disabled — use system pointer */
+.wk-cursor-ball {
+  display: none !important;
+}
+
+.wk-particle-canvas {
+  display: none !important;
+}
+
+/* Chromatic chapter warp */
+html.wk-chapter-warp::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background:
+    linear-gradient(105deg, transparent 40%, rgba(34, 245, 208, 0.16) 49%, transparent 51%),
+    linear-gradient(103deg, transparent 40%, rgba(74, 143, 212, 0.1) 49.2%, transparent 50.8%),
+    linear-gradient(107deg, transparent 40%, rgba(184, 224, 112, 0.08) 50.5%, transparent 52%);
+  mix-blend-mode: screen;
+  animation: wkChromaticWarp 0.85s var(--wk-ease-spring, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+}
+
+@keyframes wkChromaticWarp {
+  0% {
+    opacity: 0;
+    transform: translate3d(-12%, 0, 0) scaleX(1.1);
+    filter: blur(6px);
+  }
+  28% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(14%, 0, 0) scaleX(1.05);
+    filter: blur(4px);
+  }
+}
+
+/* Void: hex discovery grid (right field) */
+.section.is-active:not(.section--contact)::after {
+  content: "";
+  position: absolute;
+  top: 12%;
+  right: 4%;
+  width: min(38vw, 420px);
+  height: min(72vh, 620px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(30deg, rgba(34, 245, 208, 0.07) 1px, transparent 1px),
+    linear-gradient(150deg, rgba(34, 245, 208, 0.07) 1px, transparent 1px);
+  background-size: 28px 48px;
+  mask-image: radial-gradient(ellipse 85% 75% at 55% 48%, #000 10%, transparent 72%);
+  animation: wkHexPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes wkHexPulse {
+  from {
+    opacity: 0.12;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0.28;
+    transform: translate3d(-8px, -12px, 0);
+  }
+}
+
+/* Iridescent rotating border on active panels */
+.section.is-active .cyber-panel,
+.section.is-active.section--service-intro .intro-copy,
+.section--contact.is-active .contact-panel {
+  isolation: isolate;
+}
+
+.section.is-active .cyber-panel,
+.section.is-active.section--service-intro .intro-copy,
+.section--contact.is-active .contact-panel {
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(34, 245, 208, 0.14),
+    inset 0 0 0 1px rgba(34, 245, 208, 0.06) !important;
+  animation: wkPanelAura 7s ease-in-out infinite alternate;
+}
+
+@keyframes wkPanelAura {
+  from {
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.34),
+      0 0 0 1px rgba(34, 245, 208, 0.12),
+      0 0 18px rgba(34, 245, 208, 0.04);
+  }
+  to {
+    box-shadow:
+      0 22px 52px rgba(0, 0, 0, 0.38),
+      0 0 0 1px rgba(34, 245, 208, 0.28),
+      0 0 32px rgba(74, 143, 212, 0.1);
+  }
+}
+
+/* Hero catchcopy: clean type (no ghost / glitch / gradient clip) */
+.section--hero.is-active .catchcopy .mask-title.is-shown > span {
+  color: var(--text-strong, #f4fffc) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
+  text-shadow: 0 0 22px rgba(34, 245, 208, 0.18);
+}
+
+/* Other section titles: soft shine only */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .section.is-active .mask-title.is-shown > span:not(.catchcopy-keep) {
+    background: linear-gradient(
+      120deg,
+      #f2fffc 0%,
+      #d4fff8 40%,
+      #f2fffc 100%
+    );
+    background-size: 180% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: wkTitleShine 8s ease-in-out infinite;
+  }
+}
+
+.section.is-active:not(.section--hero) .mask-title.is-shown > span {
+  filter: none !important;
+}
+
+@keyframes wkTitleShine {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Giant number: depth + scan */
+.section.is-active .giant-number {
+  animation:
+    wkGiantIn 1.15s var(--wk-ease-spring, cubic-bezier(0.16, 1, 0.3, 1)) both,
+    wkGiantScan 14s linear infinite;
+  background-size: 100% 200% !important;
+}
+
+@keyframes wkGiantScan {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+/* Scroll dock: energy packet */
+.scroll-dock.is-visible .scroll-dock__line {
+  position: relative;
+  overflow: visible;
+}
+
+.scroll-dock.is-visible .scroll-dock__line::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -20%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 245, 208, 0.95), rgba(34, 245, 208, 0.2) 55%, transparent 70%);
+  box-shadow: 0 0 16px rgba(34, 245, 208, 0.55);
+  animation: wkDockOrb 2.8s ease-in-out infinite;
+}
+
+@keyframes wkDockOrb {
+  0%,
+  100% {
+    top: -15%;
+    opacity: 0.35;
+  }
+  50% {
+    top: 88%;
+    opacity: 1;
+  }
+}
+
+body.is-chapter-changing .scroll-dock .scroll-dock__line::after {
+  animation-duration: 0.9s;
+}
+
+/* Service menu: magnetic glow trail */
+@media (hover: hover) {
+  .service-menu__link.wk-magnetic {
+    transition:
+      transform 0.2s var(--wk-ease-spring, cubic-bezier(0.16, 1, 0.3, 1)),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease !important;
+  }
+
+  .service-menu__link.wk-magnetic::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      120px circle at var(--wk-link-x, 50%) var(--wk-link-y, 50%),
+      rgba(34, 245, 208, 0.22),
+      transparent 65%
+    );
+    transition: opacity 0.35s ease;
+  }
+
+  .service-menu__link.wk-magnetic:hover::after,
+  .service-menu__link.wk-magnetic:focus-visible::after {
+    opacity: 1;
+  }
+}
+
+/* Hero visual: data beam */
+.section--hero.is-active .hero-visual__beam {
+  animation: wkDataBeam 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes wkDataBeam {
+  from {
+    opacity: 0.35;
+    transform: scaleY(0.92);
+  }
+  to {
+    opacity: 0.85;
+    transform: scaleY(1.04);
+  }
+}
+
+/* Contact void: soft constellation (no vertical beam) */
+.section--contact.is-active::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 18%;
+  right: 8%;
+  width: min(42vw, 480px);
+  height: min(65vh, 520px);
+  pointer-events: none;
+  opacity: 0.2;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(34, 245, 208, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 70% 22%, rgba(74, 143, 212, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 45% 68%, rgba(34, 245, 208, 0.4), transparent),
+    radial-gradient(1px 1px at 82% 55%, rgba(184, 224, 112, 0.35), transparent);
+  animation: wkConstellation 16s ease-in-out infinite alternate;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 15%, transparent 72%);
+}
+
+@keyframes wkConstellation {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(12px, -18px, 0) rotate(2deg);
+  }
+}
+
+/* Loading: orbital ring */
+.loading-screen__mark::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: rgba(34, 245, 208, 0.55);
+  border-right-color: rgba(74, 143, 212, 0.25);
+  animation: wkLoadOrbit 1.8s linear infinite;
+  pointer-events: none;
+}
+
+.loading-screen__mark {
+  position: relative;
+}
+
+@keyframes wkLoadOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Section label — no status dot */
+.section.is-active .section-label.ui-label::after {
+  display: none !important;
+  content: none !important;
+}
+
+@media (max-width: 900px) {
+  .section.is-active:not(.section--contact)::after {
+    opacity: 0.1;
+    width: 50vw;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.wk-premium::before,
+  html.wk-premium::after,
+  html.wk-chapter-warp::before,
+  .section.is-active:not(.section--contact)::after,
+  .section--contact.is-active::after,
+  .section.is-active .mask-title.is-shown > span,
+  .section.is-active .giant-number,
+  .scroll-dock.is-visible .scroll-dock__line::after,
+  .loading-screen__mark::before,
+  .section.is-active .section-label.ui-label::after,
+  .section--hero.is-active .hero-visual__beam {
+    animation: none !important;
+  }
+
+  .section.is-active .mask-title.is-shown > span {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    background: none !important;
+  }
+}

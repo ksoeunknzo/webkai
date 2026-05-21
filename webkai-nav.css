@@ -1,0 +1,176 @@
+/* Web Kai — header nav (loads last) */
+
+.site-header .header-inner {
+  align-items: center;
+}
+
+.site-nav {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 4px !important;
+  margin: 0 !important;
+  background: rgba(4, 10, 12, 0.72) !important;
+  border: 1px solid rgba(34, 245, 208, 0.18) !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(14px) saturate(1.12) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.12) !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    0 0 20px rgba(34, 245, 208, 0.06) !important;
+}
+
+.site-nav::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.5;
+  background: linear-gradient(
+    120deg,
+    rgba(34, 245, 208, 0.2),
+    transparent 40%,
+    transparent 60%,
+    rgba(74, 143, 212, 0.15)
+  );
+}
+
+.site-nav {
+  position: relative;
+}
+
+.site-nav .site-nav__link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  padding: 7px 14px !important;
+  margin: 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  font-family: var(--font-tech, "JetBrains Mono", monospace) !important;
+  font-size: 0.62rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  color: rgba(168, 210, 200, 0.78) !important;
+  text-shadow: none !important;
+  white-space: nowrap !important;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.site-nav .site-nav__link::after {
+  display: none !important;
+  content: none !important;
+}
+
+.site-nav .site-nav__link:hover,
+.site-nav .site-nav__link:focus-visible {
+  color: rgba(230, 255, 250, 0.95) !important;
+  border-color: rgba(34, 245, 208, 0.28) !important;
+  background: rgba(34, 245, 208, 0.08) !important;
+  box-shadow: 0 0 14px rgba(34, 245, 208, 0.12) !important;
+  transform: translateY(-1px) !important;
+}
+
+.site-nav .site-nav__link.is-active {
+  color: #e8fffc !important;
+  border-color: rgba(34, 245, 208, 0.45) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(34, 245, 208, 0.18),
+    rgba(34, 245, 208, 0.08)
+  ) !important;
+  box-shadow:
+    0 0 0 1px rgba(34, 245, 208, 0.12) inset,
+    0 0 18px rgba(34, 245, 208, 0.2) !important;
+}
+
+.site-nav .site-nav__link--top::before {
+  content: "▲";
+  margin-right: 0.45em;
+  font-size: 0.55rem;
+  opacity: 0.75;
+  transform: translateY(-0.05em);
+}
+
+.site-nav .site-nav__link--top.is-active::before {
+  opacity: 1;
+  color: rgba(34, 245, 208, 0.95);
+}
+
+.site-nav .site-nav__link.is-active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 4px;
+  height: 1px;
+  display: block !important;
+  background: linear-gradient(90deg, transparent, rgba(34, 245, 208, 0.9), transparent);
+  opacity: 1;
+  transform: none;
+}
+
+/* Divider between top and others */
+.site-nav .site-nav__link--top {
+  margin-right: 2px !important;
+  padding-right: 16px !important;
+  border-right: 1px solid rgba(34, 245, 208, 0.14) !important;
+  border-radius: 4px 0 0 4px !important;
+}
+
+.site-nav .site-nav__link:not(.site-nav__link--top) {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    padding: 10px !important;
+    min-width: 200px;
+    border-radius: 8px !important;
+    background: rgba(4, 10, 12, 0.94) !important;
+    border-color: rgba(34, 245, 208, 0.22) !important;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
+      0 16px 40px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(34, 245, 208, 0.08) !important;
+  }
+
+  .site-nav .site-nav__link {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    min-height: 40px !important;
+    padding: 10px 14px !important;
+    border-radius: 4px !important;
+    border-right: none !important;
+  }
+
+  .site-nav .site-nav__link--top {
+    margin-right: 0 !important;
+    padding-right: 14px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(34, 245, 208, 0.12) !important;
+    margin-bottom: 2px !important;
+    padding-bottom: 12px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .site-nav__link {
+    transition: color 0.2s ease, background 0.2s ease !important;
+  }
+}

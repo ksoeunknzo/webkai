@@ -1,0 +1,404 @@
+/* Web Kai — center section dock (cyber SCROLL + PREV/NEXT) */
+
+:root {
+  --scroll-dock-h: 138px;
+  --scroll-dock-offset: max(clamp(44px, 6.5vh, 80px), calc(env(safe-area-inset-bottom, 0px) + 24px));
+  --scroll-dock-bottom: var(--scroll-dock-offset);
+  --scroll-dock-reserve: calc(var(--scroll-dock-offset) + var(--scroll-dock-h) + 18px);
+  --scroll-cue-h: var(--scroll-dock-reserve);
+  --dock-cyan: #7ae8dc;
+  --dock-cyan-dim: rgba(122, 232, 220, 0.55);
+  --dock-glow: rgba(93, 255, 200, 0.35);
+}
+
+.section > .scroll-cue {
+  display: none !important;
+}
+
+.section {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.section-inner {
+  overflow-x: clip;
+}
+
+.chapter-nav,
+#chapter-nav {
+  display: none !important;
+}
+
+/* Unified column */
+.scroll-dock--global {
+  position: fixed;
+  left: 50%;
+  bottom: var(--scroll-dock-bottom);
+  transform: translate3d(-50%, 0, 0);
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 7px 10px calc(7px + env(safe-area-inset-bottom, 0px));
+  min-width: 0;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+}
+
+.scroll-dock--global::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: calc(100% - 8px);
+  transform: translate3d(-50%, -50%, 0);
+  background: linear-gradient(
+    180deg,
+    rgba(93, 255, 200, 0.08) 0%,
+    rgba(93, 255, 200, 0.22) 18%,
+    rgba(93, 255, 200, 0.28) 50%,
+    rgba(93, 255, 200, 0.22) 82%,
+    rgba(93, 255, 200, 0.08) 100%
+  );
+  opacity: 0.75;
+  pointer-events: none;
+  animation: scrollDockSpine 4s ease-in-out infinite;
+}
+
+.scroll-dock--global::after {
+  content: "";
+  position: absolute;
+  inset: -5px -14px;
+  border-radius: 999px;
+  background: rgba(6, 14, 16, 0.28);
+  border: 1px solid rgba(93, 255, 200, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.scroll-dock--global.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scroll-dock--global.is-visible:hover::after,
+.scroll-dock--global.is-visible:focus-within::after {
+  opacity: 1;
+  border-color: rgba(93, 255, 200, 0.14);
+  box-shadow: 0 0 32px rgba(93, 255, 200, 0.08);
+}
+
+body.is-intro-active .scroll-dock--global,
+body.is-intro-active .scroll-dock--global.is-visible {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.is-chapter-changing .scroll-dock--global.is-visible {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.scroll-dock__btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 10px;
+  min-width: 44px;
+  border: none;
+  background: transparent;
+  color: var(--dock-cyan-dim);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color 0.35s ease,
+    transform 0.35s ease,
+    text-shadow 0.35s ease;
+}
+
+.scroll-dock__btn::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0;
+  border-radius: 6px;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(93, 255, 200, 0.12), transparent 72%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.scroll-dock__btn:not(:disabled):not(.is-hidden):hover::before,
+.scroll-dock__btn:not(:disabled):not(.is-hidden):focus-visible::before {
+  opacity: 1;
+}
+
+.scroll-dock__btn:disabled,
+.scroll-dock__btn.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scroll-dock__arrow {
+  font-size: 0.78rem;
+  line-height: 1;
+  color: var(--dock-cyan);
+  text-shadow: 0 0 12px var(--dock-glow);
+  transition:
+    transform 0.45s ease,
+    color 0.35s ease,
+    text-shadow 0.35s ease;
+}
+
+.scroll-dock__btn--prev .scroll-dock__arrow {
+  animation: scrollDockArrowUpIdle 3s ease-in-out infinite;
+}
+
+.scroll-dock__arrow--main {
+  animation: scrollDockArrowDownIdle 3s ease-in-out infinite;
+}
+
+.scroll-dock__hint {
+  font-size: 0.48rem;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: rgba(122, 232, 220, 0.58);
+  transition: color 0.35s ease, letter-spacing 0.35s ease;
+}
+
+.scroll-dock__rail {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  margin: 1px 0;
+}
+
+.scroll-dock__track {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 34px;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(93, 255, 200, 0.04),
+    rgba(93, 255, 200, 0.35) 50%,
+    rgba(93, 255, 200, 0.04)
+  );
+  box-shadow: 0 0 16px rgba(93, 255, 200, 0.12);
+  animation: scrollDockTrack 3.6s ease-in-out infinite;
+}
+
+.scroll-dock__line {
+  display: block;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(180deg, var(--dock-cyan), rgba(93, 255, 200, 0.75));
+  box-shadow: 0 0 16px var(--dock-glow);
+  animation: scrollCueLine 2.2s ease-in-out infinite;
+}
+
+.scroll-dock.is-pulse-down .scroll-dock__line {
+  animation: scrollDockPulseDown 0.65s ease-out;
+}
+
+.scroll-dock.is-pulse-up .scroll-dock__line {
+  animation: scrollDockPulseUp 0.65s ease-out;
+}
+
+.scroll-dock.is-pulse-down .scroll-dock__arrow--main {
+  animation: scrollDockArrowDown 0.55s ease-out;
+}
+
+.scroll-dock.is-pulse-up .scroll-dock__btn--prev .scroll-dock__arrow {
+  animation: scrollDockArrowUp 0.55s ease-out;
+}
+
+@media (hover: hover) {
+  .scroll-dock__btn:not(:disabled):not(.is-hidden):hover {
+    color: var(--dock-cyan);
+  }
+
+  .scroll-dock__btn:not(:disabled):not(.is-hidden):hover .scroll-dock__hint {
+    color: rgba(122, 232, 220, 0.92);
+    letter-spacing: 0.42em;
+  }
+
+  .scroll-dock__btn--prev:not(:disabled):hover .scroll-dock__arrow {
+    text-shadow: 0 0 20px rgba(93, 255, 200, 0.55);
+  }
+
+  .scroll-dock__btn--next:not(:disabled):hover .scroll-dock__arrow--main {
+    text-shadow: 0 0 22px rgba(93, 255, 200, 0.6);
+  }
+
+  .scroll-dock--global:hover .scroll-dock__track {
+    box-shadow: 0 0 24px rgba(93, 255, 200, 0.2);
+  }
+}
+
+.scroll-dock__btn:focus-visible {
+  outline: 1px solid rgba(93, 255, 200, 0.45);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.scroll-dock--global.is-last .scroll-dock__rail,
+.scroll-dock--global.is-last .scroll-dock__btn--next {
+  display: none;
+}
+
+.scroll-dock--global.is-last::before {
+  height: 36%;
+  top: 62%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+@keyframes scrollDockSpine {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate3d(-50%, -50%, 0) scaleY(0.96);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(-50%, -50%, 0) scaleY(1.04);
+  }
+}
+
+@keyframes scrollDockTrack {
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleY(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes scrollDockArrowUpIdle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+@keyframes scrollDockArrowDownIdle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 4px, 0);
+  }
+}
+
+@keyframes scrollDockPulseDown {
+  0% {
+    transform: translate3d(0, -90%, 0);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate3d(0, 130%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes scrollDockPulseUp {
+  0% {
+    transform: translate3d(0, 90%, 0);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate3d(0, -130%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes scrollDockArrowDown {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+@keyframes scrollDockArrowUp {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --scroll-dock-h: 128px;
+    --scroll-dock-offset: max(clamp(40px, 7.5vh, 68px), calc(env(safe-area-inset-bottom, 0px) + 20px));
+  }
+
+  .scroll-dock__track {
+    height: 30px;
+  }
+
+  .scroll-dock__hint {
+    font-size: 0.44rem;
+    letter-spacing: 0.34em;
+  }
+}
+
+@media (max-height: 720px) {
+  :root {
+    --scroll-dock-h: 120px;
+    --scroll-dock-offset: max(clamp(36px, 8.5vh, 60px), calc(env(safe-area-inset-bottom, 0px) + 18px));
+  }
+
+  .scroll-dock__track {
+    height: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-dock__arrow--main,
+  .scroll-dock__btn--prev .scroll-dock__arrow,
+  .scroll-dock__track,
+  .scroll-dock__line,
+  .scroll-dock--global::before {
+    animation: none !important;
+  }
+}

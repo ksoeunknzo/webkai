@@ -1,0 +1,116 @@
+/* Web Kai — unified loading (loads last; overrides stacked intro FX) */
+
+.loading-screen__sweep {
+  display: none !important;
+}
+
+.loading-screen__mark::before {
+  display: none !important;
+  content: none !important;
+}
+
+.loading-screen__glow {
+  opacity: 0.55 !important;
+  animation: wkLoadGlow 2.8s ease-in-out infinite alternate !important;
+}
+
+.loading-screen__mark {
+  animation: wkLoadMarkIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both !important;
+  filter: none !important;
+}
+
+body.is-intro-active .loading-screen__mark,
+body.is-intro-active .loading-screen__sweep {
+  animation: none !important;
+}
+
+.loading-screen.is-sequence .loading-screen__mark {
+  animation: wkLoadMarkIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both !important;
+}
+
+.loading-screen__word {
+  opacity: 0 !important;
+  transform: translate3d(0, 8px, 0) !important;
+  animation: none !important;
+  text-shadow: 0 0 20px rgba(34, 245, 208, 0.25) !important;
+}
+
+.loading-screen.is-word-visible .loading-screen__word,
+.loading-screen.is-sequence .loading-screen__word {
+  animation: wkLoadWordIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards !important;
+}
+
+.loading-screen.is-exiting {
+  clip-path: inset(0 0 100% 0) !important;
+  transition:
+    clip-path 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease 0.18s !important;
+}
+
+.loading-screen.is-exiting .loading-screen__mark,
+.loading-screen.is-exiting .loading-screen__word,
+.loading-screen.is-exiting .loading-screen__glow {
+  animation: wkLoadFadeOut 0.5s ease forwards !important;
+}
+
+.loading-screen.is-hidden {
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+@keyframes wkLoadGlow {
+  from {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0.62;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes wkLoadMarkIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes wkLoadWordIn {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes wkLoadFadeOut {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen__glow,
+  .loading-screen__mark,
+  .loading-screen__word,
+  .loading-screen.is-exiting,
+  .loading-screen.is-exiting .loading-screen__mark {
+    animation: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+
+  .loading-screen__word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .loading-screen.is-exiting {
+    clip-path: none !important;
+    opacity: 0 !important;
+  }
+}

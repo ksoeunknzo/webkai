@@ -1,0 +1,126 @@
+/* Web Kai — logo mark → #7ae8dc cyan neon (sitewide, loads last) */
+
+:root {
+  --cy-logo-text: #6ec9be;
+  --cy-logo-mark: #58b5aa;
+}
+
+/* Recolor dark/maroon PNG → cyan (#7ae8dc family); vars cannot hold filter chains */
+img.brand-logo,
+img.brand-logo--hero,
+img.loading-screen__logo {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(72%)
+    sepia(42%)
+    saturate(2200%)
+    hue-rotate(124deg)
+    brightness(86%)
+    contrast(102%)
+    drop-shadow(0 0 10px rgba(106, 201, 190, 0.38))
+    drop-shadow(0 0 20px rgba(93, 255, 200, 0.14)) !important;
+  -webkit-filter:
+    brightness(0)
+    saturate(100%)
+    invert(72%)
+    sepia(42%)
+    saturate(2200%)
+    hue-rotate(124deg)
+    brightness(86%)
+    contrast(102%)
+    drop-shadow(0 0 10px rgba(106, 201, 190, 0.38))
+    drop-shadow(0 0 20px rgba(93, 255, 200, 0.14)) !important;
+}
+
+.site-header img.brand-logo,
+.footer-brand img.brand-logo {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(68%)
+    sepia(42%)
+    saturate(2100%)
+    hue-rotate(124deg)
+    brightness(82%)
+    contrast(102%)
+    drop-shadow(0 0 8px rgba(106, 201, 190, 0.32))
+    drop-shadow(0 0 16px rgba(93, 255, 200, 0.12)) !important;
+  -webkit-filter:
+    brightness(0)
+    saturate(100%)
+    invert(68%)
+    sepia(42%)
+    saturate(2100%)
+    hue-rotate(124deg)
+    brightness(82%)
+    contrast(102%)
+    drop-shadow(0 0 8px rgba(106, 201, 190, 0.32))
+    drop-shadow(0 0 16px rgba(93, 255, 200, 0.12)) !important;
+}
+
+.section--hero img.brand-logo--hero {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(74%)
+    sepia(44%)
+    saturate(2300%)
+    hue-rotate(124deg)
+    brightness(84%)
+    contrast(102%)
+    drop-shadow(0 0 10px rgba(106, 201, 190, 0.4))
+    drop-shadow(0 0 22px rgba(93, 255, 200, 0.15)) !important;
+  -webkit-filter:
+    brightness(0)
+    saturate(100%)
+    invert(74%)
+    sepia(44%)
+    saturate(2300%)
+    hue-rotate(124deg)
+    brightness(84%)
+    contrast(102%)
+    drop-shadow(0 0 10px rgba(106, 201, 190, 0.4))
+    drop-shadow(0 0 22px rgba(93, 255, 200, 0.15)) !important;
+}
+
+img.loading-screen__logo {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(72%)
+    sepia(42%)
+    saturate(2200%)
+    hue-rotate(124deg)
+    brightness(88%)
+    contrast(102%)
+    drop-shadow(0 0 12px rgba(106, 201, 190, 0.4))
+    drop-shadow(0 0 24px rgba(93, 255, 200, 0.14)) !important;
+  -webkit-filter:
+    brightness(0)
+    saturate(100%)
+    invert(72%)
+    sepia(42%)
+    saturate(2200%)
+    hue-rotate(124deg)
+    brightness(88%)
+    contrast(102%)
+    drop-shadow(0 0 12px rgba(106, 201, 190, 0.4))
+    drop-shadow(0 0 24px rgba(93, 255, 200, 0.14)) !important;
+}
+
+/* Parent filter must not cancel img recolor */
+.brand-mark--hero,
+.section--hero .brand-mark--hero {
+  filter: none !important;
+}
+
+.brand-mark > span,
+.brand-mark .trade-name,
+.loading-screen__word,
+.footer-brand > span {
+  color: var(--cy-logo-text) !important;
+  text-shadow:
+    0 0 12px rgba(106, 201, 190, 0.32),
+    0 0 22px rgba(93, 255, 200, 0.1) !important;
+}

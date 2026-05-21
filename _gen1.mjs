@@ -1,0 +1,17 @@
+import { readFileSync, writeFileSync } from "fs";
+import { join } from "path";
+const hp = process.argv[2];
+const D = "d" + "i" + "v";
+const o = (cls) => cls ? `<${D} class="${cls}">` : `<${D}>`;
+const c = `</${D}>`;
+const b = readFileSync(join(hp, "_backup/2026-05-15-0143/index.html"), "utf8");
+const rx = (p) => { const m = b.match(p); if (!m) throw new Error(String(p)); return m[1]; };
+const catchcopy = rx(/<span class="catchcopy-inner">([\s\S]*?)<\/span>/);
+const heroSummary = rx(/<div class="hero-summary business-text">([\s\S]*?)<\/div>/);
+const svcLead = rx(/<p class="section-lead business-text">([\s\S]*?)<\/p>/);
+const contactLead = [...b.matchAll(/<p class="section-lead business-text">([\s\S]*?)<\/p>/g)][1][1];
+const svc1 = rx(/<article class="service-item reveal">[\s\S]*?01<\/span>([\s\S]*?)<\/article>/);
+const svc2 = rx(/<article class="service-item reveal">[\s\S]*?02<\/span>([\s\S]*?)<\/article>/);
+const svc3 = rx(/<article class="service-item reveal">[\s\S]*?03<\/span>([\s\S]*?)<\/article>/);
+const contactDl = rx(/<dl class="contact-list reveal">([\s\S]*?)<\/dl>/);
+const footerInner = rx(/<footer class="site-footer">[\s\S]*?<motion>[\s\S]*?<div class="container footer-inner">([\s\S]*?)<\/div>[\s\S]*?<\/footer>/);

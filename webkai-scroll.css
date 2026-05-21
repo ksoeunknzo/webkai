@@ -1,0 +1,64 @@
+/* Web Kai — scroll behavior only (loads after polish.css) */
+
+:root {
+  --scroll-pad-top: var(--header-h);
+}
+
+html {
+  scroll-padding-top: var(--scroll-pad-top);
+  scroll-padding-bottom: 0;
+  scroll-snap-type: none !important;
+}
+
+/* One viewport per chapter; padding included in height (no extra dead zone) */
+.section {
+  box-sizing: border-box;
+  min-height: 100svh;
+  min-height: 100dvh;
+  justify-content: flex-start !important;
+  align-items: stretch;
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal;
+  scroll-margin-top: var(--scroll-pad-top);
+  scroll-margin-bottom: 0;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  padding-top: calc(var(--header-h) + 20px);
+  padding-bottom: var(--scroll-dock-reserve, var(--scroll-cue-h));
+}
+
+.section--hero {
+  justify-content: center !important;
+}
+
+.section--service-intro .section-inner,
+.section--service .section-inner {
+  display: block !important;
+  min-height: auto !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+}
+
+.section--service-intro .section-split--intro {
+  align-items: start !important;
+}
+
+/* Contact vertical balance — webkai-contact.css */
+
+.site-scroll {
+  padding-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .section:not(.section--contact) {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 901px) {
+  .section:not(.section--contact) {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+}

@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="Web Kai（加井 航貴）の事業紹介サイト。Webサイト制作、業務システム開発、IT活用支援を行う個人事業です。">
+  <title>Web Kai | 加井 航貴</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=IBM+Plex+Mono:wght@300;400&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=Noto+Sans+JP:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" id="wk-css-base">
+  <link rel="stylesheet" href="webkai-panels.css" id="wk-css-panels">
+  <link rel="stylesheet" href="webkai-layout.css" id="wk-css-layout">
+  <link rel="stylesheet" href="webkai-cyber.css" id="wk-css-cyber">
+  <link rel="stylesheet" href="webkai-hero.css" id="wk-css-hero">
+  <link rel="stylesheet" href="webkai-polish.css" id="wk-css-polish">
+  <link rel="stylesheet" href="webkai-scroll.css" id="wk-css-scroll">
+  <link rel="stylesheet" href="webkai-scroll-cue.css" id="wk-css-scroll-cue">
+  <link rel="stylesheet" href="webkai-contact.css" id="wk-css-contact">
+  <link rel="stylesheet" href="webkai-logo.css" id="wk-css-logo">
+  <link rel="stylesheet" href="webkai-hero-card.css" id="wk-css-hero-card">
+  <link rel="stylesheet" href="webkai-chapter-nav.css" id="wk-css-chapter-nav">
+  <link rel="stylesheet" href="webkai-polish-pass.css" id="wk-css-polish-pass">
+  <link rel="stylesheet" href="webkai-type-color.css" id="wk-css-type-color">
+  <link rel="stylesheet" href="webkai-layout-system.css" id="wk-css-layout-system">
+  <link rel="stylesheet" href="webkai-section-light.css" id="wk-css-section-light">
+  <link rel="stylesheet" href="webkai-scale.css" id="wk-css-scale">
+  <link rel="stylesheet" href="webkai-contact-fix.css" id="wk-css-contact-fix">
+  <link rel="stylesheet" href="webkai-contact-compact.css" id="wk-css-contact-compact">
+  <link rel="stylesheet" href="webkai-delight.css" id="wk-css-delight">
+  <link rel="stylesheet" href="webkai-delight-premium.css" id="wk-css-delight-premium">
+  <link rel="stylesheet" href="webkai-cinematic.css" id="wk-css-cinematic">
+  <link rel="stylesheet" href="webkai-nav.css" id="wk-css-nav">
+  <link rel="stylesheet" href="webkai-loading.css" id="wk-css-loading">
+  <link rel="stylesheet" href="webkai-refine.css" id="wk-css-refine">
+  <script>
+    (function () {
+      var isFile = location.protocol === "file:";
+      var v = String(Date.now());
+      if (isFile) {
+        document.getElementById("wk-css-base").href = "styles.css?v=" + v;
+        document.getElementById("wk-css-panels").href = "webkai-panels.css?v=" + v;
+        document.getElementById("wk-css-layout").href = "webkai-layout.css?v=" + v;
+        document.getElementById("wk-css-cyber").href = "webkai-cyber.css?v=" + v;
+        document.getElementById("wk-css-hero").href = "webkai-hero.css?v=" + v;
+        document.getElementById("wk-css-polish").href = "webkai-polish.css?v=" + v;
+        document.getElementById("wk-css-scroll").href = "webkai-scroll.css?v=" + v;
+        document.getElementById("wk-css-scroll-cue").href = "webkai-scroll-cue.css?v=" + v;
+        document.getElementById("wk-css-contact").href = "webkai-contact.css?v=" + v;
+        document.getElementById("wk-css-logo").href = "webkai-logo.css?v=" + v;
+        document.getElementById("wk-css-hero-card").href = "webkai-hero-card.css?v=" + v;
+        document.getElementById("wk-css-chapter-nav").href = "webkai-chapter-nav.css?v=" + v;
+        document.getElementById("wk-css-polish-pass").href = "webkai-polish-pass.css?v=" + v;
+        document.getElementById("wk-css-type-color").href = "webkai-type-color.css?v=" + v;
+        document.getElementById("wk-css-layout-system").href = "webkai-layout-system.css?v=" + v;
+        document.getElementById("wk-css-section-light").href = "webkai-section-light.css?v=" + v;
+        document.getElementById("wk-css-scale").href = "webkai-scale.css?v=" + v;
+        document.getElementById("wk-css-contact-fix").href = "webkai-contact-fix.css?v=" + v;
+        document.getElementById("wk-css-contact-compact").href = "webkai-contact-compact.css?v=" + v;
+        document.getElementById("wk-css-delight").href = "webkai-delight.css?v=" + v;
+        document.getElementById("wk-css-delight-premium").href = "webkai-delight-premium.css?v=" + v;
+        document.getElementById("wk-css-cinematic").href = "webkai-cinematic.css?v=" + v;
+        document.getElementById("wk-css-nav").href = "webkai-nav.css?v=" + v;
+        document.getElementById("wk-css-loading").href = "webkai-loading.css?v=" + v;
+        document.getElementById("wk-css-refine").href = "webkai-refine.css?v=" + v;
+      }
+      var s = document.createElement("script");
+      s.defer = true;
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531c";
+      document.head.appendChild(s);
+      var d = document.createElement("script");
+      d.defer = true;
+      d.src = isFile ? "webkai-delight.js?v=" + v : "webkai-delight.js?v=20260530a";
+      document.head.appendChild(d);
+      var c = document.createElement("script");
+      c.defer = true;
+      c.src = isFile ? "webkai-cinematic.js?v=" + v : "webkai-cinematic.js?v=20260530b";
+      document.head.appendChild(c);
+    })();
+  </script>
+</head>
+<body class="is-intro-active" data-section-theme="hero">
+  <div class="loading-screen" data-intro aria-hidden="false">
+    <div class="loading-screen__base"></div>
+    <div class="loading-screen__glow iridescent-bg"></div>
+    <div class="loading-screen__mark">
+      <span class="loading-screen__sweep" aria-hidden="true"></span>
+      <img class="loading-screen__logo" src="logo.png" width="96" height="96" alt="" decoding="async">
+      <span class="loading-screen__word">Web Kai</span>
+    </div>
+  </div>
+
+  <div class="iridescent-bg bg-world" aria-hidden="true">
+    <div class="bg-layer bg-layer--a"></div>
+    <div class="bg-layer bg-layer--b"></div>
+    <div class="bg-layer bg-layer--c"></div>
+    <div class="bg-city"></div>
+    <div class="bg-lights"></div>
+    <div class="bg-fog"></div>
+    <div class="bg-fog bg-fog--alt"></div>
+    <div class="bg-film"></div>
+    <div class="bg-beam"></div>
+    <div class="bg-noise"></div>
+  </div>
+
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand brand-mark" href="#top" data-goto-section="0">
+        <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
+        <span>Web Kai</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">メニュー</button>
+      <nav id="site-nav" class="site-nav" aria-label="ページ内メニュー">
+        <a href="#top" data-goto-section="0" class="site-nav__link site-nav__link--top">ページトップ</a>
+        <a href="#service" data-goto-section="1" class="site-nav__link">サービス</a>
+        <a href="#contact" data-goto-section="5" class="site-nav__link">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="scroll-dock scroll-dock--global" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
+    <button type="button" class="scroll-dock__btn scroll-dock__btn--prev" id="chapter-prev" aria-label="前のセクションへ" disabled>
+      <span class="scroll-dock__arrow" aria-hidden="true">↑</span>
+      <span class="scroll-dock__hint ui-label">Prev</span>
+    </button>
+    <div class="scroll-dock__rail" aria-hidden="true">
+      <span class="scroll-dock__track"><span class="scroll-dock__line"></span></span>
+    </div>
+    <button type="button" class="scroll-dock__btn scroll-dock__btn--next" id="chapter-next" aria-label="次のセクションへ">
+      <span class="scroll-dock__arrow scroll-dock__arrow--main" aria-hidden="true">↓</span>
+      <span class="scroll-dock__hint ui-label" id="scroll-dock-label">Scroll</span>
+    </button>
+  </nav>
+
+  <main class="site-scroll" id="main">
+    <section id="top" class="section section--hero" data-section-index="0" aria-label="ファーストビュー">
+      <div class="section-ambient section-ambient--hero" aria-hidden="true"></div>
+      <div class="section-flash" aria-hidden="true"></div>
+      <div class="section-glow" aria-hidden="true"></div>
+      <div class="section-deco section-deco--hero" aria-hidden="true"></div>
+      <div class="section-inner section-inner--hero">
+        <div class="section-split section-split--hero">
+          <div class="section-content section-content--brand hero-side reveal-item" data-delay="180">
+            <div class="brand-mark brand-mark--hero">
+              <img class="brand-logo brand-logo--hero" src="logo.png" width="88" height="88" alt="Web Kai ロゴ" decoding="async">
+              <p class="trade-name">Web Kai</p>
+            </div>
+            <p class="owner-name business-text"><span class="owner-role">代表</span><span class="owner-name-text">加井 航貴</span></p>
+          </div>
+          <div class="section-content section-content--hero hero-main">
+            <h1 class="catchcopy business-text">
+              <span class="mask-title mask-title--hero"><span>Webサイト制作と<br><span class="phrase-keep catchcopy-keep">業務システム・ツール開発</span></span></span>
+            </h1>
+            <div class="hero-lead business-text reveal-item" data-delay="520">
+              
+            <p>Web Kaiは、Webサイト制作、業務システム・ツール開発、IT活用の相談に対応する個人事業です。</p>
+            <p>事業内容や業務の流れを確認しながら、<wbr>必要なWebサイトや管理ツールの制作を<span class="phrase-keep">行っています。</span></p>
+          
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+      <span class="hero-visual__beam"></span>
+      <div class="hero-visual__panel">
+        <span class="hero-visual__grid"></span>
+        <span class="hero-visual__ring"></span>
+        <span class="hero-visual__ring hero-visual__ring--b"></span>
+        <span class="hero-visual__city"></span>
+        <span class="hero-visual__nodes"><i></i><i></i><i></i></span>
+      </div>
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="service" class="section section--service-intro" data-section-index="1" aria-label="サービス">
+      <div class="section-ambient section-ambient--intro" aria-hidden="true"></div>
+      <div class="section-flash" aria-hidden="true"></div>
+      <div class="section-glow" aria-hidden="true"></div>
+      <div class="section-deco section-deco--intro" aria-hidden="true"></div>
+      <div class="section-inner">
+        <div class="section-split section-split--intro">
+          <div class="section-content intro-copy">
+            <p class="section-label ui-label reveal-item" data-delay="0">Service</p>
+            <h2 class="section-title">
+              <span class="mask-title"><span>サービス</span></span>
+            </h2>
+            <p class="section-body reveal-item" data-delay="280">対応している主な内容です。</p>
+<ul class="service-menu reveal-item" data-delay="360">
+          <li class="service-menu__item reveal-item" data-delay="400">
+            <a class="service-menu__link" href="#service-01" data-goto-section="2">
+              <span class="service-menu__num ui-label">01</span>
+              <span class="service-menu__title business-text">Webサイト制作</span>
+              <span class="service-menu__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li class="service-menu__item reveal-item" data-delay="480">
+            <a class="service-menu__link" href="#service-02" data-goto-section="3">
+              <span class="service-menu__num ui-label">02</span>
+              <span class="service-menu__title business-text">業務システム・ツール開発</span>
+              <span class="service-menu__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li class="service-menu__item reveal-item" data-delay="560">
+            <a class="service-menu__link" href="#service-03" data-goto-section="4">
+              <span class="service-menu__num ui-label">03</span>
+              <span class="service-menu__title business-text">業務整理・IT活用</span>
+              <span class="service-menu__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+</ul>
+          </div>
+          <div class="section-visual section-visual--intro" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+<section class="section section--service section--service-01" id="service-01" data-section-index="2" aria-label="Webサイト制作">
+<div class="section-ambient section-ambient--svc01" aria-hidden="true"></div>
+<div class="section-flash" aria-hidden="true"></div>
+<div class="section-glow" aria-hidden="true"></div>
+<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+<span class="giant-number" aria-hidden="true">01</span>
+<div class="section-inner">
+<div class="section-content section-content--service cyber-panel">
+<div class="section-service-head">
+<span class="section-service-num ui-label reveal-item" data-delay="0">01</span>
+<h2 class="section-title">
+<span class="mask-title"><span>Webサイト制作</span></span>
+</h2>
+</div>
+<div class="section-body business-text reveal-item" data-delay="320">
+              <p>事業内容や目的に合わせて、見やすく分かりやすいWebサイトを制作します。</p>
+              <p>情報整理、構成設計、デザイン、公開まで対応します。</p>
+            </div>
+</div>
+</div>
+</section>
+<section class="section section--service section--service-02" id="service-02" data-section-index="3" aria-label="業務システム・ツール開発">
+<div class="section-ambient section-ambient--svc02" aria-hidden="true"></div>
+<div class="section-flash" aria-hidden="true"></div>
+<div class="section-glow" aria-hidden="true"></div>
+<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+<span class="giant-number" aria-hidden="true">02</span>
+<div class="section-inner">
+<div class="section-content section-content--service cyber-panel">
+<div class="section-service-head">
+<span class="section-service-num ui-label reveal-item" data-delay="0">02</span>
+<h2 class="section-title">
+<span class="mask-title"><span>業務システム・ツール開発</span></span>
+</h2>
+</div>
+<div class="section-body business-text reveal-item" data-delay="320">
+              <p>日々の業務に合わせて、管理表や社内ツール、簡易システムを制作します。</p>
+              <p>手作業の削減や、情報を確認しやすくする仕組みづくりに対応します。</p>
+            </div>
+</div>
+</div>
+</section>
+<section class="section section--service section--service-03" id="service-03" data-section-index="4" aria-label="業務整理・IT活用">
+<div class="section-ambient section-ambient--svc03" aria-hidden="true"></div>
+<div class="section-flash" aria-hidden="true"></div>
+<div class="section-glow" aria-hidden="true"></div>
+<div class="section-deco section-deco--beam" aria-hidden="true"></div>
+<span class="giant-number" aria-hidden="true">03</span>
+<div class="section-inner">
+<div class="section-content section-content--service cyber-panel">
+<div class="section-service-head">
+<span class="section-service-num ui-label reveal-item" data-delay="0">03</span>
+<h2 class="section-title">
+<span class="mask-title"><span>業務整理・IT活用</span></span>
+</h2>
+</div>
+<div class="section-body business-text reveal-item" data-delay="320">
+              <p>現在の業務フローや情報管理を見直し、<span class="phrase-keep">ITを</span>活用した改善案の整理・実装を<span class="phrase-keep">行います。</span></p>
+              <p>Excel、スプレッドシート、各種ツールの活用も含めて対応します。</p>
+            </div>
+</div>
+</div>
+</section>
+    <section id="contact" class="section section--contact" data-section-index="5" aria-label="お問い合わせ">
+      <div class="section-ambient section-ambient--contact" aria-hidden="true"></div>
+      <div class="section-flash" aria-hidden="true"></div>
+      <div class="section-glow" aria-hidden="true"></div>
+      <div class="section-deco section-deco--beam" aria-hidden="true"></div>
+      <div class="section-inner section-inner--contact">
+        <div class="section-content contact-stack contact-stack--flow">
+          <div class="contact-panel reveal-item" data-delay="120">
+            <div class="contact-panel__grid">
+              <div class="contact-panel__lead">
+                <div class="contact-copy">
+                  <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
+                  <h2 class="section-title">
+                    <span class="mask-title"><span>お問い合わせ</span></span>
+                  </h2>
+                  <p class="section-body reveal-item" data-delay="200">Webサイト制作や業務ツール開発に関するご相談は、メールにてご連絡ください。内容を確認したうえで、対応可否や進め方をご案内します。</p>
+                </div>
+              </div>
+              <div class="contact-panel__aside">
+                <div class="contact-lines reveal-item" data-delay="320">
+                  <dl class="contact-list">
+                    
+          <div class="contact-item contact-item--primary">
+            <dt>メールアドレス</dt>
+            <dd><a class="contact-link contact-link--email business-text" href="mailto:koki.kai@autodevjapan.com">koki.kai@autodevjapan.com</a></dd>
+          </div>
+          <div class="contact-item">
+            <dt>電話番号</dt>
+            <dd><a class="contact-link business-text" href="tel:08027463635">080-2746-3635</a></dd>
+          </div>
+        
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="contact-panel__foot">
+              <footer class="site-footer section-footer reveal-item" data-delay="420">
+                <div class="footer-inner-wrap">
+                  
+      <p class="footer-brand brand-mark brand-mark--footer">
+        <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
+        <span>Web Kai</span>
+      </p>
+      <p class="footer-name business-text">代表　加井 航貴</p>
+      <p class="footer-scope business-text">Webサイト制作 / 業務システム開発 / IT活用支援</p>
+      <p class="footer-copy">© 2026 Web Kai</p>
+    
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

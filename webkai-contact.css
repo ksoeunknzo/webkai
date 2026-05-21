@@ -1,0 +1,44 @@
+/* Web Kai — contact section layout */
+
+.section--contact {
+  box-sizing: border-box;
+  min-height: 100svh;
+  min-height: 100dvh;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  padding-top: calc(var(--header-h) + var(--layout-header-gap, 28px)) !important;
+  padding-bottom: calc(var(--scroll-dock-reserve) + clamp(32px, 5vh, 56px)) !important;
+  scroll-margin-bottom: calc(var(--scroll-dock-reserve) + 24px);
+}
+
+.section--contact .section-inner,
+.section--contact .section-inner--contact {
+  display: flex !important;
+  flex: 0 1 auto;
+  width: 100%;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  padding-top: clamp(12px, 2vh, 20px) !important;
+  padding-bottom: clamp(12px, 2vh, 20px) !important;
+}
+
+.section--contact .contact-stack--flow {
+  width: 100%;
+  margin: 0;
+  transform: none !important;
+}
+
+@media (max-width: 900px) {
+  .section--contact .section-inner--contact {
+    padding-top: clamp(8px, 1.5vh, 14px) !important;
+  }
+}
+
+@media (max-height: 760px) {
+  .section--contact {
+    min-height: auto !important;
+  }
+}

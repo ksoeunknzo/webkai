@@ -1,0 +1,392 @@
+/* Web Kai — section light palette & per-chapter atmosphere (loads last) */
+
+:root {
+  --accent: #22f5d0;
+  --accent-blue: #4a8fd4;
+  --accent-blue-deep: rgba(45, 95, 175, 0.55);
+  --accent-lime: #b8e070;
+  --accent-lime-soft: rgba(184, 224, 112, 0.45);
+  --accent-amber: #e0c080;
+  --accent-amber-soft: rgba(224, 192, 128, 0.4);
+  --glow-cyan: rgba(34, 245, 208, 0.18);
+  --glow-blue: rgba(74, 143, 212, 0.14);
+  --glow-lime: rgba(184, 224, 112, 0.1);
+  --glow-amber: rgba(224, 192, 128, 0.1);
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 88% 52% at 50% 108%, rgba(8, 42, 52, 0.55), transparent 62%),
+    radial-gradient(ellipse 44% 36% at 90% 16%, var(--glow-blue), transparent 58%),
+    radial-gradient(ellipse 40% 34% at 6% 74%, var(--glow-cyan), transparent 55%),
+    linear-gradient(180deg, #000807 0%, #020b0a 38%, #031218 72%, #020a12 100%) !important;
+}
+
+.bg-layer--a,
+.bg-layer--b,
+.bg-layer--c,
+.bg-beam,
+.bg-film {
+  transition:
+    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    background 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Global bg shifts with active section */
+body[data-section-theme="hero"] .bg-layer--a {
+  opacity: 0.64 !important;
+}
+
+body[data-section-theme="hero"] .bg-beam {
+  background:
+    linear-gradient(102deg, transparent 36%, rgba(34, 245, 208, 0.16) 49.5%, transparent 50.5%),
+    linear-gradient(75deg, transparent 54%, rgba(34, 245, 208, 0.1) 58%, transparent 60%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 88px,
+      rgba(34, 245, 208, 0.05) 88px,
+      rgba(34, 245, 208, 0.09) 89px
+    ) !important;
+}
+
+body[data-section-theme="service"] .bg-layer--b {
+  opacity: 0.48 !important;
+  background: linear-gradient(
+    118deg,
+    transparent 8%,
+    rgba(74, 143, 212, 0.14) 30%,
+    rgba(34, 245, 208, 0.18) 42%,
+    rgba(45, 95, 175, 0.1) 50%,
+    transparent 64%
+  ) !important;
+}
+
+body[data-section-theme="svc01"] .bg-layer--c {
+  opacity: 0.42 !important;
+  background:
+    radial-gradient(ellipse at 38% 38%, rgba(34, 245, 208, 0.2), transparent 58%),
+    radial-gradient(ellipse at 74% 62%, var(--glow-lime), transparent 62%) !important;
+}
+
+body[data-section-theme="svc02"] .bg-layer--a {
+  opacity: 0.58 !important;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 32px,
+      rgba(74, 143, 212, 0.03) 32px,
+      rgba(74, 143, 212, 0.06) 33px
+    ),
+    conic-gradient(
+      from 210deg at 40% 44%,
+      rgba(8, 14, 20, 0.9) 0deg,
+      rgba(34, 245, 208, 0.2) 48deg,
+      rgba(74, 143, 212, 0.22) 108deg,
+      rgba(20, 50, 55, 0.35) 260deg,
+      rgba(6, 12, 16, 0.88) 360deg
+    ) !important;
+}
+
+body[data-section-theme="svc03"] .bg-layer--b {
+  opacity: 0.46 !important;
+  background: linear-gradient(
+    125deg,
+    transparent 12%,
+    rgba(224, 192, 128, 0.1) 34%,
+    rgba(34, 245, 208, 0.14) 44%,
+    transparent 62%
+  ) !important;
+}
+
+body[data-section-theme="contact"] .bg-layer--c {
+  opacity: 0.44 !important;
+  background:
+    radial-gradient(ellipse at 70% 48%, rgba(34, 245, 208, 0.22), transparent 58%),
+    radial-gradient(ellipse at 22% 62%, rgba(10, 40, 45, 0.5), transparent 62%) !important;
+}
+
+body[data-section-theme="contact"] .bg-beam {
+  opacity: 0.62 !important;
+}
+
+/* --- Section ambient (per chapter) --------------------------------------- */
+
+.section-ambient--hero {
+  background:
+    radial-gradient(ellipse 72% 58% at 76% 26%, rgba(34, 245, 208, 0.24), transparent 58%),
+    radial-gradient(ellipse 50% 44% at 12% 70%, rgba(34, 245, 208, 0.1), transparent 55%),
+    radial-gradient(ellipse 40% 35% at 88% 78%, var(--glow-lime), transparent 58%),
+    linear-gradient(112deg, transparent 38%, rgba(34, 245, 208, 0.06) 50%, transparent 58%) !important;
+}
+
+.section-ambient--intro {
+  background:
+    radial-gradient(ellipse 64% 52% at 86% 34%, rgba(74, 143, 212, 0.16), transparent 58%),
+    radial-gradient(ellipse 54% 46% at 16% 62%, rgba(34, 245, 208, 0.12), transparent 55%),
+    linear-gradient(108deg, transparent 40%, rgba(45, 95, 175, 0.06) 48%, rgba(34, 245, 208, 0.05) 54%, transparent 62%) !important;
+}
+
+.section-ambient--svc01 {
+  background:
+    radial-gradient(ellipse 70% 54% at 82% 30%, rgba(34, 245, 208, 0.2), transparent 58%),
+    radial-gradient(ellipse 48% 42% at 18% 72%, var(--glow-lime), transparent 56%),
+    linear-gradient(165deg, transparent 55%, rgba(184, 224, 112, 0.04) 62%, transparent 70%) !important;
+}
+
+.section-ambient--svc02 {
+  background:
+    radial-gradient(ellipse 58% 48% at 22% 34%, rgba(74, 143, 212, 0.14), transparent 55%),
+    radial-gradient(ellipse 66% 52% at 84% 66%, rgba(34, 245, 208, 0.12), transparent 58%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 26px,
+      rgba(74, 143, 212, 0.028) 26px,
+      rgba(74, 143, 212, 0.055) 27px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 34px,
+      rgba(34, 245, 208, 0.02) 34px,
+      rgba(34, 245, 208, 0.045) 35px
+    ) !important;
+}
+
+.section-ambient--svc03 {
+  background:
+    radial-gradient(ellipse 66% 52% at 74% 56%, var(--glow-amber), transparent 56%),
+    radial-gradient(ellipse 52% 44% at 24% 26%, rgba(34, 245, 208, 0.14), transparent 55%),
+    linear-gradient(118deg, transparent 42%, rgba(224, 192, 128, 0.05) 52%, transparent 60%) !important;
+}
+
+.section-ambient--contact {
+  background:
+    radial-gradient(ellipse 62% 50% at 82% 46%, rgba(34, 245, 208, 0.2), transparent 58%),
+    radial-gradient(ellipse 55% 46% at 20% 40%, rgba(34, 245, 208, 0.08), transparent 54%),
+    radial-gradient(ellipse 38% 32% at 50% 88%, rgba(10, 36, 42, 0.35), transparent 58%) !important;
+}
+
+/* --- Section glow overlay ------------------------------------------------ */
+
+.section--hero.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 78% 62% at 68% 32%, var(--glow-cyan), transparent 56%),
+    radial-gradient(ellipse 48% 42% at 14% 72%, rgba(34, 245, 208, 0.08), transparent 52%) !important;
+  opacity: 0.78 !important;
+}
+
+.section--service-intro.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 72% 58% at 52% 28%, var(--glow-blue), transparent 58%),
+    radial-gradient(ellipse 58% 48% at 88% 62%, var(--glow-cyan), transparent 55%) !important;
+  opacity: 0.72 !important;
+}
+
+.section--service-01.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 68% 54% at 78% 38%, var(--glow-cyan), transparent 56%),
+    radial-gradient(ellipse 44% 40% at 16% 68%, var(--glow-lime), transparent 54%) !important;
+}
+
+.section--service-02.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 62% 52% at 24% 36%, var(--glow-blue), transparent 55%),
+    radial-gradient(ellipse 58% 48% at 82% 58%, var(--glow-cyan), transparent 56%) !important;
+}
+
+.section--service-03.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 64% 50% at 70% 58%, var(--glow-amber), transparent 56%),
+    radial-gradient(ellipse 50% 44% at 28% 30%, var(--glow-cyan), transparent 54%) !important;
+}
+
+.section--contact.is-active .section-glow {
+  background:
+    radial-gradient(ellipse 66% 54% at 78% 48%, rgba(34, 245, 208, 0.22), transparent 58%),
+    radial-gradient(ellipse 52% 46% at 22% 36%, rgba(34, 245, 208, 0.08), transparent 54%) !important;
+  opacity: 0.8 !important;
+}
+
+/* --- Section deco / HUD (accent tint per chapter) -------------------------- */
+
+.section-deco--hero::after {
+  background:
+    radial-gradient(ellipse 68% 58% at 58% 42%, rgba(34, 245, 208, 0.14), transparent 68%),
+    radial-gradient(ellipse 42% 38% at 82% 68%, var(--glow-lime), transparent 62%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 64px,
+      rgba(34, 245, 208, 0.028) 64px,
+      rgba(34, 245, 208, 0.055) 65px
+    ) !important;
+}
+
+.section-deco--intro::before {
+  background: linear-gradient(180deg, transparent, rgba(74, 143, 212, 0.32), rgba(34, 245, 208, 0.2), transparent) !important;
+  box-shadow: 0 0 24px var(--glow-blue) !important;
+}
+
+.section-deco--intro::after {
+  color: rgba(74, 143, 212, 0.16) !important;
+}
+
+.section--service-intro .section-visual--intro::before {
+  border-color: rgba(74, 143, 212, 0.12) !important;
+  box-shadow:
+    0 0 0 1px rgba(74, 143, 212, 0.05),
+    inset 0 0 48px rgba(34, 245, 208, 0.04) !important;
+}
+
+.section--service-intro .section-visual--intro::after {
+  color: rgba(74, 143, 212, 0.14) !important;
+}
+
+.section--service-01 .section-deco--beam::before {
+  background:
+    linear-gradient(rgba(34, 245, 208, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 245, 208, 0.05) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 60% at 50% 50%, var(--glow-lime), transparent 72%) !important;
+}
+
+.section--service-01 .section-deco--beam::after {
+  color: rgba(184, 224, 112, 0.14) !important;
+}
+
+.section--service-02 .section-deco--beam::before {
+  background:
+    linear-gradient(rgba(74, 143, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 143, 212, 0.05) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 60% at 50% 50%, var(--glow-blue), transparent 72%) !important;
+  background-size: 22px 22px, 22px 22px, 100% 100% !important;
+}
+
+.section--service-02 .section-deco--beam::after {
+  color: rgba(74, 143, 212, 0.15) !important;
+}
+
+.section--service-03 .section-deco--beam::before {
+  background:
+    linear-gradient(rgba(34, 245, 208, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(224, 192, 128, 0.04) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 60% at 50% 50%, var(--glow-amber), transparent 72%) !important;
+}
+
+.section--service-03 .section-deco--beam::after {
+  color: rgba(224, 192, 128, 0.14) !important;
+}
+
+.section--contact .section-deco--beam::before {
+  background:
+    linear-gradient(rgba(34, 245, 208, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 245, 208, 0.04) 1px, transparent 1px),
+    radial-gradient(ellipse 75% 65% at 55% 50%, rgba(34, 245, 208, 0.08), transparent 72%) !important;
+}
+
+.section--contact .section-deco--beam::after {
+  color: rgba(34, 245, 208, 0.16) !important;
+}
+
+/* Giant numbers — chapter tint */
+.section--service-01 .giant-number {
+  background: linear-gradient(
+    180deg,
+    rgba(34, 245, 208, 0.16) 0%,
+    rgba(184, 224, 112, 0.06) 100%
+  ) !important;
+}
+
+.section--service-02 .giant-number {
+  background: linear-gradient(
+    180deg,
+    rgba(74, 143, 212, 0.14) 0%,
+    rgba(34, 245, 208, 0.05) 100%
+  ) !important;
+}
+
+.section--service-03 .giant-number {
+  background: linear-gradient(
+    180deg,
+    rgba(224, 192, 128, 0.12) 0%,
+    rgba(34, 245, 208, 0.05) 100%
+  ) !important;
+}
+
+/* Global HUD overlay — multi-tone (still very subtle) */
+.bg-world::after {
+  background:
+    radial-gradient(ellipse 36% 28% at 78% 20%, var(--glow-cyan), transparent 70%),
+    radial-gradient(ellipse 28% 24% at 12% 82%, var(--glow-blue), transparent 68%),
+    radial-gradient(ellipse 22% 20% at 92% 72%, var(--glow-lime), transparent 65%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 80px,
+      rgba(34, 245, 208, 0.012) 80px,
+      rgba(74, 143, 212, 0.028) 81px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(34, 245, 208, 0.008) 3px,
+      rgba(34, 245, 208, 0.02) 4px
+    ) !important;
+}
+
+.bg-beam::before {
+  border-color: rgba(34, 245, 208, 0.09) !important;
+  box-shadow:
+    0 0 0 1px rgba(74, 143, 212, 0.04),
+    inset 0 0 40px rgba(34, 245, 208, 0.03) !important;
+}
+
+/* Flash sweep — mixed accent on chapter enter */
+.section-flash {
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgba(34, 245, 208, 0.12) 46%,
+    rgba(74, 143, 212, 0.08) 50%,
+    rgba(184, 224, 112, 0.06) 53%,
+    transparent 62%
+  ) !important;
+}
+
+/* Card hover — cyan primary, hint of section accent via parent */
+.section--service-02 .section-content--service.cyber-panel:hover {
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(74, 143, 212, 0.08),
+    0 0 20px rgba(34, 245, 208, 0.06),
+    inset 0 1px 0 rgba(34, 245, 208, 0.1) !important;
+}
+
+.section--service-03 .section-content--service.cyber-panel:hover {
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.42),
+    0 0 24px rgba(224, 192, 128, 0.06),
+    0 0 20px rgba(34, 245, 208, 0.06),
+    inset 0 1px 0 rgba(34, 245, 208, 0.1) !important;
+}
+
+.section--service-intro .intro-copy:hover {
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(74, 143, 212, 0.07),
+    0 0 22px rgba(34, 245, 208, 0.06),
+    inset 0 1px 0 rgba(34, 245, 208, 0.1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer--a,
+  .bg-layer--b,
+  .bg-layer--c,
+  .bg-beam,
+  .bg-film {
+    transition: none !important;
+  }
+}

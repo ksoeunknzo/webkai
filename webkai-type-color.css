@@ -1,0 +1,48 @@
+/* Web Kai — type & color tokens (overridden by layout-system; loads before it) */
+
+:root {
+  --font-tech: "JetBrains Mono", "IBM Plex Mono", "DM Mono", "Consolas", monospace;
+  --font-mono: var(--font-tech);
+}
+
+/* Logo text — slightly below main headline brightness */
+.brand-mark > span,
+.brand-mark .trade-name,
+.loading-screen__word,
+.footer-brand > span {
+  color: rgba(34, 245, 208, 0.82) !important;
+}
+
+.contact-meta dt,
+.contact-label {
+  color: var(--text-caption, rgba(140, 200, 190, 0.4)) !important;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.contact-meta dd,
+.contact-link {
+  color: var(--text-body) !important;
+}
+
+.owner-name,
+.owner-role {
+  color: var(--text-muted) !important;
+}
+
+.owner-name-text {
+  color: var(--text-body) !important;
+}
+
+.scroll-dock--global {
+  --dock-cyan: rgba(34, 245, 208, 0.88);
+  --dock-cyan-dim: rgba(34, 245, 208, 0.48);
+  --dock-glow: rgba(34, 245, 208, 0.14);
+}
+
+.scroll-dock__hint {
+  font-family: var(--font-tech) !important;
+  font-weight: 300 !important;
+  font-size: 0.48rem !important;
+  letter-spacing: 0.34em !important;
+}

@@ -1,0 +1,17 @@
+# Dependencies / tooling
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Optional local backups (uncomment to exclude from repo)
+# _backup/

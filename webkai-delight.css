@@ -1,0 +1,507 @@
+/* Web Kai — delight layer (no content/logo changes) */
+
+:root {
+  --wk-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --wk-tilt-x: 0deg;
+  --wk-tilt-y: 0deg;
+  --wk-px: 50%;
+  --wk-py: 50%;
+}
+
+/* Pointer aurora on bg layer (system cursor unchanged) */
+.bg-world::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    240px circle at var(--wk-px, 50%) var(--wk-py, 50%),
+    rgba(34, 245, 208, 0.08),
+    transparent 58%
+  );
+}
+
+html.wk-pointer-on .bg-world::before {
+  opacity: 1;
+}
+
+/* No floating dots on bg (was distracting in service section) */
+.bg-world::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Chapter transition scan */
+html.wk-chapter-flash::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgba(34, 245, 208, 0.14) 48%,
+    rgba(212, 255, 92, 0.1) 52%,
+    transparent 64%
+  );
+  animation: wkChapterScan 0.72s var(--wk-ease-spring) forwards;
+}
+
+@keyframes wkChapterScan {
+  0% {
+    opacity: 0;
+    transform: translate3d(-18%, 0, 0) skewX(-6deg);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(22%, 0, 0) skewX(-6deg);
+  }
+}
+
+body.is-chapter-changing .scroll-dock {
+  filter: drop-shadow(0 0 18px rgba(34, 245, 208, 0.45));
+  transition: filter 0.35s ease;
+}
+
+/* Active section atmosphere */
+.section.is-active .section-ambient {
+  animation: wkAmbientPulse 9s ease-in-out infinite alternate;
+}
+
+@keyframes wkAmbientPulse {
+  from {
+    opacity: 0.72;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hero visual — no pointer parallax (performance) */
+
+.section--hero.is-active .hero-visual__ring {
+  animation-duration: 14s !important;
+}
+
+.section--hero.is-active .hero-visual__ring--b {
+  animation-duration: 20s !important;
+  animation-direction: reverse !important;
+}
+
+.section--hero.is-active .hero-visual__nodes i {
+  animation: wkNodeBlink 2.4s ease-in-out infinite;
+}
+
+.section--hero.is-active .hero-visual__nodes i:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.section--hero.is-active .hero-visual__nodes i:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes wkNodeBlink {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+    box-shadow: 0 0 12px rgba(34, 245, 208, 0.65);
+  }
+}
+
+/* Logo gentle float (shape unchanged) */
+.section--hero.is-active .brand-logo--hero {
+  animation: wkLogoFloat 5s ease-in-out infinite alternate;
+}
+
+@keyframes wkLogoFloat {
+  from {
+    transform: translate3d(0, 0, 0);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  to {
+    transform: translate3d(0, -5px, 0);
+    filter: drop-shadow(0 8px 20px rgba(34, 245, 208, 0.22));
+  }
+}
+
+/* Title glow on reveal (not hero catchcopy) */
+.section.is-active .mask-title.is-shown > span {
+  transition:
+    transform var(--dur-mask, 0.9s) var(--ease, ease),
+    opacity 0.8s ease,
+    text-shadow 0.9s var(--wk-ease-spring);
+}
+
+.section--hero.is-active .catchcopy .mask-title.is-shown > span {
+  text-shadow: 0 0 22px rgba(34, 245, 208, 0.18);
+}
+
+.section.is-active:not(.section--hero) .mask-title.is-shown > span {
+  text-shadow:
+    0 0 24px rgba(34, 245, 208, 0.22),
+    0 0 2px rgba(34, 245, 208, 0.12);
+}
+
+.section.is-active .section-label.ui-label {
+  animation: wkLabelShimmer 3.6s ease-in-out infinite;
+}
+
+@keyframes wkLabelShimmer {
+  0%,
+  100% {
+    opacity: 0.72;
+    letter-spacing: 0.14em;
+  }
+  50% {
+    opacity: 1;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Reveal bounce */
+.section.is-active .reveal-item.is-shown:not(.service-menu__item) {
+  animation: wkRevealPop 0.82s var(--wk-ease-spring) both;
+}
+
+@keyframes wkRevealPop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(0, -4px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Service menu stagger + hover */
+.service-menu.is-shown .service-menu__item {
+  animation: wkMenuItemIn 0.75s var(--wk-ease-spring) both;
+}
+
+.service-menu.is-shown .service-menu__item:nth-child(1) {
+  animation-delay: 0.06s;
+}
+
+.service-menu.is-shown .service-menu__item:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.service-menu.is-shown .service-menu__item:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+@keyframes wkMenuItemIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-16px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (hover: hover) {
+  .service-menu__link {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-menu__link::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    transform: scaleY(0);
+    transform-origin: top;
+    background: linear-gradient(180deg, rgba(34, 245, 208, 0.2), rgba(34, 245, 208, 0.95));
+    transition: transform 0.4s var(--wk-ease-spring);
+  }
+
+  .service-menu__link:hover,
+  .service-menu__link:focus-visible {
+    transform: translate3d(6px, 0, 0);
+    border-color: rgba(34, 245, 208, 0.38) !important;
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.28),
+      0 0 24px rgba(34, 245, 208, 0.12) !important;
+  }
+
+  .service-menu__link:hover::before,
+  .service-menu__link:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .service-menu__link:hover .service-menu__arrow,
+  .service-menu__link:focus-visible .service-menu__arrow {
+    transform: translate3d(5px, 0, 0);
+    opacity: 1;
+  }
+}
+
+.service-menu__arrow {
+  transition:
+    transform 0.38s var(--wk-ease-spring),
+    opacity 0.38s ease;
+}
+
+/* Cyber panel edge run */
+.section.is-active .cyber-panel,
+.section.is-active.section--service-intro .intro-copy {
+  animation: wkPanelBorderPulse 6s ease-in-out infinite alternate;
+}
+
+.section.is-active .cyber-panel::after,
+.section.is-active.section--service-intro .intro-copy::after {
+  animation: wkPanelSheen 2.8s var(--wk-ease-spring) 0.35s forwards;
+}
+
+@keyframes wkPanelSheen {
+  from {
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    transform: translate3d(240%, 0, 0);
+  }
+}
+
+@keyframes wkPanelBorderPulse {
+  from {
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.35),
+      inset 0 0 0 1px rgba(34, 245, 208, 0.1);
+  }
+  to {
+    box-shadow:
+      0 20px 48px rgba(0, 0, 0, 0.38),
+      0 0 28px rgba(34, 245, 208, 0.08),
+      inset 0 0 0 1px rgba(34, 245, 208, 0.22);
+  }
+}
+
+/* Giant number entrance */
+.section.is-entering .giant-number,
+.section.is-active .giant-number {
+  animation: wkGiantIn 1.15s var(--wk-ease-spring) both;
+}
+
+@keyframes wkGiantIn {
+  from {
+    opacity: 0;
+    transform: translate3d(6%, 8%, 0) scale(1.06);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Contact: no vertical beam / backdrop streaks */
+body[data-section-theme="contact"] .bg-beam {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.section--contact .section-deco--beam,
+.section--contact .section-deco--beam::before,
+.section--contact .section-deco--beam::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+}
+
+.section--contact .section-glow,
+.section--contact .section-flash {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.section--contact .section-ambient {
+  opacity: 0.4 !important;
+  animation: none !important;
+  transform: none !important;
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 42%,
+    rgba(34, 245, 208, 0.05),
+    transparent 72%
+  ) !important;
+}
+
+.section--contact .contact-panel::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Contact panel — subtle edge only (no vertical sheen) */
+.section--contact.is-active .contact-panel {
+  animation: none;
+}
+
+.section--contact.is-active .contact-panel.reveal-item.is-shown {
+  animation: wkRevealPop 0.82s var(--wk-ease-spring) both;
+}
+
+@keyframes wkContactGlow {
+  from {
+    box-shadow:
+      0 20px 48px rgba(0, 0, 0, 0.28),
+      inset 0 0 0 1px rgba(34, 245, 208, 0.12);
+  }
+  to {
+    box-shadow:
+      0 24px 52px rgba(0, 0, 0, 0.32),
+      0 0 32px rgba(34, 245, 208, 0.1),
+      inset 0 0 0 1px rgba(34, 245, 208, 0.26);
+  }
+}
+
+.section--contact.is-active .contact-item {
+  animation: wkContactLineIn 0.7s var(--wk-ease-spring) both;
+}
+
+.section--contact.is-active .contact-item:nth-child(1) {
+  animation-delay: 0.45s;
+}
+
+.section--contact.is-active .contact-item:nth-child(2) {
+  animation-delay: 0.58s;
+}
+
+@keyframes wkContactLineIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (hover: hover) {
+  .section--contact .contact-link:hover,
+  .section--contact .contact-link:focus-visible {
+    color: var(--accent, #22f5d0) !important;
+    text-shadow: 0 0 18px rgba(34, 245, 208, 0.35);
+    transition:
+      color 0.35s ease,
+      text-shadow 0.35s ease;
+  }
+}
+
+/* Header nav */
+@media (hover: hover) {
+  .site-nav a {
+    position: relative;
+  }
+
+  .site-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(90deg, rgba(34, 245, 208, 0.2), rgba(34, 245, 208, 0.9));
+    transition: transform 0.42s var(--wk-ease-spring);
+  }
+
+  .site-nav a:hover::after,
+  .site-nav a:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Loading logo pulse */
+.loading-screen__mark {
+  animation: wkLoadMarkPulse 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes wkLoadMarkPulse {
+  from {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  to {
+    filter: drop-shadow(0 0 22px rgba(34, 245, 208, 0.35));
+  }
+}
+
+/* Flash enhancement */
+.section-flash.is-run {
+  animation: wkSectionFlash 0.55s ease-out forwards !important;
+}
+
+@keyframes wkSectionFlash {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.wk-tap {
+  animation: wkTapPulse 0.42s var(--wk-ease-spring) both;
+}
+
+@keyframes wkTapPulse {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.wk-pointer-on .bg-world::before,
+  .bg-world::after,
+  html.wk-chapter-flash::before,
+  .section.is-active .section-ambient,
+  .section.is-active .section-glow,
+  .section--hero.is-active .hero-visual__panel,
+  .section--hero.is-active .brand-logo--hero,
+  .section.is-active .mask-title.is-shown > span,
+  .section.is-active .section-label.ui-label,
+  .section.is-active .reveal-item.is-shown,
+  .service-menu.is-shown .service-menu__item,
+  .section.is-active .cyber-panel,
+  .section.is-entering .giant-number,
+  .section--contact.is-active .contact-panel,
+  .section--contact.is-active .contact-item,
+  .loading-screen__mark,
+  .section-flash.is-run {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+}

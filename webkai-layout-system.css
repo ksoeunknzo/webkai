@@ -1,0 +1,557 @@
+/* Web Kai — layout grid, HUD whitespace, color/type hierarchy (loads last) */
+
+:root {
+  --bg-main: #020b0a;
+  --bg-deep: #000807;
+  --panel-bg: rgba(3, 18, 17, 0.72);
+  --text-main: #e8fff9;
+  --text-body: rgba(225, 248, 242, 0.82);
+  --text-muted: rgba(175, 225, 215, 0.52);
+  --text-caption: rgba(140, 200, 190, 0.4);
+  --accent: #22f5d0;
+  --accent-soft: rgba(34, 245, 208, 0.35);
+  --accent-deep: #0aa894;
+  --border-soft: rgba(34, 245, 208, 0.22);
+  --glow-soft: 0 0 24px rgba(34, 245, 208, 0.16);
+
+  --layout-max: 1160px;
+  --layout-pad-x: clamp(28px, 5vw, 80px);
+  --layout-card-max: 580px;
+  --layout-contact-max: 840px;
+  --layout-header-gap: 28px;
+  --layout-rail-w: minmax(220px, 1fr);
+
+  --section-max: var(--layout-max);
+  --section-pad-x: var(--layout-pad-x);
+  /* Fixed bottom dock: offset from viewport bottom + UI height + buffer */
+  --scroll-dock-h: 138px;
+  --scroll-dock-offset: max(clamp(48px, 7vh, 88px), calc(env(safe-area-inset-bottom, 0px) + 28px));
+  --scroll-dock-reserve: calc(var(--scroll-dock-offset) + var(--scroll-dock-h) + 24px);
+  --scroll-cue-h: var(--scroll-dock-reserve);
+
+  --cy-bg-0: var(--bg-main);
+  --cy-bg-1: #041210;
+  --cy-bg-2: #061816;
+  --cy-ink: var(--text-main);
+  --cy-ink-soft: var(--text-body);
+  --cy-ink-muted: var(--text-muted);
+  --text-strong: var(--text-main);
+  --text-muted: var(--text-muted);
+  --cy-neon-cyan: var(--accent);
+  --cy-label: rgba(34, 245, 208, 0.72);
+  --cy-label-glow: rgba(34, 245, 208, 0.14);
+  --cy-glass-border: rgba(34, 245, 208, 0.14);
+  --cy-glass-highlight: rgba(34, 245, 208, 0.07);
+  --cy-glow: rgba(34, 245, 208, 0.2);
+  --cy-glass: var(--panel-bg);
+  --font-tech: "Space Mono", "JetBrains Mono", "IBM Plex Mono", "DM Mono", "Consolas", monospace;
+  --font-mono: var(--font-tech);
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-body);
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 108%, rgba(10, 48, 42, 0.5), transparent 62%),
+    radial-gradient(ellipse 48% 38% at 88% 18%, rgba(34, 245, 208, 0.07), transparent 58%),
+    radial-gradient(ellipse 42% 32% at 8% 72%, rgba(10, 168, 148, 0.06), transparent 55%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-main) 42%, #031412 100%) !important;
+}
+
+/* --- 1. Unified section shell -------------------------------------------- */
+
+.section {
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  padding-top: calc(var(--header-h) + var(--layout-header-gap)) !important;
+  padding-bottom: var(--scroll-dock-reserve) !important;
+  min-height: 100svh !important;
+  min-height: 100dvh !important;
+}
+
+.section-inner {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: var(--layout-max) !important;
+  max-height: calc(
+    100dvh - var(--header-h) - var(--layout-header-gap) - var(--scroll-dock-reserve) - 12px
+  );
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--layout-pad-x) !important;
+  padding-right: var(--layout-pad-x) !important;
+  box-sizing: border-box;
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 245, 208, 0.2) transparent;
+}
+
+.section-inner::-webkit-scrollbar {
+  width: 4px;
+}
+
+.section-inner::-webkit-scrollbar-thumb {
+  background: rgba(34, 245, 208, 0.18);
+  border-radius: 4px;
+}
+
+/* Hero — 3-column: brand | copy | HUD visual */
+.section--hero .section-inner--hero {
+  max-width: var(--layout-max) !important;
+  overflow: visible;
+}
+
+.section--hero .section-split--hero {
+  display: grid !important;
+  width: 100%;
+  grid-template-columns: 188px minmax(0, 1fr) var(--layout-rail-w) !important;
+  gap: clamp(28px, 4vw, 56px) !important;
+  align-items: center !important;
+}
+
+.section--hero .hero-side {
+  grid-column: 1;
+  align-self: center;
+}
+
+.section--hero .hero-main {
+  grid-column: 2;
+  max-width: none !important;
+  width: 100%;
+}
+
+.section--hero .hero-visual {
+  grid-column: 3;
+  align-self: stretch;
+  min-height: min(58vh, 480px) !important;
+}
+
+/* Service intro — content card + right HUD rail */
+.section--service-intro .section-inner {
+  display: block !important;
+}
+
+.section--service-intro .section-split--intro {
+  display: grid !important;
+  width: 100%;
+  grid-template-columns: minmax(0, var(--layout-card-max)) var(--layout-rail-w) !important;
+  gap: clamp(32px, 5vw, 64px) !important;
+  align-items: center !important;
+}
+
+.section--service-intro .intro-copy {
+  grid-column: 1;
+  width: 100% !important;
+  max-width: var(--layout-card-max) !important;
+  margin: 0 !important;
+  padding: clamp(22px, 3vw, 30px) clamp(20px, 3vw, 32px) clamp(14px, 2.2vw, 20px) !important;
+  transform: translateY(-5px);
+}
+
+.section--service-intro .section-label {
+  margin-bottom: 8px !important;
+}
+
+.section--service-intro .section-title {
+  margin-bottom: clamp(10px, 1.4vh, 14px) !important;
+}
+
+.section--service-intro .section-body {
+  margin-bottom: clamp(12px, 1.8vh, 16px) !important;
+}
+
+.section--service-intro .service-menu {
+  margin-top: clamp(12px, 1.8vh, 18px) !important;
+  margin-bottom: 0;
+}
+
+.section--service-intro .service-menu__link {
+  align-items: center;
+  padding: 10px 16px 8px !important;
+}
+
+.section--service-intro .service-menu__num,
+.section--service-intro .service-menu__title,
+.section--service-intro .service-menu__arrow {
+  transform: translateY(-1px);
+}
+
+.section--service-intro .service-menu__title {
+  line-height: 1.42 !important;
+}
+
+.section--service-intro .section-visual--intro {
+  grid-column: 2;
+  min-height: min(50vh, 440px) !important;
+  opacity: 1 !important;
+}
+
+/* Service detail — left-aligned card + right atmosphere */
+.section--service .section-inner {
+  display: grid !important;
+  grid-template-columns: minmax(0, var(--layout-card-max)) var(--layout-rail-w) !important;
+  gap: clamp(24px, 4vw, 48px) !important;
+  align-items: center !important;
+  justify-content: start !important;
+  width: 100% !important;
+  max-width: var(--layout-max) !important;
+  min-height: 0 !important;
+  max-height: none;
+  padding-top: 4px !important;
+  padding-bottom: 12px !important;
+}
+
+.section--service .section-content--service.cyber-panel {
+  grid-column: 1;
+  width: 100% !important;
+  max-width: var(--layout-card-max) !important;
+  margin: 0 !important;
+  background: var(--panel-bg) !important;
+  border-color: var(--cy-glass-border) !important;
+}
+
+.section--service .giant-number {
+  font-family: var(--font-mono) !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.02em;
+  right: clamp(4%, 6vw, 10%) !important;
+  bottom: clamp(14%, 18vh, 24%) !important;
+  opacity: 0.055 !important;
+  color: var(--accent) !important;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(
+    180deg,
+    rgba(34, 245, 208, 0.14) 0%,
+    rgba(34, 245, 208, 0.04) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Contact — same left rail as intro; panel can be wider for 2-col */
+.section--contact .section-inner--contact {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  max-width: var(--layout-max) !important;
+  max-height: none !important;
+  overflow: visible !important;
+  min-height: 0 !important;
+  padding-top: clamp(12px, 2vh, 20px) !important;
+  padding-bottom: clamp(12px, 2vh, 20px) !important;
+}
+
+.section--contact .contact-stack--flow {
+  width: 100% !important;
+  max-width: var(--layout-card-max) !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.section--contact .contact-panel {
+  width: 100%;
+  background: var(--panel-bg) !important;
+}
+
+.section--contact {
+  padding-top: calc(var(--header-h) + var(--layout-header-gap)) !important;
+  padding-bottom: calc(var(--scroll-dock-reserve) + clamp(32px, 5vh, 56px)) !important;
+  scroll-margin-bottom: calc(var(--scroll-dock-reserve) + 24px);
+}
+
+/* Shared content column rules */
+.section-content {
+  max-width: var(--layout-card-max);
+}
+
+.section-title {
+  padding-left: 18px;
+  margin-bottom: clamp(12px, 2vh, 18px);
+}
+
+.section-label {
+  margin-bottom: 10px;
+}
+
+/* --- 2. HUD / meaningful whitespace (right & void areas) ----------------- */
+
+.section-deco {
+  z-index: 1;
+  inset: 0;
+}
+
+.section-deco--hero::after {
+  right: 2% !important;
+  top: 18% !important;
+  width: min(42vw, 420px) !important;
+  height: min(48vh, 440px) !important;
+  background:
+    radial-gradient(ellipse 65% 55% at 55% 45%, rgba(34, 245, 208, 0.1), transparent 68%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 64px,
+      rgba(34, 245, 208, 0.025) 64px,
+      rgba(34, 245, 208, 0.05) 65px
+    ) !important;
+}
+
+.section-deco--intro::before {
+  right: 10% !important;
+  top: 20% !important;
+  height: 48% !important;
+  background: linear-gradient(180deg, transparent, rgba(34, 245, 208, 0.28), transparent) !important;
+  box-shadow: 0 0 20px rgba(34, 245, 208, 0.06);
+}
+
+.section-deco--intro::after {
+  display: none !important;
+  content: none !important;
+}
+
+.section-deco--beam::before {
+  inset: 12% 6% 18% auto !important;
+  width: 42% !important;
+  height: 58% !important;
+  background:
+    linear-gradient(rgba(34, 245, 208, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 245, 208, 0.05) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(34, 245, 208, 0.04), transparent 72%) !important;
+  background-size: 24px 24px, 24px 24px, 100% 100% !important;
+  opacity: 0.55 !important;
+  mask-image: radial-gradient(ellipse 85% 75% at 55% 48%, #000 15%, transparent 72%) !important;
+}
+
+.section-deco--beam::after,
+.section--service-01 .section-deco--beam::after,
+.section--service-02 .section-deco--beam::after,
+.section--service-03 .section-deco--beam::after {
+  display: none !important;
+  content: none !important;
+}
+
+.section-visual--intro::before,
+.section-visual--contact::before {
+  display: block !important;
+  content: "";
+  position: absolute;
+  inset: 8% 5% 12% 15%;
+  border: 1px solid rgba(34, 245, 208, 0.1);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px rgba(34, 245, 208, 0.04),
+    inset 0 0 48px rgba(34, 245, 208, 0.03);
+  pointer-events: none;
+}
+
+.section-visual--intro::after,
+.section-visual--contact::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Contact HUD — see webkai-contact-fix.css (off card) */
+
+.bg-world::after {
+  opacity: 0.7 !important;
+  background:
+    radial-gradient(ellipse 38% 30% at 78% 22%, rgba(34, 245, 208, 0.06), transparent 70%),
+    radial-gradient(circle at 85% 78%, transparent 58%, rgba(34, 245, 208, 0.035) 59%, transparent 62%),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 80px,
+      rgba(34, 245, 208, 0.015) 80px,
+      rgba(34, 245, 208, 0.035) 81px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(34, 245, 208, 0.01) 3px,
+      rgba(34, 245, 208, 0.022) 4px
+    ) !important;
+}
+
+.bg-beam::before {
+  border-color: rgba(34, 245, 208, 0.08) !important;
+  opacity: 0.5 !important;
+}
+
+/* --- 3. Typography hierarchy --------------------------------------------- */
+
+.section-title,
+.catchcopy,
+.hero-main .catchcopy {
+  color: var(--text-main) !important;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35) !important;
+}
+
+.hero-main .catchcopy,
+.section--hero .catchcopy {
+  font-size: clamp(1.72rem, 3.35vw, 2.72rem) !important;
+  line-height: 1.28 !important;
+  letter-spacing: 0.035em !important;
+}
+
+.section-title-text,
+.mask-title .section-title-text {
+  font-size: clamp(1.32rem, 2.6vw, 1.68rem) !important;
+  line-height: 1.36 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.business-text,
+.section-body,
+.hero-lead p {
+  color: var(--text-body) !important;
+  line-height: 1.84 !important;
+  letter-spacing: 0.012em;
+  text-shadow: none !important;
+}
+
+.section-lead {
+  color: var(--text-muted) !important;
+}
+
+.ui-label,
+.section-label,
+.scroll-dock__hint {
+  font-family: var(--font-tech) !important;
+  font-weight: 300 !important;
+  font-size: clamp(0.52rem, 1.1vw, 0.58rem) !important;
+  letter-spacing: 0.42em !important;
+  text-transform: uppercase;
+  color: var(--cy-label) !important;
+  text-shadow: 0 0 8px var(--cy-label-glow) !important;
+}
+
+.site-nav a {
+  font-family: var(--font-tech) !important;
+  font-weight: 300 !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase;
+  color: var(--text-muted) !important;
+  text-shadow: none !important;
+}
+
+.site-nav a:hover,
+.site-nav a.is-active {
+  color: var(--accent) !important;
+  text-shadow: var(--glow-soft) !important;
+}
+
+.service-menu__num,
+.section-service-num,
+.section-indicator__count,
+.panel-indicator__count {
+  font-family: var(--font-mono) !important;
+  font-weight: 400 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.16em !important;
+  color: rgba(34, 245, 208, 0.68) !important;
+}
+
+.service-menu__title {
+  color: var(--text-main) !important;
+}
+
+.service-menu__arrow {
+  color: var(--accent-soft) !important;
+}
+
+/* Cards */
+.section--service-intro .intro-copy,
+.section--service .section-content--service.cyber-panel,
+.section--contact .contact-panel {
+  border: 1px solid var(--border-soft) !important;
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.38),
+    var(--glow-soft),
+    inset 0 1px 0 var(--cy-glass-highlight) !important;
+}
+
+@media (hover: hover) {
+  .section--service-intro .intro-copy:hover,
+  .section--service .section-content--service.cyber-panel:hover,
+  .section--contact .contact-panel:hover {
+    border-color: rgba(34, 245, 208, 0.28) !important;
+    box-shadow:
+      0 22px 50px rgba(0, 0, 0, 0.42),
+      0 0 28px rgba(34, 245, 208, 0.1),
+      inset 0 1px 0 rgba(34, 245, 208, 0.1) !important;
+  }
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  :root {
+    --layout-pad-x: clamp(20px, 5vw, 32px);
+    --layout-card-max: 100%;
+    --layout-contact-max: 100%;
+    --scroll-dock-h: 164px;
+    --scroll-dock-offset: max(clamp(44px, 8vh, 72px), calc(env(safe-area-inset-bottom, 0px) + 24px));
+  }
+
+  .section--hero .section-split--hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .section--hero .hero-side {
+    grid-column: 1;
+  }
+
+  .section--hero .hero-main {
+    grid-column: 1;
+  }
+
+  .section--hero .hero-visual {
+    display: none !important;
+  }
+
+  .section--service-intro .section-split--intro {
+    grid-template-columns: 1fr !important;
+  }
+
+  .section--service-intro .section-visual--intro {
+    display: none !important;
+  }
+
+  .section--service .section-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+
+  .section--service .giant-number {
+    font-size: clamp(4rem, 22vw, 7rem) !important;
+    right: 2% !important;
+    opacity: 0.04 !important;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .section--hero .hero-visual {
+    min-height: min(42vh, 360px) !important;
+  }
+
+  .section--service .section-inner {
+    min-height: calc(100svh - var(--header-h) - var(--scroll-cue-h) - 36px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-deco--hero::after {
+    animation: none !important;
+  }
+}

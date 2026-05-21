@@ -1,0 +1,358 @@
+/* Web Kai — First view only (hero section) */
+
+.section--hero {
+  justify-content: center !important;
+  padding-top: calc(var(--header-h) + 12px) !important;
+  padding-bottom: var(--scroll-cue-h) !important;
+}
+
+.section--hero .section-ambient--hero {
+  background:
+    radial-gradient(ellipse 55% 45% at 78% 42%, rgba(93, 255, 200, 0.2), transparent 58%),
+    radial-gradient(ellipse 45% 38% at 18% 55%, rgba(212, 255, 92, 0.06), transparent 55%),
+    linear-gradient(118deg, transparent 44%, rgba(93, 255, 200, 0.04) 49.5%, transparent 54%) !important;
+}
+
+.section--hero .section-deco--hero::after {
+  right: 28% !important;
+  top: 18% !important;
+  width: min(42vw, 400px) !important;
+  height: min(50vh, 460px) !important;
+  opacity: 0.65 !important;
+}
+
+.section--hero .section-inner--hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100svh - var(--header-h) - var(--scroll-cue-h) - 16px);
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.section--hero .section-split--hero {
+  display: grid !important;
+  grid-template-columns: minmax(168px, 0.3fr) minmax(0, 1fr) minmax(240px, 0.82fr) !important;
+  gap: clamp(20px, 3vw, 40px) !important;
+  align-items: center !important;
+  width: 100%;
+  min-height: calc(100svh - var(--header-h) - var(--scroll-cue-h) - 40px);
+}
+
+/* Left: original vertical logo block (no glass card) */
+.section--hero .hero-side {
+  position: relative;
+  align-self: center;
+  max-width: 200px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.section--hero .brand-mark--hero {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.section--hero .brand-logo--hero {
+  width: 88px !important;
+  height: 88px !important;
+}
+
+.section--hero .trade-name {
+  font-size: clamp(1.05rem, 2vw, 1.2rem) !important;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.section--hero .owner-name {
+  margin: 12px 0 0 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.55;
+  color: rgba(200, 220, 212, 0.78) !important;
+}
+
+.section--hero .hero-main {
+  padding-left: 0 !important;
+  align-self: center;
+  justify-self: start;
+  max-width: min(680px, 100%) !important;
+}
+
+.section--hero .hero-main::after {
+  display: none !important;
+}
+
+.section--hero .hero-lead p {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Right: futuristic HUD visual (CSS only) */
+.section--hero .hero-visual {
+  position: relative;
+  align-self: stretch;
+  min-height: min(56vh, 540px);
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  transform: translate3d(12px, 0, 0);
+  transition:
+    opacity 1.2s var(--ease),
+    transform 1.2s var(--ease);
+}
+
+.section--hero.is-active .hero-visual {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: 0.45s;
+}
+
+.hero-visual__beam {
+  position: absolute;
+  inset: -8% -12%;
+  background: linear-gradient(
+    108deg,
+    transparent 40%,
+    rgba(212, 255, 92, 0.1) 49%,
+    rgba(93, 255, 200, 0.14) 51%,
+    transparent 60%
+  );
+  filter: blur(2px);
+  animation: heroBeamSweep 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.hero-visual__panel {
+  position: absolute;
+  inset: 8% 4% 12% 8%;
+  border: 1px solid rgba(93, 255, 200, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(155deg, rgba(8, 18, 22, 0.72), rgba(4, 10, 12, 0.35)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 23px,
+      rgba(93, 255, 200, 0.04) 23px,
+      rgba(93, 255, 200, 0.07) 24px
+    );
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 0 60px rgba(93, 255, 200, 0.04),
+    0 24px 64px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.hero-visual__grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(93, 255, 200, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 255, 200, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 85% 75% at 55% 45%, #000, transparent 78%);
+  opacity: 0.55;
+}
+
+.hero-visual__ring {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: min(72%, 280px);
+  aspect-ratio: 1;
+  transform: translate3d(-50%, 0, 0);
+  border: 1px solid rgba(93, 255, 200, 0.28);
+  border-radius: 50%;
+  box-shadow:
+    0 0 40px rgba(93, 255, 200, 0.08),
+    inset 0 0 30px rgba(93, 255, 200, 0.05);
+}
+
+.hero-visual__ring::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px dashed rgba(93, 255, 200, 0.18);
+  border-radius: 50%;
+}
+
+.hero-visual__ring--b {
+  top: auto;
+  bottom: 16%;
+  width: min(55%, 200px);
+  opacity: 0.65;
+  animation: heroRingPulse 7s ease-in-out infinite alternate;
+}
+
+.hero-visual__ring:not(.hero-visual__ring--b) {
+  animation: heroRingPulse 8s ease-in-out infinite alternate-reverse;
+}
+
+.hero-visual__city {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  background:
+    linear-gradient(to top, rgba(2, 6, 8, 0.9), transparent),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 0) 10px,
+      rgba(0, 0, 0, 0.2) 10px,
+      rgba(0, 0, 0, 0.2) 13px
+    );
+  mask-image: linear-gradient(to top, #000 25%, transparent 95%);
+  opacity: 0.75;
+}
+
+.hero-visual__nodes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-visual__nodes i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cy-neon-cyan);
+  box-shadow: 0 0 10px rgba(93, 255, 200, 0.6);
+}
+
+.hero-visual__nodes i:nth-child(1) {
+  top: 28%;
+  left: 22%;
+  animation: heroNodeBlink 4s ease-in-out infinite;
+}
+
+.hero-visual__nodes i:nth-child(2) {
+  top: 52%;
+  right: 24%;
+  animation: heroNodeBlink 5s ease-in-out 0.8s infinite;
+}
+
+.hero-visual__nodes i:nth-child(3) {
+  bottom: 32%;
+  left: 38%;
+  animation: heroNodeBlink 4.5s ease-in-out 1.4s infinite;
+}
+
+@keyframes heroBeamSweep {
+  from {
+    transform: translate3d(-6%, 2%, 0) rotate(-2deg);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate3d(6%, -2%, 0) rotate(2deg);
+    opacity: 0.85;
+  }
+}
+
+@keyframes heroRingPulse {
+  from {
+    opacity: 0.45;
+    transform: translate3d(-50%, 0, 0) scale(0.96);
+  }
+  to {
+    opacity: 0.85;
+    transform: translate3d(-50%, 0, 0) scale(1.02);
+  }
+}
+
+@keyframes heroNodeBlink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Hero-only background accents */
+.section--hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 120px,
+      rgba(93, 255, 200, 0.025) 120px,
+      rgba(93, 255, 200, 0.045) 121px
+    ),
+    radial-gradient(ellipse 70% 50% at 85% 50%, rgba(93, 255, 200, 0.08), transparent 62%);
+  opacity: 0.9;
+}
+
+.section--hero .section-inner--hero {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  .section--hero .section-split--hero {
+    grid-template-columns: 1fr !important;
+    min-height: auto;
+    gap: 20px !important;
+  }
+
+  .section--hero .hero-side {
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+  }
+
+  .section--hero .brand-mark--hero {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section--hero .brand-logo--hero {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .section--hero .owner-name {
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  .section--hero .hero-visual {
+    min-height: 220px;
+    order: 3;
+  }
+
+  .hero-visual__panel {
+    inset: 6% 0 8%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual__beam,
+  .hero-visual__ring,
+  .hero-visual__ring--b,
+  .hero-visual__nodes i {
+    animation: none !important;
+  }
+
+  .section--hero .hero-visual {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,211 @@
+/* Web Kai — layout balance, logo tone, scroll polish (no content changes) */
+
+:root {
+  --cy-logo-text: #7ae8dc;
+  --cy-logo-mark: #3d9e92;
+  --scroll-pad-top: calc(var(--header-h) + 12px);
+  --scroll-pad-bottom: var(--scroll-dock-reserve, calc(var(--scroll-cue-h) + 12px));
+}
+
+/* Logo tone — webkai-logo.css */
+
+.section--service-intro .intro-copy {
+  max-width: min(520px, 100%);
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+
+.section--hero .hero-side {
+  max-width: 176px;
+}
+
+.section--hero .section-split--hero {
+  gap: clamp(24px, 3.5vw, 48px) !important;
+}
+
+.section--hero .hero-main {
+  max-width: min(700px, 100%) !important;
+}
+
+.section--hero .hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: -5% -8%;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 55%, rgba(93, 255, 200, 0.04) 70%, transparent 85%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(93, 255, 200, 0.025) 40px,
+      rgba(93, 255, 200, 0.05) 41px
+    );
+  opacity: 0.7;
+}
+
+/* --- Service intro ------------------------------------------------------- */
+
+.section--service-intro .section-split--intro {
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 0.42fr) !important;
+  align-items: center !important;
+}
+
+.section--service-intro .intro-copy {
+  width: 100%;
+  max-width: min(500px, 100%);
+}
+
+.section--service-intro .section-visual--intro {
+  min-height: min(42vh, 380px) !important;
+  opacity: 1 !important;
+}
+
+.service-menu__link {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-menu__link::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(93, 255, 200, 0.12) 48%,
+    rgba(212, 255, 92, 0.08) 52%,
+    transparent 62%
+  );
+  transform: translate3d(-120%, 0, 0);
+  transition: transform 0.65s var(--ease);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .service-menu__link:hover {
+    border-color: rgba(93, 255, 200, 0.42) !important;
+    background: rgba(10, 22, 20, 0.62) !important;
+    box-shadow: 0 0 28px rgba(93, 255, 200, 0.1) !important;
+  }
+
+  .service-menu__link:hover::after {
+    transform: translate3d(120%, 0, 0);
+  }
+
+  .service-menu__link:hover .service-menu__arrow {
+    transform: translate3d(6px, 0, 0);
+    color: var(--cy-neon-cyan);
+  }
+}
+
+/* --- Service detail ------------------------------------------------------ */
+
+.section--service .section-inner {
+  min-height: calc(100svh - var(--header-h) - var(--scroll-pad-bottom) - 20px);
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+.section--service .section-content--service.cyber-panel {
+  max-width: min(680px, 92vw) !important;
+  padding: clamp(28px, 4vw, 40px) clamp(28px, 4.5vw, 44px) !important;
+  background: rgba(5, 12, 14, 0.52) !important;
+  border-color: rgba(93, 255, 200, 0.16) !important;
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(120, 235, 220, 0.06) !important;
+}
+
+.section--service .section-service-head {
+  margin-bottom: clamp(18px, 2.5vh, 24px);
+}
+
+.section--service .section-body {
+  font-size: clamp(1rem, 2vw, 1.06rem);
+  line-height: 1.88;
+}
+
+/* --- Contact vertical panel (see webkai-contact-fix.css) ----------------- */
+
+.section--contact .contact-stack--flow {
+  max-width: var(--layout-card-max, min(580px, 100%)) !important;
+}
+
+.section--contact .contact-panel {
+  padding: clamp(24px, 3.5vw, 36px) !important;
+  gap: 0 !important;
+}
+
+.contact-panel__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.95fr);
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+}
+
+.contact-panel__lead .section-body {
+  line-height: 1.78;
+  margin: 0;
+}
+
+.contact-panel__aside .contact-list {
+  border-top: none;
+  padding-top: 0;
+  gap: clamp(16px, 2vh, 20px);
+}
+
+.contact-panel__aside .contact-item {
+  padding-bottom: clamp(14px, 2vh, 18px);
+}
+
+.contact-panel__foot {
+  margin-top: clamp(22px, 3vh, 28px);
+  padding-top: clamp(20px, 2.5vh, 24px);
+  border-top: 1px solid rgba(93, 255, 200, 0.12);
+}
+
+.section--contact .section-footer {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.section--contact .footer-inner-wrap {
+  gap: 8px;
+}
+
+/* --- Header -------------------------------------------------------------- */
+
+.site-header {
+  height: var(--header-h);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .section--service-intro .section-split--intro {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-panel__grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .contact-panel__aside .contact-list {
+    border-top: 1px solid rgba(93, 255, 200, 0.12);
+    padding-top: 20px;
+  }
+
+  .section--service .section-inner {
+    min-height: auto;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-menu__link::after {
+    display: none;
+  }
+}

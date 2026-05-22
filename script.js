@@ -21,10 +21,9 @@ const INTRO_EXIT_MS = 800;
 const SCROLL_TOLERANCE = 12;
 const CHAPTER_MS = 1100;
 const LEAVE_MS = 280;
-const SCROLL_IDLE_MS = 460;
 const SCROLL_SNAP_MS = 520;
-const SCROLL_VELOCITY_THRESHOLD = 0.32;
-const SCROLL_SNAP_SMOOTH_MIN = 56;
+const SCROLL_STOP_MS = 140;
+const SECTION_DWELL_MS = 1000;
 
 const SECTION_THEMES = ["hero", "service", "svc01", "svc02", "svc03", "contact"];
 const BODY_THEME_CLASSES = [
@@ -44,13 +43,11 @@ let navRunChain = Promise.resolve();
 let isScrollSnapping = false;
 let isProgrammaticScroll = false;
 let scrollSnapReleaseTimer = 0;
-let scrollIdleTimer = 0;
+let scrollStopTimer = 0;
+let sectionDwellTimer = 0;
+let dwellSectionIndex = -1;
 let sectionObserver = null;
-let lastScrollY = 0;
-let lastScrollTime = 0;
-let scrollVelocity = 0;
 let snapTargetTop = null;
-const supportsScrollEnd = "onscrollend" in window;
 
 const getScrollPadTop = () => {
   const root = getComputedStyle(document.documentElement);
@@ -203,7 +200,7 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
   const behavior = prefersReducedMotion ? "auto" : emphasized ? "smooth" : "smooth";
 
-  window.clearTimeout(scrollIdleTimer);
+  clearSectionDwell();
   window.clearTimeout(scrollSnapReleaseTimer);
   isProgrammaticScroll = true;
   isScrollSnapping = true;
@@ -221,17 +218,6 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   return true;
 };
 
-const updateScrollVelocity = () => {
-  const now = performance.now();
-  const y = window.scrollY;
-  const dt = Math.max(now - lastScrollTime, 1);
-  scrollVelocity = Math.abs((y - lastScrollY) / dt);
-  lastScrollY = y;
-  lastScrollTime = now;
-};
-
-const isScrollMovingFast = () => scrollVelocity > SCROLL_VELOCITY_THRESHOLD;
-
 const cancelActiveSnap = () => {
   if (!isScrollSnapping) {
     return;
@@ -242,19 +228,23 @@ const cancelActiveSnap = () => {
   window.clearTimeout(scrollSnapReleaseTimer);
 };
 
-const settleToNearestSection = () => {
-  if (!introDone || isTransitioning || isProgrammaticScroll) {
-    return;
-  }
+const clearSectionDwell = () => {
+  window.clearTimeout(scrollStopTimer);
+  window.clearTimeout(sectionDwellTimer);
+  dwellSectionIndex = -1;
+};
 
-  if (isScrollSnapping || isScrollMovingFast()) {
-    scheduleManualScrollEnd();
+const applyDwellSnap = () => {
+  if (!introDone || isTransitioning || isProgrammaticScroll || isScrollSnapping) {
     return;
   }
 
   const index = findSnapSectionIndex();
-  const section = sections[index];
+  if (index !== dwellSectionIndex) {
+    return;
+  }
 
+  const section = sections[index];
   setActiveSection(index, { animate: false });
 
   if (shouldSkipContactSnap(section)) {
@@ -262,34 +252,43 @@ const settleToNearestSection = () => {
   }
 
   const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
-  const offset = Math.abs(window.scrollY - targetTop);
-  if (offset <= 4) {
+  if (Math.abs(window.scrollY - targetTop) <= 4) {
     return;
   }
 
-  const snapBehavior =
-    prefersReducedMotion || offset < SCROLL_SNAP_SMOOTH_MIN ? "auto" : "smooth";
+  const snapBehavior = prefersReducedMotion ? "auto" : "smooth";
   alignScrollToSection(index, snapBehavior);
 };
 
-const onManualScrollEnd = () => {
-  window.clearTimeout(scrollIdleTimer);
-  updateScrollVelocity();
-
-  if (isScrollMovingFast()) {
-    scheduleManualScrollEnd();
+const onScrollStopped = () => {
+  if (!introDone || isTransitioning || isProgrammaticScroll) {
     return;
   }
 
-  settleToNearestSection();
+  const index = findSnapSectionIndex();
+  const section = sections[index];
+
+  dwellSectionIndex = index;
+  setActiveSection(index, { animate: false });
+
+  if (shouldSkipContactSnap(section)) {
+    return;
+  }
+
+  const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
+  if (Math.abs(window.scrollY - targetTop) <= 4) {
+    return;
+  }
+
+  window.clearTimeout(sectionDwellTimer);
+  sectionDwellTimer = window.setTimeout(applyDwellSnap, SECTION_DWELL_MS);
 };
 
-const scheduleManualScrollEnd = () => {
-  window.clearTimeout(scrollIdleTimer);
-  const delay = isScrollMovingFast()
-    ? Math.max(SCROLL_IDLE_MS, 520)
-    : SCROLL_IDLE_MS;
-  scrollIdleTimer = window.setTimeout(onManualScrollEnd, delay);
+const onManualScrollActivity = () => {
+  cancelActiveSnap();
+  clearSectionDwell();
+  window.clearTimeout(scrollStopTimer);
+  scrollStopTimer = window.setTimeout(onScrollStopped, SCROLL_STOP_MS);
 };
 
 /* --- Header scroll -------------------------------------------------------- */
@@ -303,31 +302,13 @@ window.addEventListener(
   () => {
     onPageScroll();
 
-    if (isProgrammaticScroll) {
-      return;
-    }
-
-    updateScrollVelocity();
-
-    if (isScrollSnapping && snapTargetTop != null) {
-      if (Math.abs(window.scrollY - snapTargetTop) > 72 && isScrollMovingFast()) {
-        cancelActiveSnap();
-      }
-    }
-
-    if (!supportsScrollEnd) {
-      scheduleManualScrollEnd();
+    if (!isProgrammaticScroll) {
+      onManualScrollActivity();
     }
   },
   { passive: true }
 );
 
-if (supportsScrollEnd) {
-  window.addEventListener("scrollend", onManualScrollEnd, { passive: true });
-}
-
-lastScrollY = window.scrollY;
-lastScrollTime = performance.now();
 onPageScroll();
 
 /* --- Nav ------------------------------------------------------------------ */
@@ -631,7 +612,7 @@ const goToChapter = async (index, emphasized = false) => {
   const to = sections[index];
 
   isTransitioning = true;
-  window.clearTimeout(scrollIdleTimer);
+  clearSectionDwell();
   document.body.classList.add("is-chapter-changing");
   document.body.dispatchEvent(
     new CustomEvent("wk-chapter", { detail: { index, from: currentIndex, phase: "change" } })

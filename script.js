@@ -22,8 +22,9 @@ const INTRO_EXIT_MS = 800;
 const SCROLL_TOLERANCE = 12;
 const CHAPTER_MS = 1100;
 const LEAVE_MS = 280;
-const SCROLL_SETTLE_MS = 140;
+const SCROLL_IDLE_MS = 280;
 const SCROLL_SNAP_MS = 420;
+const SCROLL_SNAP_THRESHOLD = 100;
 
 const SECTION_THEMES = ["hero", "service", "svc01", "svc02", "svc03", "contact"];
 const BODY_THEME_CLASSES = [
@@ -43,8 +44,7 @@ let navRunChain = Promise.resolve();
 let isScrollSnapping = false;
 let isProgrammaticScroll = false;
 let scrollSnapReleaseTimer = 0;
-let scrollSettleTimer = 0;
-let scrollIndexTimer = 0;
+let scrollIdleTimer = 0;
 let sectionObserver = null;
 
 const getScrollPadTop = () => {
@@ -204,7 +204,7 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
   const behavior = prefersReducedMotion ? "auto" : emphasized ? "smooth" : "smooth";
 
-  window.clearTimeout(scrollSettleTimer);
+  window.clearTimeout(scrollIdleTimer);
   window.clearTimeout(scrollSnapReleaseTimer);
   isProgrammaticScroll = true;
   isScrollSnapping = true;
@@ -222,10 +222,23 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   return true;
 };
 
+const syncSectionFromScroll = () => {
+  if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
+    return;
+  }
+
+  const index = findNearestSectionIndex();
+  if (index !== currentIndex) {
+    setActiveSection(index, { animate: false, quiet: true });
+  }
+};
+
 const settleToNearestSection = () => {
   if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
     return;
   }
+
+  syncSectionFromScroll();
 
   if (!SNAP_MEDIA.matches || prefersReducedMotion) {
     return;
@@ -233,33 +246,23 @@ const settleToNearestSection = () => {
 
   const index = findNearestSectionIndex();
   const section = sections[index];
-  const idealTop = getSectionScrollTop(section);
 
   if (!shouldSkipContactSnap(section)) {
-    alignScrollToSection(index, prefersReducedMotion ? "auto" : "smooth");
-  }
-
-  if (index !== currentIndex) {
-    setActiveSection(index, { animate: false });
+    const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
+    if (Math.abs(window.scrollY - targetTop) <= SCROLL_SNAP_THRESHOLD) {
+      alignScrollToSection(index, "auto");
+    }
   }
 };
 
-const scheduleScrollSettle = () => {
-  window.clearTimeout(scrollSettleTimer);
-  scrollSettleTimer = window.setTimeout(settleToNearestSection, SCROLL_SETTLE_MS);
+const onManualScrollEnd = () => {
+  window.clearTimeout(scrollIdleTimer);
+  settleToNearestSection();
 };
 
-const scheduleScrollIndexUpdate = () => {
-  window.clearTimeout(scrollIndexTimer);
-  scrollIndexTimer = window.setTimeout(() => {
-    if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
-      return;
-    }
-    const index = findNearestSectionIndex();
-    if (index !== currentIndex) {
-      setActiveSection(index, { animate: false });
-    }
-  }, 80);
+const scheduleManualScrollEnd = () => {
+  window.clearTimeout(scrollIdleTimer);
+  scrollIdleTimer = window.setTimeout(onManualScrollEnd, SCROLL_IDLE_MS);
 };
 
 /* --- Header scroll -------------------------------------------------------- */
@@ -272,14 +275,15 @@ window.addEventListener(
   "scroll",
   () => {
     onPageScroll();
-    scheduleScrollIndexUpdate();
-    scheduleScrollSettle();
+    if (!isProgrammaticScroll && !isScrollSnapping) {
+      scheduleManualScrollEnd();
+    }
   },
   { passive: true }
 );
 
 if ("onscrollend" in window) {
-  window.addEventListener("scrollend", settleToNearestSection, { passive: true });
+  window.addEventListener("scrollend", onManualScrollEnd, { passive: true });
 }
 
 onPageScroll();
@@ -532,7 +536,7 @@ const revealSection = (section, baseDelay = 0) => {
   });
 };
 
-const setActiveSection = (index, { animate = true } = {}) => {
+const setActiveSection = (index, { animate = true, quiet = false } = {}) => {
   if (index < 0 || index >= sections.length) {
     return;
   }
@@ -553,6 +557,10 @@ const setActiveSection = (index, { animate = true } = {}) => {
   updateBodyClasses();
   updateProgress();
   updateScrollCueVisibility();
+
+  if (quiet) {
+    return;
+  }
 
   if (!animate || prefersReducedMotion) {
     revealSection(target, 0);
@@ -577,7 +585,7 @@ const goToChapter = async (index, emphasized = false) => {
   const to = sections[index];
 
   isTransitioning = true;
-  window.clearTimeout(scrollSettleTimer);
+  window.clearTimeout(scrollIdleTimer);
   document.body.classList.add("is-chapter-changing");
   document.body.dispatchEvent(
     new CustomEvent("wk-chapter", { detail: { index, from: currentIndex, phase: "change" } })
@@ -621,36 +629,7 @@ const goToChapter = async (index, emphasized = false) => {
 
 const initSectionObserver = () => {
   sectionObserver?.disconnect();
-
-  const headerH = getScrollPadTop();
-  const topMargin = Math.min(22, Math.round((headerH / window.innerHeight) * 100));
-
-  sectionObserver = new IntersectionObserver(
-    (entries) => {
-      if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
-        return;
-      }
-
-      const visible = entries
-        .filter((e) => e.isIntersecting && e.intersectionRatio >= 0.3)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-      if (!visible.length) {
-        return;
-      }
-
-      const index = sections.indexOf(visible[0].target);
-      if (index >= 0 && index !== currentIndex) {
-        setActiveSection(index, { animate: false });
-      }
-    },
-    {
-      threshold: [0.3, 0.45, 0.6],
-      rootMargin: `-${topMargin}% 0px -18% 0px`,
-    }
-  );
-
-  sections.forEach((section) => sectionObserver.observe(section));
+  sectionObserver = null;
 };
 
 /* --- Loading -------------------------------------------------------------- */

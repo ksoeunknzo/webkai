@@ -12,7 +12,6 @@ const lastChapterIndex = () => Math.max(0, sections.length - 1);
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector("#site-nav");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const SNAP_MEDIA = window.matchMedia("(min-width: 901px) and (min-height: 721px)");
 const previewParams = new URLSearchParams(window.location.search);
 const skipIntro = previewParams.has("skip-intro");
 
@@ -22,9 +21,8 @@ const INTRO_EXIT_MS = 800;
 const SCROLL_TOLERANCE = 12;
 const CHAPTER_MS = 1100;
 const LEAVE_MS = 280;
-const SCROLL_IDLE_MS = 280;
-const SCROLL_SNAP_MS = 420;
-const SCROLL_SNAP_THRESHOLD = 100;
+const SCROLL_IDLE_MS = 220;
+const SCROLL_SNAP_MS = 520;
 
 const SECTION_THEMES = ["hero", "service", "svc01", "svc02", "svc03", "contact"];
 const BODY_THEME_CLASSES = [
@@ -103,24 +101,14 @@ const getSectionScrollTop = (section) => {
   return Math.min(Math.max(0, top), maxScroll);
 };
 
-const findNearestSectionIndex = () => {
-  const padTop = getScrollPadTop();
-  const anchorY = window.scrollY + padTop + Math.min(window.innerHeight * 0.34, 240);
-
-  for (let index = 0; index < sections.length; index++) {
-    const section = sections[index];
-    const top = section.offsetTop;
-    const bottom = top + section.offsetHeight;
-    if (anchorY >= top && anchorY < bottom) {
-      return index;
-    }
-  }
-
+const findSnapSectionIndex = () => {
+  const scrollY = window.scrollY;
   let bestIndex = 0;
   let bestDistance = Infinity;
 
   sections.forEach((section, index) => {
-    const distance = Math.abs(section.getBoundingClientRect().top - padTop);
+    const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
+    const distance = Math.abs(scrollY - targetTop);
     if (distance < bestDistance) {
       bestDistance = distance;
       bestIndex = index;
@@ -129,6 +117,8 @@ const findNearestSectionIndex = () => {
 
   return bestIndex;
 };
+
+const findNearestSectionIndex = () => findSnapSectionIndex();
 
 const shouldSkipContactSnap = (section) => {
   if (!section.classList.contains("section--contact")) {
@@ -238,21 +228,17 @@ const settleToNearestSection = () => {
     return;
   }
 
+  const index = findSnapSectionIndex();
+  const section = sections[index];
+
   syncSectionFromScroll();
 
-  if (!SNAP_MEDIA.matches || prefersReducedMotion) {
+  if (shouldSkipContactSnap(section)) {
     return;
   }
 
-  const index = findNearestSectionIndex();
-  const section = sections[index];
-
-  if (!shouldSkipContactSnap(section)) {
-    const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
-    if (Math.abs(window.scrollY - targetTop) <= SCROLL_SNAP_THRESHOLD) {
-      alignScrollToSection(index, "auto");
-    }
-  }
+  const snapBehavior = prefersReducedMotion ? "auto" : "smooth";
+  alignScrollToSection(index, snapBehavior);
 };
 
 const onManualScrollEnd = () => {

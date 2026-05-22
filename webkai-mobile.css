@@ -270,13 +270,32 @@
   .section--contact .contact-stack--flow,
   .section--contact .section-content.contact-stack,
   .section--contact .section-content.contact-stack--flow {
-    max-width: min(780px, 92vw) !important;
+    max-width: 100% !important;
     width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .contact-stack__header {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible !important;
     padding-top: clamp(10px, 1.5vh, 16px);
     padding-bottom: clamp(4px, 0.7vh, 8px);
+  }
+
+  /* 導入文のみ: compact の overflow-wrap:normal より優先して右切れ防止 */
+  .section--contact .section-body.contact-intro--outside {
+    display: block;
+    width: 100%;
+    max-width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+    word-break: keep-all !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+    overflow: visible !important;
   }
 
   /* 見出し: webkai-headings-unify.css */

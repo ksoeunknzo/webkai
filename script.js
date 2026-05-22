@@ -12,6 +12,9 @@ const lastChapterIndex = () => Math.max(0, sections.length - 1);
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector("#site-nav");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MOBILE_REVEAL_MEDIA = window.matchMedia("(max-width: 900px)");
+const MOBILE_REVEAL_DELAY_SCALE = 0.28;
+const MOBILE_REVEAL_DELAY_MAX = 100;
 const previewParams = new URLSearchParams(window.location.search);
 const skipIntro = previewParams.has("skip-intro");
 
@@ -538,13 +541,25 @@ const playSectionFlash = (section) => {
   flash.classList.add("is-run");
 };
 
+const getRevealItemDelay = (baseDelay, el) => {
+  const raw = baseDelay + Number(el.dataset.delay ?? 0);
+  if (!MOBILE_REVEAL_MEDIA.matches) {
+    return raw;
+  }
+
+  return Math.min(Math.round(raw * MOBILE_REVEAL_DELAY_SCALE), MOBILE_REVEAL_DELAY_MAX);
+};
+
 const revealSection = (section, baseDelay = 0) => {
   const items = section.querySelectorAll(".mask-title, .reveal-item");
+  const flashDelay = MOBILE_REVEAL_MEDIA.matches
+    ? Math.min(baseDelay, 40)
+    : baseDelay;
 
-  window.setTimeout(() => playSectionFlash(section), baseDelay);
+  window.setTimeout(() => playSectionFlash(section), flashDelay);
 
   items.forEach((el) => {
-    const delay = baseDelay + Number(el.dataset.delay ?? 0);
+    const delay = getRevealItemDelay(baseDelay, el);
 
     if (el.classList.contains("mask-title")) {
       const span = el.querySelector(":scope > span");

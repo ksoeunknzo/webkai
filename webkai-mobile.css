@@ -372,6 +372,89 @@
   .scroll-dock__hint {
     font-size: 0.46rem;
   }
+
+  /* Reveal — faster after scroll (shorter delays + lighter motion) */
+  .reveal-item {
+    transform: translate3d(0, 12px, 0);
+    transition:
+      opacity 0.36s ease,
+      transform 0.4s ease !important;
+  }
+
+  .mask-title > span {
+    transition:
+      transform 0.42s ease,
+      opacity 0.36s ease !important;
+  }
+
+  body.is-loaded .section--hero.is-active .mask-title--hero > span {
+    transition-delay: 80ms !important;
+  }
+
+  .section.is-active .reveal-item.is-shown {
+    transition: none !important;
+    animation: wkLineInMobile 0.38s ease both !important;
+  }
+
+  .section.is-active .mask-title.is-shown > span {
+    animation: wkTitleGameInMobile 0.44s ease both !important;
+  }
+
+  .section--hero.is-active .catchcopy .mask-title.is-shown > span {
+    animation-duration: 0.48s !important;
+  }
+
+  .service-menu.is-shown .service-menu__item {
+    animation: wkMissionInMobile 0.34s ease both !important;
+  }
+
+  .service-menu.is-shown .service-menu__item:nth-child(1) {
+    animation-delay: 0.02s !important;
+  }
+
+  .service-menu.is-shown .service-menu__item:nth-child(2) {
+    animation-delay: 0.05s !important;
+  }
+
+  .service-menu.is-shown .service-menu__item:nth-child(3) {
+    animation-delay: 0.08s !important;
+  }
+
+  @keyframes wkLineInMobile {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes wkTitleGameInMobile {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes wkMissionInMobile {
+    0% {
+      opacity: 0;
+      transform: translate3d(-12px, 0, 0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
 }
 
 /* Very narrow only: stack form columns */

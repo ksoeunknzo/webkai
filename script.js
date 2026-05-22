@@ -763,13 +763,18 @@ const initLoading = async () => {
   startIntro();
 };
 
-/* --- Contact form → mailto (no backend) ---------------------------------- */
+/* --- Contact form → FormSubmit (delivers to inbox, no mail app) ---------- */
+
+const CONTACT_FORM_ENDPOINT = "https://formsubmit.co/ajax/koki.kai@autodevjapan.com";
 
 const initContactForm = () => {
   const form = document.querySelector(".contact-form");
   if (!form) {
     return;
   }
+
+  const statusEl = form.querySelector(".contact-form__status");
+  const submitBtn = form.querySelector(".contact-form__submit");
 
   const typeLabels = {
     production: "制作依頼",
@@ -778,13 +783,30 @@ const initContactForm = () => {
     other: "その他",
   };
 
-  form.addEventListener("submit", (e) => {
+  const setStatus = (message, kind) => {
+    if (!statusEl) {
+      return;
+    }
+
+    statusEl.hidden = !message;
+    statusEl.textContent = message;
+    statusEl.classList.remove("is-success", "is-error");
+    if (kind) {
+      statusEl.classList.add(kind === "ok" ? "is-success" : "is-error");
+    }
+  };
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) {
       return;
     }
 
     const data = new FormData(form);
+    if (String(data.get("_gotcha") || "").trim()) {
+      return;
+    }
+
     const name = String(data.get("name") || "").trim();
     const email = String(data.get("email") || "").trim();
     const company = String(data.get("company") || "").trim();
@@ -792,22 +814,53 @@ const initContactForm = () => {
     const message = String(data.get("message") || "").trim();
     const typeLabel = typeLabels[typeKey] || typeKey;
 
-    const body = [
-      company ? `会社名: ${company}` : "",
-      `お名前: ${name}`,
-      `メール: ${email}`,
-      `種別: ${typeLabel}`,
-      "",
+    const payload = {
+      name,
+      email,
+      company: company || "（未入力）",
+      inquiry_type: typeLabel,
       message,
-    ]
-      .filter(Boolean)
-      .join("\n");
+      _subject: "【Web Kai】お問い合わせ",
+      _replyto: email,
+      _captcha: "false",
+    };
 
-    const mailto = `mailto:koki.kai@autodevjapan.com?subject=${encodeURIComponent(
-      "【Web Kai】お問い合わせ"
-    )}&body=${encodeURIComponent(body)}`;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+    }
+    setStatus("送信中です…", null);
 
-    window.location.href = mailto;
+    try {
+      const res = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json().catch(() => ({}));
+
+      if (!res.ok || result.success === false) {
+        throw new Error(result.message || "送信に失敗しました");
+      }
+
+      form.reset();
+      setStatus(
+        "送信しました。内容を確認のうえ、ご連絡いたします。",
+        "ok"
+      );
+    } catch {
+      setStatus(
+        "送信できませんでした。しばらくして再度お試しください。お急ぎの場合は koki.kai@autodevjapan.com まで直接メールしてください。",
+        "err"
+      );
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+      }
+    }
   });
 };
 

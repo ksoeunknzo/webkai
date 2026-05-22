@@ -89,6 +89,8 @@ const contactFormBlock = `
                   <label class="contact-form__label" for="wk-contact-message">メッセージ <span class="contact-form__req" aria-hidden="true">*</span></label>
                   <textarea class="contact-form__textarea" id="wk-contact-message" name="message" required placeholder="お気軽にどうぞ"></textarea>
                 </div>
+                <input type="text" name="_gotcha" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <p class="contact-form__status" role="status" aria-live="polite" hidden></p>
                 <button type="submit" class="contact-form__submit ui-label">送信する</button>
               </form>`;
 const svc1 = rx(/<article class="service-item reveal">[\s\S]*?01<\/span>([\s\S]*?)<\/article>/);
@@ -276,7 +278,7 @@ const html = `<!doctype html>
       }
       var s = document.createElement("script");
       s.defer = true;
-      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260531f";
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260519a";
       document.head.appendChild(s);
       var d = document.createElement("script");
       d.defer = true;

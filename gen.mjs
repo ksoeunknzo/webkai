@@ -278,7 +278,7 @@ const html = `<!doctype html>
       }
       var s = document.createElement("script");
       s.defer = true;
-      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260519a";
+      s.src = isFile ? "script.js?v=" + v : "script.js?v=20260519b";
       document.head.appendChild(s);
       var d = document.createElement("script");
       d.defer = true;

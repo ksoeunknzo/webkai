@@ -814,16 +814,16 @@ const initContactForm = () => {
     const message = String(data.get("message") || "").trim();
     const typeLabel = typeLabels[typeKey] || typeKey;
 
-    const payload = {
-      name,
-      email,
-      company: company || "（未入力）",
-      inquiry_type: typeLabel,
-      message,
-      _subject: "【Web Kai】お問い合わせ",
-      _replyto: email,
-      _captcha: "false",
-    };
+    const body = new FormData();
+    body.append("name", name);
+    body.append("email", email);
+    body.append("company", company || "（未入力）");
+    body.append("inquiry_type", typeLabel);
+    body.append("message", message);
+    body.append("_subject", "【Web Kai】お問い合わせ");
+    body.append("_replyto", email);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
 
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -833,17 +833,22 @@ const initContactForm = () => {
     try {
       const res = await fetch(CONTACT_FORM_ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body,
       });
 
       const result = await res.json().catch(() => ({}));
+      const successFlag = String(result.success ?? "").toLowerCase();
+      const isOk = res.ok && successFlag === "true";
 
-      if (!res.ok || result.success === false) {
-        throw new Error(result.message || "送信に失敗しました");
+      if (!isOk) {
+        const apiMsg = String(result.message || "");
+        if (/activation/i.test(apiMsg)) {
+          throw new Error(
+            "フォームの有効化が未完了です。koki.kai@autodevjapan.com に届いた FormSubmit の最新メールから「Activate Form」をクリックしてください。"
+          );
+        }
+        throw new Error(apiMsg || "送信に失敗しました");
       }
 
       form.reset();
@@ -851,9 +856,13 @@ const initContactForm = () => {
         "送信しました。内容を確認のうえ、ご連絡いたします。",
         "ok"
       );
-    } catch {
+    } catch (err) {
+      const detail =
+        err instanceof Error && err.message
+          ? err.message
+          : "送信できませんでした。しばらくして再度お試しください。";
       setStatus(
-        "送信できませんでした。しばらくして再度お試しください。お急ぎの場合は koki.kai@autodevjapan.com まで直接メールしてください。",
+        `${detail} お急ぎの場合は koki.kai@autodevjapan.com まで直接メールしてください。`,
         "err"
       );
     } finally {

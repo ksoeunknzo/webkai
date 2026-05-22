@@ -23,14 +23,7 @@ const heroVisual = () => `${o("hero-visual", ' aria-hidden="true"')}
       ${c}
     ${c}`;
 
-const sectionDock = () => `  <nav class="scroll-dock scroll-dock--global" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
-    <button type="button" class="scroll-dock__btn scroll-dock__btn--prev" id="chapter-prev" aria-label="前のセクションへ" disabled>
-      <span class="scroll-dock__arrow" aria-hidden="true">↑</span>
-      <span class="scroll-dock__hint ui-label">Prev</span>
-    </button>
-    <div class="scroll-dock__rail" aria-hidden="true">
-      <span class="scroll-dock__track"><span class="scroll-dock__line"></span></span>
-    </div>
+const sectionDock = () => `  <nav class="scroll-dock scroll-dock--global scroll-dock--next-only" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
     <button type="button" class="scroll-dock__btn scroll-dock__btn--next" id="chapter-next" aria-label="次のセクションへ">
       <span class="scroll-dock__arrow scroll-dock__arrow--main" aria-hidden="true">↓</span>
       <span class="scroll-dock__hint ui-label" id="scroll-dock-label">Scroll</span>
@@ -52,11 +45,62 @@ const catchcopyHtml = catchcopy.replace(
 );
 const heroSummaryContent = rx(/<div class="hero-summary business-text">([\s\S]*?)<\/div>/);
 const svcLead = rx(/<p class="section-lead business-text">([\s\S]*?)<\/p>/);
-const contactLead = [...b.matchAll(/<p class="section-lead business-text">([\s\S]*?)<\/p>/g)][1][1];
+const contactIntro =
+  "Webサイト制作や業務ツール開発に関するご相談は、メールにてご連絡ください。内容を確認したうえで、対応可否や進め方をご案内します。";
+
+const contactFormBlock = `
+              <form class="contact-form reveal-item" data-delay="260" action="#" method="post" novalidate>
+                <div class="contact-form__row contact-form__row--duo">
+                  <div class="contact-form__field">
+                    <label class="contact-form__label" for="wk-contact-company">会社名（任意）</label>
+                    <input class="contact-form__input" type="text" id="wk-contact-company" name="company" autocomplete="organization" placeholder="例：株式会社〇〇">
+                  </div>
+                  <div class="contact-form__field">
+                    <label class="contact-form__label" for="wk-contact-name">お名前 <span class="contact-form__req" aria-hidden="true">*</span></label>
+                    <input class="contact-form__input" type="text" id="wk-contact-name" name="name" autocomplete="name" required placeholder="例：山田 太郎">
+                  </div>
+                </div>
+                <div class="contact-form__field">
+                  <label class="contact-form__label" for="wk-contact-email">メールアドレス <span class="contact-form__req" aria-hidden="true">*</span></label>
+                  <input class="contact-form__input" type="email" id="wk-contact-email" name="email" autocomplete="email" required placeholder="例：example@mail.com">
+                </div>
+                <fieldset class="contact-form__field contact-form__field--type">
+                  <legend class="contact-form__label">お問い合わせ種別 <span class="contact-form__req" aria-hidden="true">*</span></legend>
+                  <div class="contact-form__radio-grid">
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="production" required>
+                      <span>制作依頼</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="consultation">
+                      <span>相談・制作依頼以外の相談</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="press">
+                      <span>取材依頼</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="other">
+                      <span>その他</span>
+                    </label>
+                  </div>
+                </fieldset>
+                <div class="contact-form__field">
+                  <label class="contact-form__label" for="wk-contact-message">メッセージ <span class="contact-form__req" aria-hidden="true">*</span></label>
+                  <textarea class="contact-form__textarea" id="wk-contact-message" name="message" required placeholder="お気軽にどうぞ"></textarea>
+                </div>
+                <button type="submit" class="contact-form__submit ui-label">送信する</button>
+              </form>`;
 const svc1 = rx(/<article class="service-item reveal">[\s\S]*?01<\/span>([\s\S]*?)<\/article>/);
 const svc2 = rx(/<article class="service-item reveal">[\s\S]*?02<\/span>([\s\S]*?)<\/article>/);
 const svc3 = rx(/<article class="service-item reveal">[\s\S]*?03<\/span>([\s\S]*?)<\/article>/);
 const contactDl = rx(/<dl class="contact-list reveal">([\s\S]*?)<\/dl>/);
+const footerBrandBlock = b.match(
+  /<p class="footer-brand brand-mark brand-mark--footer">[\s\S]*?<\/p>/
+)[0];
+const footerNameBlock = b.match(/<p class="footer-name business-text">[\s\S]*?<\/p>/)[0];
+const footerScopeBlock = b.match(/<p class="footer-scope business-text">[\s\S]*?<\/p>/)[0];
+const footerCopyBlock = b.match(/<p class="footer-copy">[\s\S]*?<\/p>/)[0];
 const footerInner2 = rx(
   /<footer class="site-footer">[\s\S]*?<div class="container footer-inner">([\s\S]*?)<\/div>[\s\S]*?<\/footer>/
 );
@@ -139,6 +183,8 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="webkai-scale.css" id="wk-css-scale">
   <link rel="stylesheet" href="webkai-contact-fix.css" id="wk-css-contact-fix">
   <link rel="stylesheet" href="webkai-contact-compact.css" id="wk-css-contact-compact">
+  <link rel="stylesheet" href="webkai-contact-form.css" id="wk-css-contact-form">
+  <link rel="stylesheet" href="webkai-contact-fit.css" id="wk-css-contact-fit">
   <link rel="stylesheet" href="webkai-delight.css" id="wk-css-delight">
   <link rel="stylesheet" href="webkai-delight-premium.css" id="wk-css-delight-premium">
   <link rel="stylesheet" href="webkai-cinematic.css" id="wk-css-cinematic">
@@ -149,6 +195,8 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="webkai-loading-pro.css" id="wk-css-loading-pro">
   <link rel="stylesheet" href="webkai-bg-soft.css" id="wk-css-bg-soft">
   <link rel="stylesheet" href="webkai-bg-reset.css" id="wk-css-bg-reset">
+  <link rel="stylesheet" href="webkai-mobile.css" id="wk-css-mobile">
+  <link rel="stylesheet" href="webkai-headings-unify.css" id="wk-css-headings-unify">
   <style id="wk-bg-kill-critical">
     html,body{background:#050f0d!important}
     body::before,body::after{display:none!important;content:none!important;background:none!important}
@@ -158,8 +206,11 @@ const html = `<!doctype html>
     .section::before,.section::after{display:none!important;content:none!important}
     .hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow{display:none!important}
     .giant-number{display:none!important}
-    .section--service .section-inner,.section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
-    .section--service .section-content--service,.section--contact .contact-stack--flow{max-width:min(760px,94vw)!important;width:100%!important}
+    .section--service .section-inner{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
+    .section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;max-width:1160px!important;max-height:none!important;overflow:visible!important;width:100%!important}
+    .section--service .section-content--service{max-width:min(760px,94vw)!important;width:100%!important}
+    .section--contact .contact-stack--flow{max-width:min(820px,94vw)!important;width:100%!important}
+    .section--contact{justify-content:flex-start!important;overflow:visible!important;scroll-margin-top:calc(var(--header-h,68px) + 14px)}
     .cyber-panel::before,.cyber-panel::after,.section-content--service::before,.section-content--service::after{display:none!important;content:none!important}
   </style>
   <script>
@@ -208,6 +259,8 @@ const html = `<!doctype html>
         document.getElementById("wk-css-scale").href = "webkai-scale.css?v=" + v;
         document.getElementById("wk-css-contact-fix").href = "webkai-contact-fix.css?v=" + v;
         document.getElementById("wk-css-contact-compact").href = "webkai-contact-compact.css?v=" + v;
+        document.getElementById("wk-css-contact-form").href = "webkai-contact-form.css?v=" + v;
+        document.getElementById("wk-css-contact-fit").href = "webkai-contact-fit.css?v=" + v;
         document.getElementById("wk-css-delight").href = "webkai-delight.css?v=" + v;
         document.getElementById("wk-css-delight-premium").href = "webkai-delight-premium.css?v=" + v;
         document.getElementById("wk-css-cinematic").href = "webkai-cinematic.css?v=" + v;
@@ -218,6 +271,8 @@ const html = `<!doctype html>
         document.getElementById("wk-css-loading-pro").href = "webkai-loading-pro.css?v=" + v;
         document.getElementById("wk-css-bg-soft").href = "webkai-bg-soft.css?v=" + v;
         document.getElementById("wk-css-bg-reset").href = "webkai-bg-reset.css?v=" + v;
+        document.getElementById("wk-css-mobile").href = "webkai-mobile.css?v=" + v;
+        document.getElementById("wk-css-headings-unify").href = "webkai-headings-unify.css?v=" + v;
       }
       var s = document.createElement("script");
       s.defer = true;
@@ -327,29 +382,35 @@ ${svcSection("03", "4", svc3, svc3Title)}
       ${deco("beam")}
       ${o("section-inner section-inner--contact")}
         ${o("section-content contact-stack contact-stack--flow")}
-          ${o("contact-panel reveal-item", ' data-delay="120"')}
+          ${o("contact-stack__header reveal-item", ' data-delay="120"')}
+            ${o("contact-copy")}
+              <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
+              <h2 class="section-title">
+                <span class="mask-title"><span>お問い合わせ</span></span>
+              </h2>
+            ${c}
+            <p class="section-body contact-intro--outside reveal-item" data-delay="200">${contactIntro}</p>
+          ${c}
+          ${o("contact-panel reveal-item", ' data-delay="260"')}
             ${o("contact-panel__grid")}
-              ${o("contact-panel__lead")}
-                ${o("contact-copy")}
-                  <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
-                  <h2 class="section-title">
-                    <span class="mask-title"><span>お問い合わせ</span></span>
-                  </h2>
-                  <p class="section-body reveal-item" data-delay="200">${contactLead}</p>
-                ${c}
-              ${c}
-              ${o("contact-panel__aside")}
-                ${o("contact-lines reveal-item", ' data-delay="320"')}
-                  <dl class="contact-list">
-                    ${contactDl}
-                  </dl>
-                ${c}
+              ${o("contact-panel__body")}
+${contactFormBlock}
               ${c}
             ${c}
             ${o("contact-panel__foot")}
               <footer class="site-footer section-footer reveal-item" data-delay="420">
                 ${o("footer-inner-wrap")}
-                  ${footerInner2}
+                  ${o("footer-profile")}
+                    ${footerBrandBlock}
+                    ${footerNameBlock}
+                    ${o("footer-contact reveal-item", ' data-delay="380"')}
+                      <dl class="contact-list contact-list--footer">
+                        ${contactDl}
+                      </dl>
+                    ${c}
+                  ${c}
+                  ${footerScopeBlock}
+                  ${footerCopyBlock}
                 ${c}
               </footer>
             ${c}

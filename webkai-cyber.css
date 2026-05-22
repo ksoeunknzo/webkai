@@ -1024,7 +1024,7 @@ body.is-scrolled .site-header {
 
   .section {
     padding-top: calc(var(--header-h) + 12px) !important;
-    padding-bottom: 96px !important;
+    padding-bottom: var(--scroll-dock-reserve, 120px) !important;
   }
 
   .section-split--hero {
@@ -1062,8 +1062,8 @@ body.is-scrolled .site-header {
   }
 
   .section--contact .contact-panel {
-    padding: clamp(22px, 5vw, 32px);
-    gap: 22px;
+    padding: clamp(10px, 1.3vh, 14px) clamp(12px, 3.5vw, 18px) clamp(6px, 0.85vh, 10px);
+    gap: 0;
   }
 
   .section--contact .contact-item dd {

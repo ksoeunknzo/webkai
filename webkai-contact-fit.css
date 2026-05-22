@@ -1,0 +1,356 @@
+/* Web Kai — contact: one viewport, no inner scroll (loads last) */
+
+.section--contact {
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  padding-top: calc(var(--header-h) + 10px) !important;
+  padding-bottom: calc(var(--scroll-dock-reserve) + 8px) !important;
+  overflow: visible !important;
+  scroll-margin-top: calc(var(--header-h) + 14px);
+}
+
+.section--contact .section-inner--contact {
+  max-height: none !important;
+  overflow: visible !important;
+  padding-top: clamp(8px, 1.2vh, 14px) !important;
+  padding-bottom: clamp(8px, 1.2vh, 14px) !important;
+}
+
+.section--contact .section-content.contact-stack,
+.section--contact .contact-stack--flow {
+  max-width: min(780px, 92vw) !important;
+  height: auto;
+  overflow: visible;
+}
+
+.section--contact .contact-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin-top: clamp(6px, 0.9vh, 10px);
+  padding: clamp(10px, 1.3vh, 14px) clamp(12px, 1.8vw, 18px) clamp(6px, 0.85vh, 10px) !important;
+  gap: 0 !important;
+}
+
+body:has(.section--contact.is-active) .scroll-dock--global {
+  z-index: 120;
+}
+
+.section--contact .contact-stack--flow {
+  padding-bottom: 6px;
+}
+
+.contact-panel__grid {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: visible;
+  gap: 0 !important;
+}
+
+/* Heading block — outside bordered panel */
+.contact-stack__header {
+  flex: 0 0 auto;
+  width: 100%;
+  padding-top: clamp(10px, 1.5vh, 16px);
+  padding-bottom: clamp(4px, 0.7vh, 8px);
+}
+
+.contact-stack__header .contact-copy {
+  padding: 0;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 見出しトーン・サイズ: webkai-headings-unify.css */
+
+.contact-intro--outside {
+  margin: clamp(8px, 1.1vh, 11px) 0 0 !important;
+  padding: 0 !important;
+  max-width: 100%;
+  font-size: clamp(0.68rem, 1.15vw, 0.76rem) !important;
+  line-height: 1.48 !important;
+  color: rgba(210, 236, 228, 0.78) !important;
+}
+
+.contact-panel__body {
+  display: block;
+  flex: 0 1 auto;
+  min-height: 0;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  overflow: visible;
+}
+
+.contact-panel__body .contact-form {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: none !important;
+  gap: clamp(5px, 0.72vh, 8px) !important;
+  min-width: 0;
+  width: 100%;
+}
+
+.contact-panel__foot {
+  flex: 0 0 auto;
+  margin-top: clamp(8px, 1vh, 10px) !important;
+  padding-top: clamp(8px, 1vh, 10px) !important;
+  padding-bottom: 0 !important;
+}
+
+/* Footer — vertical: brand → name → contact → scope → copy */
+.section--contact .footer-inner-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: clamp(5px, 0.7vh, 7px) !important;
+}
+
+.section--contact .footer-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(5px, 0.7vh, 7px);
+  width: 100%;
+  max-width: min(420px, 100%);
+}
+
+.section--contact .footer-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.section--contact .footer-brand .brand-logo {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.section--contact .footer-brand > span {
+  padding: 0 !important;
+  font-family: "Syne", "Zen Kaku Gothic New", sans-serif !important;
+  font-size: clamp(0.84rem, 1.4vw, 0.94rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  color: rgba(34, 245, 208, 0.82) !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-shadow:
+    0 0 12px rgba(106, 201, 190, 0.32),
+    0 0 22px rgba(93, 255, 200, 0.1) !important;
+}
+
+.section--contact .footer-name {
+  margin: 0 !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.76rem) !important;
+  line-height: 1.4 !important;
+  color: rgba(210, 236, 228, 0.72) !important;
+  white-space: nowrap;
+}
+
+.section--contact .footer-contact {
+  width: 100%;
+  margin: 0;
+}
+
+.contact-list--footer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.8vh, 8px);
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+}
+
+.contact-list--footer .contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin: 0;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.contact-list--footer .contact-item dt {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-tech, var(--wk-mono, monospace));
+  font-size: 0.52rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  color: rgba(140, 200, 190, 0.42);
+  background: none;
+  border: none;
+  border-radius: 0;
+  text-transform: none;
+}
+
+.contact-list--footer .contact-item dd {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0 5px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(34, 245, 208, 0.14);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.contact-list--footer .contact-link,
+.contact-list--footer .contact-link--email,
+.contact-list--footer .contact-link.business-text {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0;
+  font-size: clamp(0.7rem, 1.15vw, 0.76rem) !important;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: rgba(210, 236, 228, 0.8) !important;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-list--footer .contact-link:hover,
+.contact-list--footer .contact-link:focus-visible {
+  color: rgba(34, 245, 208, 0.9) !important;
+  outline: none;
+  box-shadow: none;
+}
+
+.contact-list--footer .contact-item dd:hover {
+  border-bottom-color: rgba(34, 245, 208, 0.28);
+}
+
+.section--contact .footer-scope {
+  margin: clamp(2px, 0.4vh, 4px) 0 0 !important;
+  font-size: clamp(0.62rem, 1.05vw, 0.68rem) !important;
+  line-height: 1.4 !important;
+  color: rgba(140, 200, 190, 0.48) !important;
+  opacity: 1;
+  white-space: nowrap;
+}
+
+.section--contact .footer-copy {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0.62rem !important;
+  color: rgba(140, 200, 190, 0.38) !important;
+  opacity: 1;
+}
+
+.contact-form__row--duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 12px);
+}
+
+.contact-form__label {
+  margin-bottom: 2px !important;
+  font-size: 0.56rem !important;
+}
+
+.contact-form__input,
+.contact-form__textarea {
+  padding: 4px 0 5px !important;
+  font-size: clamp(0.72rem, 1.12vw, 0.78rem) !important;
+}
+
+.contact-form__textarea {
+  min-height: 36px !important;
+  max-height: 42px !important;
+  resize: none !important;
+  line-height: 1.4 !important;
+}
+
+.contact-form__radio-grid {
+  gap: 5px !important;
+}
+
+.contact-form__radio {
+  min-height: 28px !important;
+  padding: 4px 6px !important;
+  gap: 6px !important;
+}
+
+.contact-form__radio span {
+  font-size: clamp(0.68rem, 1.1vw, 0.74rem) !important;
+  line-height: 1.28 !important;
+}
+
+.contact-form__field--type {
+  gap: 5px !important;
+}
+
+.contact-form__submit {
+  margin-top: 0 !important;
+  padding: 6px 12px !important;
+  font-size: 0.54rem !important;
+}
+
+/* Mobile layout: webkai-mobile.css */
+
+@media (max-height: 820px) {
+  .section--contact {
+    padding-top: calc(var(--header-h) + 4px) !important;
+  }
+
+  .section--contact .contact-panel {
+    padding: 10px 14px 8px !important;
+  }
+
+  .contact-panel__lead .section-body {
+    font-size: 0.72rem !important;
+    line-height: 1.48 !important;
+  }
+
+  .contact-form__textarea {
+    min-height: 36px !important;
+    max-height: 40px !important;
+  }
+
+  .contact-form__radio {
+    min-height: 28px !important;
+    padding: 4px 6px !important;
+  }
+
+  .section--contact .footer-brand .brand-logo {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+@media (max-height: 700px) {
+  .contact-stack__header {
+    padding-top: 10px;
+  }
+
+  .contact-panel__body {
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
+  .contact-panel__body .contact-form {
+    gap: 5px !important;
+  }
+
+  .section--contact .footer-inner-wrap,
+  .section--contact .footer-profile {
+    gap: 4px !important;
+  }
+}

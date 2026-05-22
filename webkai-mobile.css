@@ -1,0 +1,364 @@
+/* Web Kai — mobile: same structure as desktop (loads last) */
+
+@media (max-width: 900px) {
+  :root {
+    --scroll-dock-h: 92px;
+    --scroll-dock-offset: max(clamp(36px, 5.5vh, 64px), calc(env(safe-area-inset-bottom, 0px) + 16px));
+    --scroll-dock-reserve: calc(var(--scroll-dock-offset) + var(--scroll-dock-h) + 14px);
+    --layout-card-max: min(780px, 92vw);
+    --layout-contact-max: min(780px, 92vw);
+    --layout-pad-x: clamp(16px, 4vw, 24px);
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  .site-scroll,
+  .section,
+  .section-inner,
+  .section-split,
+  .section-content {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /*
+   * 右切れ防止: nowrap だけ解除。改行は keep-all（PC同様）で自然に。
+   * overflow-wrap: anywhere は行からはみ出すときだけ折る（単語途中の不自然な分割を避ける）
+   */
+  .business-text,
+  main p,
+  main h3,
+  main .section-lead,
+  .section-body,
+  .hero-lead,
+  .hero-lead p,
+  .service-item-copy,
+  .service-item-copy p {
+    max-width: 100% !important;
+    word-break: keep-all !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+    text-wrap: pretty;
+    line-break: strict;
+    -webkit-line-break: after-white-space;
+  }
+
+  .phrase-keep,
+  .catchcopy-keep {
+    white-space: normal !important;
+    display: inline !important;
+  }
+
+  .section {
+    padding-top: calc(var(--header-h) + 12px) !important;
+    padding-bottom: var(--scroll-dock-reserve) !important;
+    justify-content: flex-start !important;
+  }
+
+  .section-inner {
+    max-height: none !important;
+    overflow: visible !important;
+    padding-left: var(--layout-pad-x) !important;
+    padding-right: var(--layout-pad-x) !important;
+  }
+
+  /* Header + nav (cyber drawer, not legacy white panel) */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .site-header .header-inner {
+    position: relative;
+    align-items: center;
+    padding-left: var(--layout-pad-x);
+    padding-right: var(--layout-pad-x);
+  }
+
+  .nav-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 12px;
+    margin-left: auto;
+    font-family: var(--font-tech, monospace);
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    color: rgba(210, 236, 228, 0.85) !important;
+    background: rgba(4, 10, 12, 0.72) !important;
+    border: 1px solid rgba(34, 245, 208, 0.22) !important;
+    border-radius: 4px;
+  }
+
+  .site-nav {
+    display: none !important;
+    position: absolute !important;
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    min-width: min(220px, 72vw);
+    padding: 10px !important;
+    background: rgba(4, 10, 12, 0.94) !important;
+    border: 1px solid rgba(34, 245, 208, 0.22) !important;
+    border-radius: 8px !important;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
+      0 16px 40px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(34, 245, 208, 0.08) !important;
+  }
+
+  .site-nav.is-open {
+    display: flex !important;
+  }
+
+  .site-nav .site-nav__link {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Hero — single column like desktop narrow */
+  .section--hero {
+    justify-content: flex-start !important;
+  }
+
+  .section--hero .section-inner--hero {
+    overflow: visible !important;
+    padding-top: clamp(8px, 1.5vh, 16px) !important;
+  }
+
+  .section--hero .section-split--hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: clamp(14px, 2.5vh, 20px) !important;
+    width: 100% !important;
+  }
+
+  .section--hero .hero-side,
+  .section--hero .hero-main,
+  .section--hero .hero-visual {
+    grid-column: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .section--hero .hero-visual {
+    display: none !important;
+  }
+
+  .section--hero .brand-mark--hero {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .section--hero .brand-mark--hero .brand-logo--hero {
+    width: clamp(56px, 14vw, 64px) !important;
+    height: clamp(56px, 14vw, 64px) !important;
+    flex-shrink: 0;
+  }
+
+  .section--hero .trade-name {
+    min-width: 0;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .section--hero .owner-name {
+    max-width: 100%;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .section--hero .catchcopy,
+  .section--hero .mask-title,
+  .section--hero .mask-title > span,
+  .section--hero .mask-title--hero,
+  .section--hero .mask-title--hero > span {
+    max-width: 100% !important;
+    overflow: visible !important;
+    word-break: keep-all !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+  }
+
+  .hero-main .catchcopy {
+    font-size: clamp(1.35rem, 5.8vw, 1.85rem) !important;
+    line-height: 1.36 !important;
+    margin-bottom: clamp(14px, 2vh, 20px) !important;
+  }
+
+  .section--hero .hero-lead {
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 0.9em !important;
+  }
+
+  .section--hero .hero-lead p {
+    font-size: clamp(0.86rem, 3.6vw, 0.98rem) !important;
+    line-height: 1.72 !important;
+    max-width: 100% !important;
+  }
+
+  /* Service */
+  .section--service-intro .section-split--intro {
+    grid-template-columns: 1fr !important;
+  }
+
+  .section--service-intro .section-visual--intro {
+    display: none !important;
+  }
+
+  .section--service .section-inner {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+    align-items: flex-start !important;
+    padding-top: 8px !important;
+  }
+
+  .section--service .section-content--service {
+    max-width: min(760px, 92vw) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .section--service-intro .intro-copy,
+  .section--service .cyber-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .section--service-intro .section-body,
+  .section--service .section-lead {
+    max-width: 100% !important;
+    word-break: keep-all !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Contact — mirror desktop layout */
+  .section--contact {
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+    padding-top: calc(var(--header-h) + 10px) !important;
+    padding-bottom: calc(var(--scroll-dock-reserve) + 8px) !important;
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
+
+  .section--contact .section-inner--contact {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    max-height: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+    padding-top: clamp(6px, 1vh, 12px) !important;
+    padding-bottom: clamp(6px, 1vh, 12px) !important;
+  }
+
+  .section--contact .contact-stack--flow,
+  .section--contact .section-content.contact-stack,
+  .section--contact .section-content.contact-stack--flow {
+    max-width: min(780px, 92vw) !important;
+    width: 100% !important;
+  }
+
+  .contact-stack__header {
+    padding-top: clamp(10px, 1.5vh, 16px);
+    padding-bottom: clamp(4px, 0.7vh, 8px);
+  }
+
+  /* 見出し: webkai-headings-unify.css */
+
+  .section--contact .contact-panel {
+    width: 100% !important;
+    margin-top: clamp(6px, 0.9vh, 10px);
+    padding: clamp(10px, 1.3vh, 14px) clamp(12px, 3.5vw, 18px) clamp(6px, 0.85vh, 10px) !important;
+    gap: 0 !important;
+    overflow: visible !important;
+  }
+
+  .contact-panel__grid,
+  .contact-panel__body {
+    overflow: visible !important;
+  }
+
+  /* Form: keep 2-col row + 2x2 radios (PCと同じ) */
+  .contact-form__row--duo {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: clamp(6px, 2vw, 10px) !important;
+  }
+
+  .contact-form__radio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+
+  .contact-form__radio {
+    min-height: 28px !important;
+    padding: 4px 6px !important;
+  }
+
+  .contact-form__radio span {
+    font-size: clamp(0.62rem, 2.6vw, 0.72rem) !important;
+    line-height: 1.25 !important;
+    word-break: keep-all;
+  }
+
+  .contact-form__textarea {
+    min-height: 36px !important;
+    max-height: 42px !important;
+  }
+
+  /* Footer — vertical stack (PCと同じ) */
+  .section--contact .footer-inner-wrap,
+  .section--contact .footer-profile {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .section--contact .footer-name,
+  .section--contact .footer-scope {
+    white-space: normal;
+    word-break: keep-all;
+  }
+
+  .contact-list--footer .contact-link,
+  .contact-list--footer .contact-link--email {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .section--contact .contact-item dd {
+    word-break: break-word;
+  }
+
+  /* Scroll dock */
+  .scroll-dock--global {
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .scroll-dock__hint {
+    font-size: 0.46rem;
+  }
+}
+
+/* Very narrow only: stack form columns */
+@media (max-width: 360px) {
+  .contact-form__row--duo,
+  .contact-form__radio-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

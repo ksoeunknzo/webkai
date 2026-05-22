@@ -1,10 +1,10 @@
 /* Web Kai — center section dock (cyber SCROLL + PREV/NEXT) */
 
 :root {
-  --scroll-dock-h: 138px;
-  --scroll-dock-offset: max(clamp(44px, 6.5vh, 80px), calc(env(safe-area-inset-bottom, 0px) + 24px));
+  --scroll-dock-h: 92px;
+  --scroll-dock-offset: max(clamp(40px, 6vh, 72px), calc(env(safe-area-inset-bottom, 0px) + 20px));
   --scroll-dock-bottom: var(--scroll-dock-offset);
-  --scroll-dock-reserve: calc(var(--scroll-dock-offset) + var(--scroll-dock-h) + 18px);
+  --scroll-dock-reserve: calc(var(--scroll-dock-offset) + var(--scroll-dock-h) + 14px);
   --scroll-cue-h: var(--scroll-dock-reserve);
   --dock-cyan: #7ae8dc;
   --dock-cyan-dim: rgba(122, 232, 220, 0.55);
@@ -72,6 +72,10 @@
   opacity: 0.75;
   pointer-events: none;
   animation: scrollDockSpine 4s ease-in-out infinite;
+}
+
+.scroll-dock--next-only::before {
+  display: none;
 }
 
 .scroll-dock--global::after {

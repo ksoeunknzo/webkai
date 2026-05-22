@@ -1,16 +1,6 @@
 /* Web Kai — contact: fit viewport + readable type (loads last) */
 
-.section--contact {
-  min-height: auto !important;
-  padding-top: calc(var(--header-h) + 18px) !important;
-  padding-bottom: calc(var(--scroll-dock-reserve) * 0.55 + 20px) !important;
-  scroll-margin-bottom: calc(var(--scroll-dock-reserve) * 0.5 + 12px);
-}
-
-.section--contact .section-content.contact-stack,
-.section--contact .contact-stack--flow {
-  max-width: min(620px, 94vw) !important;
-}
+/* max-width / padding tuned in webkai-contact-fit.css */
 
 .section--contact .section-inner--contact {
   padding-top: clamp(8px, 1.2vh, 14px) !important;

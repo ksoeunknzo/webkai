@@ -30,6 +30,8 @@
   <link rel="stylesheet" href="webkai-scale.css" id="wk-css-scale">
   <link rel="stylesheet" href="webkai-contact-fix.css" id="wk-css-contact-fix">
   <link rel="stylesheet" href="webkai-contact-compact.css" id="wk-css-contact-compact">
+  <link rel="stylesheet" href="webkai-contact-form.css" id="wk-css-contact-form">
+  <link rel="stylesheet" href="webkai-contact-fit.css" id="wk-css-contact-fit">
   <link rel="stylesheet" href="webkai-delight.css" id="wk-css-delight">
   <link rel="stylesheet" href="webkai-delight-premium.css" id="wk-css-delight-premium">
   <link rel="stylesheet" href="webkai-cinematic.css" id="wk-css-cinematic">
@@ -40,6 +42,8 @@
   <link rel="stylesheet" href="webkai-loading-pro.css" id="wk-css-loading-pro">
   <link rel="stylesheet" href="webkai-bg-soft.css" id="wk-css-bg-soft">
   <link rel="stylesheet" href="webkai-bg-reset.css" id="wk-css-bg-reset">
+  <link rel="stylesheet" href="webkai-mobile.css" id="wk-css-mobile">
+  <link rel="stylesheet" href="webkai-headings-unify.css" id="wk-css-headings-unify">
   <style id="wk-bg-kill-critical">
     html,body{background:#050f0d!important}
     body::before,body::after{display:none!important;content:none!important;background:none!important}
@@ -49,8 +53,11 @@
     .section::before,.section::after{display:none!important;content:none!important}
     .hero-visual__panel,.hero-visual__grid,.hero-visual__beam,.hero-visual__ring,.hero-visual__city,.hero-visual__nodes,.loading-screen__glow{display:none!important}
     .giant-number{display:none!important}
-    .section--service .section-inner,.section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
-    .section--service .section-content--service,.section--contact .contact-stack--flow{max-width:min(760px,94vw)!important;width:100%!important}
+    .section--service .section-inner{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;max-width:1160px!important;width:100%!important}
+    .section--contact .section-inner--contact{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;max-width:1160px!important;max-height:none!important;overflow:visible!important;width:100%!important}
+    .section--service .section-content--service{max-width:min(760px,94vw)!important;width:100%!important}
+    .section--contact .contact-stack--flow{max-width:min(820px,94vw)!important;width:100%!important}
+    .section--contact{justify-content:flex-start!important;overflow:visible!important;scroll-margin-top:calc(var(--header-h,68px) + 14px)}
     .cyber-panel::before,.cyber-panel::after,.section-content--service::before,.section-content--service::after{display:none!important;content:none!important}
   </style>
   <script>
@@ -99,6 +106,8 @@
         document.getElementById("wk-css-scale").href = "webkai-scale.css?v=" + v;
         document.getElementById("wk-css-contact-fix").href = "webkai-contact-fix.css?v=" + v;
         document.getElementById("wk-css-contact-compact").href = "webkai-contact-compact.css?v=" + v;
+        document.getElementById("wk-css-contact-form").href = "webkai-contact-form.css?v=" + v;
+        document.getElementById("wk-css-contact-fit").href = "webkai-contact-fit.css?v=" + v;
         document.getElementById("wk-css-delight").href = "webkai-delight.css?v=" + v;
         document.getElementById("wk-css-delight-premium").href = "webkai-delight-premium.css?v=" + v;
         document.getElementById("wk-css-cinematic").href = "webkai-cinematic.css?v=" + v;
@@ -109,6 +118,8 @@
         document.getElementById("wk-css-loading-pro").href = "webkai-loading-pro.css?v=" + v;
         document.getElementById("wk-css-bg-soft").href = "webkai-bg-soft.css?v=" + v;
         document.getElementById("wk-css-bg-reset").href = "webkai-bg-reset.css?v=" + v;
+        document.getElementById("wk-css-mobile").href = "webkai-mobile.css?v=" + v;
+        document.getElementById("wk-css-headings-unify").href = "webkai-headings-unify.css?v=" + v;
       }
       var s = document.createElement("script");
       s.defer = true;
@@ -159,14 +170,7 @@
     </div>
   </header>
 
-  <nav class="scroll-dock scroll-dock--global" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
-    <button type="button" class="scroll-dock__btn scroll-dock__btn--prev" id="chapter-prev" aria-label="前のセクションへ" disabled>
-      <span class="scroll-dock__arrow" aria-hidden="true">↑</span>
-      <span class="scroll-dock__hint ui-label">Prev</span>
-    </button>
-    <div class="scroll-dock__rail" aria-hidden="true">
-      <span class="scroll-dock__track"><span class="scroll-dock__line"></span></span>
-    </div>
+  <nav class="scroll-dock scroll-dock--global scroll-dock--next-only" id="site-scroll-dock" aria-label="セクション移動" aria-hidden="true">
     <button type="button" class="scroll-dock__btn scroll-dock__btn--next" id="chapter-next" aria-label="次のセクションへ">
       <span class="scroll-dock__arrow scroll-dock__arrow--main" aria-hidden="true">↓</span>
       <span class="scroll-dock__hint ui-label" id="scroll-dock-label">Scroll</span>
@@ -324,21 +328,75 @@
       
       <div class="section-inner section-inner--contact">
         <div class="section-content contact-stack contact-stack--flow">
-          <div class="contact-panel reveal-item" data-delay="120">
+          <div class="contact-stack__header reveal-item" data-delay="120">
+            <div class="contact-copy">
+              <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
+              <h2 class="section-title">
+                <span class="mask-title"><span>お問い合わせ</span></span>
+              </h2>
+            </div>
+            <p class="section-body contact-intro--outside reveal-item" data-delay="200">Webサイト制作や業務ツール開発に関するご相談は、メールにてご連絡ください。内容を確認したうえで、対応可否や進め方をご案内します。</p>
+          </div>
+          <div class="contact-panel reveal-item" data-delay="260">
             <div class="contact-panel__grid">
-              <div class="contact-panel__lead">
-                <div class="contact-copy">
-                  <p class="section-label ui-label reveal-item" data-delay="0">Contact</p>
-                  <h2 class="section-title">
-                    <span class="mask-title"><span>お問い合わせ</span></span>
-                  </h2>
-                  <p class="section-body reveal-item" data-delay="200">Webサイト制作や業務ツール開発に関するご相談は、メールにてご連絡ください。内容を確認したうえで、対応可否や進め方をご案内します。</p>
+              <div class="contact-panel__body">
+
+              <form class="contact-form reveal-item" data-delay="260" action="#" method="post" novalidate>
+                <div class="contact-form__row contact-form__row--duo">
+                  <div class="contact-form__field">
+                    <label class="contact-form__label" for="wk-contact-company">会社名（任意）</label>
+                    <input class="contact-form__input" type="text" id="wk-contact-company" name="company" autocomplete="organization" placeholder="例：株式会社〇〇">
+                  </div>
+                  <div class="contact-form__field">
+                    <label class="contact-form__label" for="wk-contact-name">お名前 <span class="contact-form__req" aria-hidden="true">*</span></label>
+                    <input class="contact-form__input" type="text" id="wk-contact-name" name="name" autocomplete="name" required placeholder="例：山田 太郎">
+                  </div>
                 </div>
+                <div class="contact-form__field">
+                  <label class="contact-form__label" for="wk-contact-email">メールアドレス <span class="contact-form__req" aria-hidden="true">*</span></label>
+                  <input class="contact-form__input" type="email" id="wk-contact-email" name="email" autocomplete="email" required placeholder="例：example@mail.com">
+                </div>
+                <fieldset class="contact-form__field contact-form__field--type">
+                  <legend class="contact-form__label">お問い合わせ種別 <span class="contact-form__req" aria-hidden="true">*</span></legend>
+                  <div class="contact-form__radio-grid">
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="production" required>
+                      <span>制作依頼</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="consultation">
+                      <span>相談・制作依頼以外の相談</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="press">
+                      <span>取材依頼</span>
+                    </label>
+                    <label class="contact-form__radio">
+                      <input type="radio" name="inquiry_type" value="other">
+                      <span>その他</span>
+                    </label>
+                  </div>
+                </fieldset>
+                <div class="contact-form__field">
+                  <label class="contact-form__label" for="wk-contact-message">メッセージ <span class="contact-form__req" aria-hidden="true">*</span></label>
+                  <textarea class="contact-form__textarea" id="wk-contact-message" name="message" required placeholder="お気軽にどうぞ"></textarea>
+                </div>
+                <button type="submit" class="contact-form__submit ui-label">送信する</button>
+              </form>
               </div>
-              <div class="contact-panel__aside">
-                <div class="contact-lines reveal-item" data-delay="320">
-                  <dl class="contact-list">
-                    
+            </div>
+            <div class="contact-panel__foot">
+              <footer class="site-footer section-footer reveal-item" data-delay="420">
+                <div class="footer-inner-wrap">
+                  <div class="footer-profile">
+                    <p class="footer-brand brand-mark brand-mark--footer">
+        <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
+        <span>Web Kai</span>
+      </p>
+                    <p class="footer-name business-text">代表　加井 航貴</p>
+                    <div class="footer-contact reveal-item" data-delay="380">
+                      <dl class="contact-list contact-list--footer">
+                        
           <div class="contact-item contact-item--primary">
             <dt>メールアドレス</dt>
             <dd><a class="contact-link contact-link--email business-text" href="mailto:koki.kai@autodevjapan.com">koki.kai@autodevjapan.com</a></dd>
@@ -348,22 +406,11 @@
             <dd><a class="contact-link business-text" href="tel:08027463635">080-2746-3635</a></dd>
           </div>
         
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div class="contact-panel__foot">
-              <footer class="site-footer section-footer reveal-item" data-delay="420">
-                <div class="footer-inner-wrap">
-                  
-      <p class="footer-brand brand-mark brand-mark--footer">
-        <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
-        <span>Web Kai</span>
-      </p>
-      <p class="footer-name business-text">代表　加井 航貴</p>
-      <p class="footer-scope business-text">Webサイト制作 / 業務システム開発 / IT活用支援</p>
-      <p class="footer-copy">© 2026 Web Kai</p>
-    
+                      </dl>
+                    </div>
+                  </div>
+                  <p class="footer-scope business-text">Webサイト制作 / 業務システム開発 / IT活用支援</p>
+                  <p class="footer-copy">© 2026 Web Kai</p>
                 </div>
               </footer>
             </div>

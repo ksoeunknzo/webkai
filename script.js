@@ -60,29 +60,21 @@ const getMaxScrollTop = () =>
   Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 
 const getContactPanelMetrics = (section) => {
-  const panel =
-    section.querySelector(".contact-panel") ||
-    section.querySelector(".contact-stack--flow");
   const padTop = getScrollPadTop();
   const viewH = window.innerHeight;
   const root = getComputedStyle(document.documentElement);
   const dockReserve = parseInt(root.getPropertyValue("--scroll-dock-reserve"), 10);
   const bottomClear = Math.max(56, (Number.isNaN(dockReserve) ? 160 : dockReserve) * 0.42);
 
-  if (!panel) {
-    return {
-      contentTop: section.offsetTop,
-      contentH: section.offsetHeight,
-      padTop,
-      viewH,
-      bottomClear,
-    };
-  }
+  const stack =
+    section.querySelector(".contact-stack--flow") ||
+    section.querySelector(".section-inner--contact");
+  const anchor = stack || section;
+  const anchorRect = anchor.getBoundingClientRect();
 
-  const panelRect = panel.getBoundingClientRect();
   return {
-    contentTop: window.scrollY + panelRect.top,
-    contentH: panelRect.height,
+    contentTop: window.scrollY + anchorRect.top,
+    contentH: Math.max(anchor.offsetHeight, anchorRect.height),
     padTop,
     viewH,
     bottomClear,
@@ -102,15 +94,9 @@ const getSectionScrollTop = (section) => {
   const viewH = window.innerHeight;
 
   if (section.classList.contains("section--contact")) {
-    const { contentTop, contentH, bottomClear } = getContactPanelMetrics(section);
-    const band = viewH - padTop - bottomClear;
-
-    if (contentH <= band) {
-      const fit = contentTop - padTop - Math.max(0, (band - contentH) / 2);
-      return Math.min(Math.max(0, fit), maxScroll);
-    }
-
-    return Math.min(Math.max(0, contentTop - padTop), maxScroll);
+    const { contentTop } = getContactPanelMetrics(section);
+    const topGap = 14;
+    return Math.min(Math.max(0, contentTop - padTop - topGap), maxScroll);
   }
 
   const top = window.scrollY + section.getBoundingClientRect().top - padTop;
@@ -777,10 +763,63 @@ const initLoading = async () => {
   startIntro();
 };
 
+/* --- Contact form → mailto (no backend) ---------------------------------- */
+
+const initContactForm = () => {
+  const form = document.querySelector(".contact-form");
+  if (!form) {
+    return;
+  }
+
+  const typeLabels = {
+    production: "制作依頼",
+    consultation: "相談・制作依頼以外の相談",
+    press: "取材依頼",
+    other: "その他",
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const company = String(data.get("company") || "").trim();
+    const typeKey = String(data.get("inquiry_type") || "");
+    const message = String(data.get("message") || "").trim();
+    const typeLabel = typeLabels[typeKey] || typeKey;
+
+    const body = [
+      company ? `会社名: ${company}` : "",
+      `お名前: ${name}`,
+      `メール: ${email}`,
+      `種別: ${typeLabel}`,
+      "",
+      message,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const mailto = `mailto:koki.kai@autodevjapan.com?subject=${encodeURIComponent(
+      "【Web Kai】お問い合わせ"
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailto;
+  });
+};
+
 /* --- Boot ----------------------------------------------------------------- */
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initLoading);
-} else {
+const boot = () => {
   initLoading();
+  initContactForm();
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot);
+} else {
+  boot();
 }

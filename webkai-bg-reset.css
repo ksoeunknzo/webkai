@@ -77,14 +77,27 @@ html.wk-premium::after,
   visibility: hidden !important;
 }
 
-.section--service .section-inner,
-.section--contact .section-inner--contact {
+.section--service .section-inner {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
   max-width: var(--layout-max, 1160px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-template-columns: none !important;
+}
+
+.section--contact .section-inner--contact {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  max-width: var(--layout-max, 1160px) !important;
+  max-height: none !important;
+  overflow: visible !important;
   margin-left: auto !important;
   margin-right: auto !important;
   grid-template-columns: none !important;

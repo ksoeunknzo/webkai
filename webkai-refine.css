@@ -243,7 +243,8 @@ body.is-loaded .section--hero.is-active .mask-title--hero > span {
 
 .section--service .section-title .mask-title > span,
 .section--service-intro .section-title .mask-title > span,
-.section--contact .contact-panel__lead .mask-title > span {
+.section--contact .contact-panel__lead .mask-title > span,
+.section--contact .contact-stack__header .section-title .mask-title > span {
   color: #e4faf4 !important;
   -webkit-text-fill-color: #e4faf4 !important;
   letter-spacing: 0.03em !important;

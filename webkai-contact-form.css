@@ -1,0 +1,199 @@
+/* Web Kai — contact inquiry form (matches panel scale & cyber tone) */
+
+.contact-form {
+  width: 100%;
+  margin: clamp(20px, 2.6vh, 26px) 0 0;
+  padding: clamp(20px, 2.6vh, 26px) 0 0;
+  border-top: 1px solid rgba(34, 245, 208, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vh, 20px);
+}
+
+.contact-form__field {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+.contact-form__row {
+  display: contents;
+}
+
+.contact-form__row--duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 12px);
+}
+
+.contact-form__field--type {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.4vh, 12px);
+}
+
+.contact-form__field--type legend {
+  padding: 0;
+  float: none;
+}
+
+.contact-form__label {
+  display: block;
+  margin: 0 0 6px;
+  font-family: var(--font-tech, var(--wk-mono, monospace));
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text-caption, rgba(140, 200, 190, 0.52));
+}
+
+.contact-form__req {
+  color: rgba(34, 245, 208, 0.88);
+  font-size: 0.62rem;
+  letter-spacing: 0;
+  margin-left: 0.2em;
+}
+
+.contact-form__input,
+.contact-form__textarea {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 8px 0 10px;
+  font-family: inherit;
+  font-size: clamp(0.94rem, 1.85vw, 1.02rem);
+  line-height: 1.5;
+  color: var(--text-body, rgba(210, 236, 228, 0.86));
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(34, 245, 208, 0.22);
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-form__input::placeholder,
+.contact-form__textarea::placeholder {
+  color: rgba(140, 200, 190, 0.38);
+}
+
+.contact-form__input:focus,
+.contact-form__textarea:focus {
+  border-bottom-color: rgba(34, 245, 208, 0.55);
+  box-shadow: 0 1px 0 rgba(34, 245, 208, 0.35);
+}
+
+.contact-form__textarea {
+  min-height: clamp(88px, 14vh, 108px);
+  resize: vertical;
+  max-height: 28vh;
+}
+
+.contact-form__radio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 10px);
+}
+
+.contact-form__radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  margin: 0;
+  border: 1px solid rgba(34, 245, 208, 0.14);
+  border-radius: 6px;
+  background: rgba(4, 12, 14, 0.35);
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.contact-form__radio input {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: rgba(34, 245, 208, 0.92);
+  cursor: pointer;
+}
+
+.contact-form__radio span {
+  font-size: clamp(0.82rem, 1.6vw, 0.9rem);
+  line-height: 1.45;
+  color: rgba(210, 236, 228, 0.82);
+  word-break: keep-all;
+}
+
+.contact-form__radio:has(input:checked) {
+  border-color: rgba(34, 245, 208, 0.38);
+  background: rgba(34, 245, 208, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(34, 245, 208, 0.08);
+}
+
+@media (hover: hover) {
+  .contact-form__radio:hover {
+    border-color: rgba(34, 245, 208, 0.28);
+    background: rgba(34, 245, 208, 0.04);
+  }
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+  margin-top: clamp(4px, 0.8vh, 8px);
+  padding: 11px 22px;
+  font-family: var(--font-tech, var(--wk-mono, monospace));
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(34, 245, 208, 0.92);
+  background: rgba(34, 245, 208, 0.06);
+  border: 1px solid rgba(34, 245, 208, 0.32);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.contact-form__submit:hover,
+.contact-form__submit:focus-visible {
+  background: rgba(34, 245, 208, 0.12);
+  border-color: rgba(34, 245, 208, 0.5);
+  box-shadow: 0 0 20px rgba(34, 245, 208, 0.1);
+  outline: none;
+}
+
+.contact-stack__header .contact-copy::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: clamp(12px, 1.6vh, 16px);
+  background: linear-gradient(
+    90deg,
+    rgba(34, 245, 208, 0.35) 0%,
+    rgba(34, 245, 208, 0.08) 55%,
+    transparent 100%
+  );
+}
+
+/* Radio grid columns: see webkai-mobile.css */
+
+@media (max-height: 820px) {
+  .contact-form {
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 18px;
+  }
+
+  .contact-form__textarea {
+    min-height: 72px;
+  }
+}

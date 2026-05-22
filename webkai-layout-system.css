@@ -439,8 +439,8 @@ body::before {
     --layout-pad-x: clamp(20px, 5vw, 32px);
     --layout-card-max: 100%;
     --layout-contact-max: 100%;
-    --scroll-dock-h: 164px;
-    --scroll-dock-offset: max(clamp(44px, 8vh, 72px), calc(env(safe-area-inset-bottom, 0px) + 24px));
+    --scroll-dock-h: 92px;
+    --scroll-dock-offset: max(clamp(36px, 5.5vh, 64px), calc(env(safe-area-inset-bottom, 0px) + 16px));
   }
 
   .section--hero .section-split--hero {

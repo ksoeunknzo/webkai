@@ -46,7 +46,7 @@ const catchcopyHtml = catchcopy.replace(
 const heroSummaryContent = rx(/<div class="hero-summary business-text">([\s\S]*?)<\/div>/);
 const svcLead = rx(/<p class="section-lead business-text">([\s\S]*?)<\/p>/);
 const contactIntro =
-  "Webサイト制作や業務ツール開発に関するご相談は、メールにてご連絡ください。内容を確認したうえで、対応可否や進め方をご案内します。";
+  "Webサイト制作や業務ツール開発に関するご相談はメールにてご連絡ください。内容を確認したうえで対応可否や進め方をご案内します。";
 
 const contactFormBlock = `
               <form class="contact-form reveal-item" data-delay="260" action="#" method="post" novalidate>

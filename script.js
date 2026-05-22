@@ -212,17 +212,6 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   return true;
 };
 
-const syncSectionFromScroll = () => {
-  if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
-    return;
-  }
-
-  const index = findNearestSectionIndex();
-  if (index !== currentIndex) {
-    setActiveSection(index, { animate: false, quiet: true });
-  }
-};
-
 const settleToNearestSection = () => {
   if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
     return;
@@ -231,7 +220,7 @@ const settleToNearestSection = () => {
   const index = findSnapSectionIndex();
   const section = sections[index];
 
-  syncSectionFromScroll();
+  setActiveSection(index, { animate: false });
 
   if (shouldSkipContactSnap(section)) {
     return;
@@ -522,10 +511,12 @@ const revealSection = (section, baseDelay = 0) => {
   });
 };
 
-const setActiveSection = (index, { animate = true, quiet = false } = {}) => {
+const setActiveSection = (index, { animate = true } = {}) => {
   if (index < 0 || index >= sections.length) {
     return;
   }
+
+  const indexChanged = index !== currentIndex;
 
   sections.forEach((section, i) => {
     const active = i === index;
@@ -544,12 +535,14 @@ const setActiveSection = (index, { animate = true, quiet = false } = {}) => {
   updateProgress();
   updateScrollCueVisibility();
 
-  if (quiet) {
-    return;
-  }
+  const needsReveal =
+    indexChanged ||
+    target.querySelector(".mask-title:not(.is-shown), .reveal-item:not(.is-shown)");
 
   if (!animate || prefersReducedMotion) {
-    revealSection(target, 0);
+    if (needsReveal) {
+      revealSection(target, 0);
+    }
     return;
   }
 

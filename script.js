@@ -21,8 +21,10 @@ const INTRO_EXIT_MS = 800;
 const SCROLL_TOLERANCE = 12;
 const CHAPTER_MS = 1100;
 const LEAVE_MS = 280;
-const SCROLL_IDLE_MS = 220;
+const SCROLL_IDLE_MS = 460;
 const SCROLL_SNAP_MS = 520;
+const SCROLL_VELOCITY_THRESHOLD = 0.32;
+const SCROLL_SNAP_SMOOTH_MIN = 56;
 
 const SECTION_THEMES = ["hero", "service", "svc01", "svc02", "svc03", "contact"];
 const BODY_THEME_CLASSES = [
@@ -44,6 +46,11 @@ let isProgrammaticScroll = false;
 let scrollSnapReleaseTimer = 0;
 let scrollIdleTimer = 0;
 let sectionObserver = null;
+let lastScrollY = 0;
+let lastScrollTime = 0;
+let scrollVelocity = 0;
+let snapTargetTop = null;
+const supportsScrollEnd = "onscrollend" in window;
 
 const getScrollPadTop = () => {
   const root = getComputedStyle(document.documentElement);
@@ -152,10 +159,12 @@ const alignScrollToSection = (index, behavior = "auto") => {
   }
 
   isScrollSnapping = true;
+  snapTargetTop = targetTop;
   window.scrollTo({ top: targetTop, behavior });
   window.clearTimeout(scrollSnapReleaseTimer);
   scrollSnapReleaseTimer = window.setTimeout(() => {
     isScrollSnapping = false;
+    snapTargetTop = null;
   }, behavior === "smooth" ? SCROLL_SNAP_MS : 60);
 };
 
@@ -212,8 +221,34 @@ const scrollToSectionTop = async (index, emphasized = true) => {
   return true;
 };
 
+const updateScrollVelocity = () => {
+  const now = performance.now();
+  const y = window.scrollY;
+  const dt = Math.max(now - lastScrollTime, 1);
+  scrollVelocity = Math.abs((y - lastScrollY) / dt);
+  lastScrollY = y;
+  lastScrollTime = now;
+};
+
+const isScrollMovingFast = () => scrollVelocity > SCROLL_VELOCITY_THRESHOLD;
+
+const cancelActiveSnap = () => {
+  if (!isScrollSnapping) {
+    return;
+  }
+
+  isScrollSnapping = false;
+  snapTargetTop = null;
+  window.clearTimeout(scrollSnapReleaseTimer);
+};
+
 const settleToNearestSection = () => {
-  if (!introDone || isTransitioning || isScrollSnapping || isProgrammaticScroll) {
+  if (!introDone || isTransitioning || isProgrammaticScroll) {
+    return;
+  }
+
+  if (isScrollSnapping || isScrollMovingFast()) {
+    scheduleManualScrollEnd();
     return;
   }
 
@@ -226,18 +261,35 @@ const settleToNearestSection = () => {
     return;
   }
 
-  const snapBehavior = prefersReducedMotion ? "auto" : "smooth";
+  const targetTop = Math.min(getSectionScrollTop(section), getMaxScrollTop());
+  const offset = Math.abs(window.scrollY - targetTop);
+  if (offset <= 4) {
+    return;
+  }
+
+  const snapBehavior =
+    prefersReducedMotion || offset < SCROLL_SNAP_SMOOTH_MIN ? "auto" : "smooth";
   alignScrollToSection(index, snapBehavior);
 };
 
 const onManualScrollEnd = () => {
   window.clearTimeout(scrollIdleTimer);
+  updateScrollVelocity();
+
+  if (isScrollMovingFast()) {
+    scheduleManualScrollEnd();
+    return;
+  }
+
   settleToNearestSection();
 };
 
 const scheduleManualScrollEnd = () => {
   window.clearTimeout(scrollIdleTimer);
-  scrollIdleTimer = window.setTimeout(onManualScrollEnd, SCROLL_IDLE_MS);
+  const delay = isScrollMovingFast()
+    ? Math.max(SCROLL_IDLE_MS, 520)
+    : SCROLL_IDLE_MS;
+  scrollIdleTimer = window.setTimeout(onManualScrollEnd, delay);
 };
 
 /* --- Header scroll -------------------------------------------------------- */
@@ -250,17 +302,32 @@ window.addEventListener(
   "scroll",
   () => {
     onPageScroll();
-    if (!isProgrammaticScroll && !isScrollSnapping) {
+
+    if (isProgrammaticScroll) {
+      return;
+    }
+
+    updateScrollVelocity();
+
+    if (isScrollSnapping && snapTargetTop != null) {
+      if (Math.abs(window.scrollY - snapTargetTop) > 72 && isScrollMovingFast()) {
+        cancelActiveSnap();
+      }
+    }
+
+    if (!supportsScrollEnd) {
       scheduleManualScrollEnd();
     }
   },
   { passive: true }
 );
 
-if ("onscrollend" in window) {
+if (supportsScrollEnd) {
   window.addEventListener("scrollend", onManualScrollEnd, { passive: true });
 }
 
+lastScrollY = window.scrollY;
+lastScrollTime = performance.now();
 onPageScroll();
 
 /* --- Nav ------------------------------------------------------------------ */

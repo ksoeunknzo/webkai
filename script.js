@@ -49,6 +49,7 @@ let sectionDwellTimer = 0;
 let dwellSectionIndex = -1;
 let sectionObserver = null;
 let snapTargetTop = null;
+let mobileRevealRaf = 0;
 
 const getScrollPadTop = () => {
   const root = getComputedStyle(document.documentElement);
@@ -304,6 +305,7 @@ window.addEventListener(
     onPageScroll();
 
     if (!isProgrammaticScroll) {
+      scheduleMobileScrollReveal();
       onManualScrollActivity();
     }
   },
@@ -523,9 +525,69 @@ const updateProgress = () => {
 };
 
 const resetSectionMotion = (section) => {
+  if (MOBILE_REVEAL_MEDIA.matches) {
+    return;
+  }
+
   section.classList.remove("is-entering");
   section.querySelectorAll(".reveal-item.is-shown, .mask-title.is-shown").forEach((el) => {
     el.classList.remove("is-shown");
+  });
+};
+
+const syncMobileScrollReveal = () => {
+  if (!introDone || !MOBILE_REVEAL_MEDIA.matches || isProgrammaticScroll || isTransitioning) {
+    return;
+  }
+
+  const padTop = getScrollPadTop();
+  const viewH = window.innerHeight;
+  const index = findSnapSectionIndex();
+
+  sections.forEach((section, i) => {
+    const rect = section.getBoundingClientRect();
+    const inView = rect.bottom > padTop + 24 && rect.top < viewH - 16;
+
+    section.classList.toggle("is-inview", inView);
+
+    if (inView) {
+      revealSection(section, 0);
+    }
+  });
+
+  if (index === currentIndex) {
+    return;
+  }
+
+  sections.forEach((section, i) => {
+    const active = i === index;
+    section.classList.toggle("is-active", active);
+    section.classList.toggle("is-leaving", false);
+
+    if (!active) {
+      section.classList.remove("is-entering");
+    }
+  });
+
+  currentIndex = index;
+  updateBodyTheme();
+  updateBodyClasses();
+  updateProgress();
+  updateScrollCueVisibility();
+};
+
+const scheduleMobileScrollReveal = () => {
+  if (!MOBILE_REVEAL_MEDIA.matches || !introDone) {
+    return;
+  }
+
+  if (mobileRevealRaf) {
+    return;
+  }
+
+  mobileRevealRaf = window.requestAnimationFrame(() => {
+    mobileRevealRaf = 0;
+    syncMobileScrollReveal();
   });
 };
 
@@ -656,7 +718,9 @@ const goToChapter = async (index, emphasized = false) => {
 
   if (from) {
     from.classList.remove("is-leaving", "is-active");
-    resetSectionMotion(from);
+    if (!MOBILE_REVEAL_MEDIA.matches) {
+      resetSectionMotion(from);
+    }
   }
 
   document.body.classList.remove("is-chapter-changing", "is-scroll-emphasized");
@@ -697,11 +761,24 @@ const finishIntro = () => {
     document.body.classList.add("is-loaded");
     hideLoading();
     initSectionObserver();
-    setActiveSection(0, { animate: true });
-    window.requestAnimationFrame(() => {
-      alignScrollToSection(0, "auto");
-      flushPendingNav();
-    });
+
+    if (MOBILE_REVEAL_MEDIA.matches) {
+      sections.forEach((section) => {
+        revealSection(section, 0);
+        section.classList.add("is-inview");
+      });
+      syncMobileScrollReveal();
+      window.requestAnimationFrame(() => {
+        alignScrollToSection(findSnapSectionIndex(), "auto");
+        flushPendingNav();
+      });
+    } else {
+      setActiveSection(0, { animate: true });
+      window.requestAnimationFrame(() => {
+        alignScrollToSection(0, "auto");
+        flushPendingNav();
+      });
+    }
   };
 
   if (loadingScreen && !prefersReducedMotion) {

@@ -13,8 +13,6 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector("#site-nav");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const MOBILE_REVEAL_MEDIA = window.matchMedia("(max-width: 900px)");
-const MOBILE_REVEAL_STAGGER_MS = 10;
-const MOBILE_REVEAL_STAGGER_MAX = 36;
 const previewParams = new URLSearchParams(window.location.search);
 const skipIntro = previewParams.has("skip-intro");
 
@@ -545,9 +543,7 @@ const revealSection = (section, baseDelay = 0) => {
   const items = section.querySelectorAll(".mask-title, .reveal-item");
 
   if (MOBILE_REVEAL_MEDIA.matches) {
-    playSectionFlash(section);
-
-    items.forEach((el, i) => {
+    items.forEach((el) => {
       if (el.classList.contains("mask-title")) {
         const span = el.querySelector(":scope > span");
         if (span) {
@@ -555,10 +551,7 @@ const revealSection = (section, baseDelay = 0) => {
         }
       }
 
-      const delay = Math.min(i * MOBILE_REVEAL_STAGGER_MS, MOBILE_REVEAL_STAGGER_MAX);
-      window.setTimeout(() => {
-        el.classList.add("is-shown");
-      }, delay);
+      el.classList.add("is-shown");
     });
 
     return;

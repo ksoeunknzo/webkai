@@ -373,87 +373,35 @@
     font-size: 0.46rem;
   }
 
-  /* Reveal — near-instant on mobile after scroll */
+  /* Reveal — instant on mobile (no stagger, no motion animation) */
   .reveal-item {
-    transform: translate3d(0, 6px, 0);
-    transition:
-      opacity 0.18s ease-out,
-      transform 0.2s ease-out !important;
+    opacity: 0;
+    transform: none !important;
+    transition: opacity 0.05s linear !important;
   }
 
   .mask-title > span {
-    transition:
-      transform 0.2s ease-out,
-      opacity 0.18s ease-out !important;
+    transform: none !important;
+    transition: opacity 0.05s linear !important;
+    transition-delay: 0ms !important;
   }
 
   body.is-loaded .section--hero.is-active .mask-title--hero > span {
     transition-delay: 0ms !important;
   }
 
-  .section.is-active .reveal-item.is-shown {
-    transition: none !important;
-    animation: wkLineInMobile 0.2s ease-out both !important;
+  .section.is-active .reveal-item.is-shown,
+  .section.is-active .mask-title.is-shown > span,
+  .service-menu.is-shown .service-menu__item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
   }
 
   .section.is-active .mask-title.is-shown > span {
-    animation: wkTitleGameInMobile 0.22s ease-out both !important;
-  }
-
-  .section--hero.is-active .catchcopy .mask-title.is-shown > span {
-    animation-duration: 0.24s !important;
-  }
-
-  .service-menu.is-shown .service-menu__item {
-    animation: wkMissionInMobile 0.18s ease-out both !important;
-  }
-
-  .service-menu.is-shown .service-menu__item:nth-child(1) {
-    animation-delay: 0s !important;
-  }
-
-  .service-menu.is-shown .service-menu__item:nth-child(2) {
-    animation-delay: 0.02s !important;
-  }
-
-  .service-menu.is-shown .service-menu__item:nth-child(3) {
-    animation-delay: 0.04s !important;
-  }
-
-  @keyframes wkLineInMobile {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, 6px, 0);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes wkTitleGameInMobile {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, 40%, 0);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes wkMissionInMobile {
-    0% {
-      opacity: 0;
-      transform: translate3d(-6px, 0, 0);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
+    transform: none !important;
   }
 }
 

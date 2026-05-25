@@ -541,25 +541,33 @@ const playSectionFlash = (section) => {
   flash.classList.add("is-run");
 };
 
-const getRevealItemDelay = (baseDelay, el) => {
-  const raw = baseDelay + Number(el.dataset.delay ?? 0);
-  if (!MOBILE_REVEAL_MEDIA.matches) {
-    return raw;
-  }
-
-  return Math.min(Math.round(raw * MOBILE_REVEAL_DELAY_SCALE), MOBILE_REVEAL_DELAY_MAX);
-};
-
 const revealSection = (section, baseDelay = 0) => {
   const items = section.querySelectorAll(".mask-title, .reveal-item");
-  const flashDelay = MOBILE_REVEAL_MEDIA.matches
-    ? Math.min(baseDelay, 40)
-    : baseDelay;
 
-  window.setTimeout(() => playSectionFlash(section), flashDelay);
+  if (MOBILE_REVEAL_MEDIA.matches) {
+    playSectionFlash(section);
+
+    items.forEach((el, i) => {
+      if (el.classList.contains("mask-title")) {
+        const span = el.querySelector(":scope > span");
+        if (span) {
+          span.style.setProperty("--d", "0ms");
+        }
+      }
+
+      const delay = Math.min(i * MOBILE_REVEAL_STAGGER_MS, MOBILE_REVEAL_STAGGER_MAX);
+      window.setTimeout(() => {
+        el.classList.add("is-shown");
+      }, delay);
+    });
+
+    return;
+  }
+
+  window.setTimeout(() => playSectionFlash(section), baseDelay);
 
   items.forEach((el) => {
-    const delay = getRevealItemDelay(baseDelay, el);
+    const delay = baseDelay + Number(el.dataset.delay ?? 0);
 
     if (el.classList.contains("mask-title")) {
       const span = el.querySelector(":scope > span");

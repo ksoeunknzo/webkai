@@ -13,8 +13,8 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector("#site-nav");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const MOBILE_REVEAL_MEDIA = window.matchMedia("(max-width: 900px)");
-const MOBILE_REVEAL_DELAY_SCALE = 0.28;
-const MOBILE_REVEAL_DELAY_MAX = 100;
+const MOBILE_REVEAL_STAGGER_MS = 10;
+const MOBILE_REVEAL_STAGGER_MAX = 36;
 const previewParams = new URLSearchParams(window.location.search);
 const skipIntro = previewParams.has("skip-intro");
 
@@ -602,7 +602,7 @@ const setActiveSection = (index, { animate = true } = {}) => {
     indexChanged ||
     target.querySelector(".mask-title:not(.is-shown), .reveal-item:not(.is-shown)");
 
-  if (!animate || prefersReducedMotion) {
+  if (MOBILE_REVEAL_MEDIA.matches || !animate || prefersReducedMotion) {
     if (needsReveal) {
       revealSection(target, 0);
     }

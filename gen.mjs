@@ -96,7 +96,7 @@ const contactFormBlock = `
 const svc1 = rx(/<article class="service-item reveal">[\s\S]*?01<\/span>([\s\S]*?)<\/article>/);
 const svc2 = rx(/<article class="service-item reveal">[\s\S]*?02<\/span>([\s\S]*?)<\/article>/);
 const svc3 = rx(/<article class="service-item reveal">[\s\S]*?03<\/span>([\s\S]*?)<\/article>/);
-const contactDl = rx(/<dl class="contact-list reveal">([\s\S]*?)<\/dl>/);
+const contactDl = rx(/<dl class="contact-list[^"]*">([\s\S]*?)<\/dl>/);
 const footerBrandBlock = b.match(
   /<p class="footer-brand brand-mark brand-mark--footer">[\s\S]*?<\/p>/
 )[0];

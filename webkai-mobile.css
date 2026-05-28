@@ -35,8 +35,6 @@
   main h3,
   main .section-lead,
   .section-body,
-  .hero-lead,
-  .hero-lead p,
   .service-item-copy,
   .service-item-copy p {
     max-width: 100% !important;
@@ -48,10 +46,30 @@
     -webkit-line-break: after-white-space;
   }
 
+  .hero-lead,
+  .hero-lead p {
+    max-width: 100% !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    text-wrap: pretty;
+    line-break: strict !important;
+    -webkit-line-break: after-white-space;
+  }
+
+  .hero-lead .phrase-keep {
+    white-space: nowrap !important;
+    display: inline !important;
+  }
+
   .phrase-keep,
   .catchcopy-keep {
     white-space: normal !important;
     display: inline !important;
+  }
+
+  .catchcopy-keep {
+    white-space: nowrap !important;
   }
 
   .section {

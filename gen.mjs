@@ -43,7 +43,10 @@ const catchcopyHtml = catchcopy.replace(
   "業務システム・ツール開発",
   '<span class="phrase-keep catchcopy-keep">業務システム・ツール開発</span>'
 );
-const heroSummaryContent = rx(/<div class="hero-summary business-text">([\s\S]*?)<\/div>/);
+const heroSummaryContent = `
+            <p><span class="phrase-keep">Web Kai</span>は、Webサイト制作、業務システム・ツール開発、<span class="phrase-keep">IT活用</span>の相談に対応する個人事業です。</p>
+            <p>事業内容や業務の流れを確認しながら、<wbr>必要な<span class="phrase-keep">Webサイト</span>や管理ツールの制作を<span class="phrase-keep">行っています。</span></p>
+`;
 const svcLead = rx(/<p class="section-lead business-text">([\s\S]*?)<\/p>/);
 const contactIntro =
   "Webサイト制作や業務ツール開発に関するご相談はメールにてご連絡ください。内容を確認したうえで対応可否や進め方をご案内します。";

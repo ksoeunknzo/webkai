@@ -51,17 +51,12 @@ html {
 
 @media (max-width: 900px) {
   html {
-    scroll-snap-type: y mandatory !important;
+    /* Mobile: prefer smooth free scroll; snap only when near */
+    scroll-snap-type: y proximity !important;
   }
 
   .section {
     scroll-snap-align: start !important;
-    scroll-snap-stop: always;
-  }
-
-  /* Allow free scrolling within the contact section on mobile. */
-  .section--contact {
-    scroll-snap-align: none !important;
     scroll-snap-stop: normal;
   }
 

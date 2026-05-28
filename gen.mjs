@@ -317,7 +317,6 @@ const html = `<!doctype html>
     ${o("header-inner")}
       <a class="brand brand-mark" href="#top" data-goto-section="0">
         <img class="brand-logo" src="logo.png" width="40" height="40" alt="" decoding="async">
-        <span>Web Kai</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">メニュー</button>
       <nav id="site-nav" class="site-nav" aria-label="ページ内メニュー">
@@ -341,7 +340,6 @@ ${sectionDock()}
           ${o("section-content section-content--brand hero-side reveal-item", ' data-delay="180"')}
             ${o("brand-mark brand-mark--hero")}
               <img class="brand-logo brand-logo--hero" src="logo.png" width="88" height="88" alt="Web Kai ロゴ" decoding="async">
-              <p class="trade-name">Web Kai</p>
             ${c}
             <p class="owner-name business-text"><span class="owner-role">代表</span><span class="owner-name-text">加井 航貴</span></p>
           ${c}

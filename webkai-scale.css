@@ -46,8 +46,8 @@ body {
 
 .site-header .brand-logo,
 .brand-logo {
-  width: calc(40px * var(--wk-scale)) !important;
-  height: calc(40px * var(--wk-scale)) !important;
+  width: calc(48px * var(--wk-scale)) !important;
+  height: calc(48px * var(--wk-scale)) !important;
 }
 
 img.brand-logo--hero,

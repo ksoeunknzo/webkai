@@ -181,8 +181,8 @@
   }
 
   .section--hero .brand-mark--hero .brand-logo--hero {
-    width: clamp(56px, 14vw, 64px) !important;
-    height: clamp(56px, 14vw, 64px) !important;
+    width: clamp(64px, 16vw, 72px) !important;
+    height: clamp(64px, 16vw, 72px) !important;
     flex-shrink: 0;
   }
 

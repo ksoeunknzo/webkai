@@ -306,7 +306,11 @@ window.addEventListener(
 
     if (!isProgrammaticScroll) {
       scheduleMobileScrollReveal();
-      onManualScrollActivity();
+      // Mobile: avoid JS-driven snapping during touch scroll (jank).
+      // Alignment is handled by CSS scroll-snap in webkai-scroll.css.
+      if (!MOBILE_REVEAL_MEDIA.matches) {
+        onManualScrollActivity();
+      }
     }
   },
   { passive: true }

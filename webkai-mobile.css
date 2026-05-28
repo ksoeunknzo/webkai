@@ -154,12 +154,18 @@
   .section--hero .section-inner--hero {
     overflow: visible !important;
     padding-top: 0 !important;
+    /* Override desktop hero centering (webkai-hero.css) */
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
   }
 
   .section--hero .section-split--hero {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: clamp(14px, 2.5vh, 20px) !important;
     width: 100% !important;
+    align-items: start !important;
+    min-height: 0 !important;
   }
 
   .section--hero .hero-side,

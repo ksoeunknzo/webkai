@@ -147,11 +147,13 @@
   /* Hero — single column like desktop narrow */
   .section--hero {
     justify-content: flex-start !important;
+    /* Mobile first view felt too centered: lift content slightly */
+    padding-top: calc(var(--header-h) + 6px) !important;
   }
 
   .section--hero .section-inner--hero {
     overflow: visible !important;
-    padding-top: clamp(8px, 1.5vh, 16px) !important;
+    padding-top: 0 !important;
   }
 
   .section--hero .section-split--hero {
